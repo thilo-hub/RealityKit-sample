@@ -13,6 +13,10 @@
 		B6F9C84E273080D1000008F2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F9C83C273080D0000008F2 /* ContentView.swift */; };
 		B6F9C84F273080D1000008F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C83D273080D1000008F2 /* Assets.xcassets */; };
 		B6F9C850273080D1000008F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C83D273080D1000008F2 /* Assets.xcassets */; };
+		B6F9C85A27308A7B000008F2 /* MyScene.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C85927308A7B000008F2 /* MyScene.scnassets */; };
+		B6F9C85B27308A7B000008F2 /* MyScene.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C85927308A7B000008F2 /* MyScene.scnassets */; };
+		B6F9C87B2731B4A6000008F2 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F9C87A2731B4A6000008F2 /* Converter.swift */; };
+		B6F9C87C2731B4A6000008F2 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F9C87A2731B4A6000008F2 /* Converter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +26,8 @@
 		B6F9C842273080D1000008F2 /* test3ds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test3ds.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6F9C848273080D1000008F2 /* test3ds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test3ds.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6F9C84A273080D1000008F2 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
+		B6F9C85927308A7B000008F2 /* MyScene.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = MyScene.scnassets; sourceTree = "<group>"; };
+		B6F9C87A2731B4A6000008F2 /* Converter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,8 @@
 			children = (
 				B6F9C83B273080D0000008F2 /* test3dsApp.swift */,
 				B6F9C83C273080D0000008F2 /* ContentView.swift */,
+				B6F9C87A2731B4A6000008F2 /* Converter.swift */,
+				B6F9C85927308A7B000008F2 /* MyScene.scnassets */,
 				B6F9C83D273080D1000008F2 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -157,6 +165,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6F9C85A27308A7B000008F2 /* MyScene.scnassets in Resources */,
 				B6F9C84F273080D1000008F2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,6 +174,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6F9C85B27308A7B000008F2 /* MyScene.scnassets in Resources */,
 				B6F9C850273080D1000008F2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -177,6 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6F9C84D273080D1000008F2 /* ContentView.swift in Sources */,
+				B6F9C87B2731B4A6000008F2 /* Converter.swift in Sources */,
 				B6F9C84B273080D1000008F2 /* test3dsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -186,6 +197,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6F9C84E273080D1000008F2 /* ContentView.swift in Sources */,
+				B6F9C87C2731B4A6000008F2 /* Converter.swift in Sources */,
 				B6F9C84C273080D1000008F2 /* test3dsApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
