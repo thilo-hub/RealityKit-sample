@@ -49,14 +49,17 @@ class Converter: ObservableObject {
         set(newfile) {
                 inputURL = newfile
                 model = nil
-                let outputFilename = "testing.usdz"
-                let outputUrl = URL(fileURLWithPath: outputFilename)
-         
+//                let outputFilename = "testing.usdz"
+//                let outputUrl = URL(fileURLWithPath: outputFilename)
+//            let oo = newfile?.absoluteString.applying(".usdz")
+            let outputUrl = newfile?.appendingPathComponent("../"+newfile!.lastPathComponent + ".usdz",isDirectory: false).standardized
+            //("usdz") UTType
+                print(outputUrl)
                 do {
                     session = try PhotogrammetrySession(input: inputURL!)
                     let detail: Request.Detail? = detail.det
 
-                    let req = PhotogrammetrySession.Request.modelFile(url: outputUrl, detail: detail!)
+                    let req = PhotogrammetrySession.Request.modelFile(url: outputUrl!, detail: detail!)
                     try session!.process(requests: [req])
                     Task.detached() {
                         do {
@@ -64,13 +67,10 @@ class Converter: ObservableObject {
                                 switch output {
                                     case .processingComplete:
                                         logger.log("Processing is complete!")
-                                        
                                      case .requestError(let request, let error):
-                                        print(error)
-                                        logger.error("Request \(String(describing: request)) had an error: \(String(describing: error))")
-                                       
+                                         logger.error("Request \(String(describing: request)) had an error: \(String(describing: error))")
                                     case .requestComplete(let request, let result):
-                                    await self.outputReady(request: request,result: result)
+                                        await self.outputReady(request: request,result: result)
                                     case .requestProgress(_, let fractionComplete):
                                         await self.progress(value: fractionComplete)
                                     case .inputComplete:  // data ingestion only!

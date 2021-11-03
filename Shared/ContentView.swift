@@ -36,7 +36,7 @@ enum ViewDetails: String, CaseIterable {
 
 struct ContentView: View {
     @State var filename = "Filename"
-    @State var showFileChooser = false
+//    @State var showFileChooser = false
     @StateObject var converter = Converter()
     
     /// Called when the the session sends a request completed message.
@@ -55,23 +55,29 @@ struct ContentView: View {
     var body: some View {
         VStack {
             HStack {
+                Spacer()
                 Text(filename)
                 Picker(selection: $converter.detail, label: Text("Detail")) {
-                                            ForEach(ViewDetails.allCases, id: \.self) { element in
-                                                Text(element.rawValue.capitalized)
-                                            }
-                                        }
-                       
-                 
-                Button("select File")
+                    ForEach(ViewDetails.allCases, id: \.self) { element in
+                                              Text(element.rawValue.capitalized)
+                                          }
+                                      }
+                 Button("select File")
                 {
                     let panel = NSOpenPanel()
                     panel.allowsMultipleSelection = false
-                      panel.canChooseFiles = false
+                     // panel.canChooseFiles = false
                     panel.canChooseDirectories = true
                     if panel.runModal() == .OK {
-                        self.filename = panel.url?.lastPathComponent ?? "<none>"
-                        converter.fileURL = panel.url!                   }
+                         
+                        if panel.url?.hasDirectoryPath != nil {
+                            self.filename = panel.url?.lastPathComponent ?? "<none>"
+                            converter.fileURL = panel.url!
+                        }
+                        if panel.url?.isFileURL != nil {
+                            converter.model = panel.url
+                        }
+                    }
               }
             }
             ConverterView(converter: converter)
