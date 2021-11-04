@@ -62,21 +62,37 @@ struct ContentView: View {
                                               Text(element.rawValue.capitalized)
                                           }
                                       }
-                 Button("select File")
+                if let model = converter.model {
+                Button("Save model") {
+                    let panel = NSSavePanel()
+                    panel.allowedContentTypes = [.usdz]
+                    if panel.runModal() == .OK {
+                        if let url = panel.url {
+                            try? FileManager.default.moveItem(at: model, to: url)
+                    }
+                    }
+                    
+                }
+                }
+                 Button("Convert file")
                 {
                     let panel = NSOpenPanel()
                     panel.allowsMultipleSelection = false
                      // panel.canChooseFiles = false
                     panel.canChooseDirectories = true
                     if panel.runModal() == .OK {
-                         
-                        if panel.url?.hasDirectoryPath != nil {
-                            self.filename = panel.url?.lastPathComponent ?? "<none>"
-                            converter.fileURL = panel.url!
+                        if let url = panel.url {
+                            if panel.directoryURL == url {
+                                self.filename = url.lastPathComponent
+                                converter.folder = url
+                            } else if url.pathExtension == "usdz" {
+                                converter.model = url
+                            } else {
+                                self.filename = url.lastPathComponent
+                                converter.fileURL = url
+                            }
                         }
-                        if panel.url?.isFileURL != nil {
-                            converter.model = panel.url
-                        }
+                        
                     }
               }
             }

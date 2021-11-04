@@ -17,9 +17,7 @@ struct ConverterView: View {
             return try? SCNScene(url: fileURL)
         }
         return nil
-        
-            
-    }
+     }
  
     var cameraNode: SCNNode? {
         let cameraNode = SCNNode()
@@ -46,7 +44,7 @@ struct ConverterView: View {
             } else if let f = converter.progressValue {
                 ProgressView(value: f)
             } else {
-                Text("Please select a directory to convert")
+                Text("Please select a directory or movie to convert")
             }
         }
         Spacer()
