@@ -10,7 +10,8 @@ import RealityKit
 import AVKit
 
 import os
- let logger = Logger(subsystem: "com.apple.sample.photogrammetry",
+
+let logger = Logger(subsystem: "com.apple.sample.photogrammetry",
                             category: "HelloPhotogrammetry")
 
 typealias Request = PhotogrammetrySession.Request
@@ -40,34 +41,7 @@ class Converter: ObservableObject {
     private func progress(value:Double){
         progressValue = value
     }
-
-    func getImages(fileURL: URL) throws ->[PhotogrammetrySample]? {
-        var imgs: [PhotogrammetrySample] = []
-
-        let asset = AVURLAsset(url: fileURL)
-        let reader = try AVAssetReader(asset: asset)
-
-        let videoTrack = asset.tracks(withMediaType: AVMediaType.video)[0]
-
-        // read video frames as BGRA
-        let trackReaderOutput = AVAssetReaderTrackOutput(track: videoTrack, outputSettings:[String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)])
-
-        reader.add(trackReaderOutput)
-        reader.startReading()
-        var count=0
-        while let sampleBuffer = trackReaderOutput.copyNextSampleBuffer() {
-            if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
-                 let sample = PhotogrammetrySample(id:count, image: imageBuffer )
-                count = count+1
-                imgs.append(sample)
-            }
-        }
-        print("Loaded: \(count) frames")
  
-        return imgs
-    }
-    
-
     fileprivate func sessionHandler() -> Task<(), Never> {
         return Task.detached() {
             do {
@@ -113,9 +87,11 @@ class Converter: ObservableObject {
         do {
             // If I would only know how to tell file/folder from URL...
             do {
-                let frames = try getImages(fileURL: inputURL!)
-                session = try PhotogrammetrySession(input: frames!)
+                // Try Movie first
+                let frames = try PhotogrammetryFrames(fileURL: inputURL!)
+                session = try PhotogrammetrySession(input: frames)
             } catch {
+                // Lets hope its a directory
                 session = try PhotogrammetrySession(input: inputURL!)
             }
             let detail: Request.Detail? = detail.det
@@ -136,4 +112,38 @@ class Converter: ObservableObject {
     
     
 }
+
+// Itterator for movie files
+struct PhotogrammetryFrames : IteratorProtocol, Sequence  {
+    
+    typealias Element = PhotogrammetrySample
+    
+    var imgs: [PhotogrammetrySample] = []
+    var count: Int
+    let trackReaderOutput: AVAssetReaderTrackOutput
+    init(fileURL:URL) throws {
+        let asset = AVURLAsset(url: fileURL)
+        let reader = try AVAssetReader(asset: asset)
+        let videoTrack = asset.tracks(withMediaType: AVMediaType.video)[0]
+
+        // read video frames as BGRA
+        trackReaderOutput = AVAssetReaderTrackOutput(track: videoTrack, outputSettings:[String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)])
+        count = 0
+        reader.add(trackReaderOutput)
+        reader.startReading()
+    }
+    mutating func next() -> PhotogrammetrySample? {
+        if let sampleBuffer = trackReaderOutput.copyNextSampleBuffer() {
+            let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
+            count += 1
+
+//            let count = sampleBuffer!.decodeTimeStamp
+             let sample = PhotogrammetrySample(id:count, image: imageBuffer! )
+            return sample
+        }
+        
+       return nil
+    }
+}
+
 
