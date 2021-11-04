@@ -41,31 +41,29 @@ class Converter: ObservableObject {
         progressValue = value
     }
 
-    func getImages(fileURL: URL)->[PhotogrammetrySample]? {
+    func getImages(fileURL: URL) throws ->[PhotogrammetrySample]? {
         var imgs: [PhotogrammetrySample] = []
-        do {
-            let asset = AVURLAsset(url: fileURL)
-            let reader = try AVAssetReader(asset: asset)
 
-            let videoTrack = asset.tracks(withMediaType: AVMediaType.video)[0]
+        let asset = AVURLAsset(url: fileURL)
+        let reader = try AVAssetReader(asset: asset)
 
-                // read video frames as BGRA
-                let trackReaderOutput = AVAssetReaderTrackOutput(track: videoTrack, outputSettings:[String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)])
+        let videoTrack = asset.tracks(withMediaType: AVMediaType.video)[0]
 
-                reader.add(trackReaderOutput)
-                reader.startReading()
-                var count=0
-                while let sampleBuffer = trackReaderOutput.copyNextSampleBuffer() {
-                    if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
-                         let sample = PhotogrammetrySample(id:count, image: imageBuffer )
-                        count = count+1
-                        imgs.append(sample)
-                    }
-                }
-            print("Loaded: \(count) frames")
-        } catch {
-            print ("Falied loading video")
+        // read video frames as BGRA
+        let trackReaderOutput = AVAssetReaderTrackOutput(track: videoTrack, outputSettings:[String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)])
+
+        reader.add(trackReaderOutput)
+        reader.startReading()
+        var count=0
+        while let sampleBuffer = trackReaderOutput.copyNextSampleBuffer() {
+            if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+                 let sample = PhotogrammetrySample(id:count, image: imageBuffer )
+                count = count+1
+                imgs.append(sample)
+            }
         }
+        print("Loaded: \(count) frames")
+ 
         return imgs
     }
     
@@ -105,7 +103,7 @@ class Converter: ObservableObject {
             }
         }
     }
-    var folder : URL? {
+    var input : URL? {
         get {
             return inputURL
         }
@@ -114,7 +112,12 @@ class Converter: ObservableObject {
         model = nil
         do {
             // If I would only know how to tell file/folder from URL...
-            session = try PhotogrammetrySession(input: inputURL!)
+            do {
+                let frames = try getImages(fileURL: inputURL!)
+                session = try PhotogrammetrySession(input: frames!)
+            } catch {
+                session = try PhotogrammetrySession(input: inputURL!)
+            }
             let detail: Request.Detail? = detail.det
 
             let req = PhotogrammetrySession.Request.modelFile(url: outputUrl, detail: detail!)
@@ -129,31 +132,7 @@ class Converter: ObservableObject {
     
         }
     }
-    var fileURL : URL? {
-        get {
-            return inputURL
-        }
-    set(file) {
-        inputURL = file
-        model = nil
-        do {
-            // If I would only know how to tell file/folder from URL...
 
-            let frames = getImages(fileURL: inputURL!)
-            session = try PhotogrammetrySession(input: frames!)
-            let detail: Request.Detail? = detail.det
-            let req = PhotogrammetrySession.Request.modelFile(url: outputUrl, detail: detail!)
-            try session!.process(requests: [req])
-            _ = sessionHandler()
-        } catch {
-            print("Failed")
-            return
-        }
-
-          
-    
-        }
-    }
     
     
 }

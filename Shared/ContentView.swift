@@ -82,15 +82,16 @@ struct ContentView: View {
                     panel.canChooseDirectories = true
                     if panel.runModal() == .OK {
                         if let url = panel.url {
-                            if panel.directoryURL == url {
-                                self.filename = url.lastPathComponent
-                                converter.folder = url
-                            } else if url.pathExtension == "usdz" {
-                                converter.model = url
-                            } else {
-                                self.filename = url.lastPathComponent
-                                converter.fileURL = url
+                            self.filename = url.lastPathComponent
+                            switch url {
+                            case let(dir) where panel.directoryURL == url:
+                                converter.input = dir
+                            case let(model) where url.pathExtension == "usdz":
+                                converter.model = model
+                            default:
+                                converter.input = url
                             }
+                          
                         }
                         
                     }
