@@ -7,6 +7,7 @@
 
 import Foundation
 import RealityKit
+import AVKit
 
 import os
  let logger = Logger(subsystem: "com.apple.sample.photogrammetry",
@@ -38,9 +39,31 @@ class Converter: ObservableObject {
     private func progress(value:Double){
         progressValue = value
     }
-    init(){
-        
+
+    func getImages(fileURL: URL)->[PhotogrammetrySample]? {
+        var imgs: [PhotogrammetrySample] = []
+        let asset = AVURLAsset(url: fileURL)
+        let reader = try! AVAssetReader(asset: asset)
+
+        let videoTrack = asset.tracks(withMediaType: AVMediaType.video)[0]
+
+            // read video frames as BGRA
+            let trackReaderOutput = AVAssetReaderTrackOutput(track: videoTrack, outputSettings:[String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)])
+
+            reader.add(trackReaderOutput)
+            reader.startReading()
+            var count=0
+            while let sampleBuffer = trackReaderOutput.copyNextSampleBuffer() {
+                if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+                     let sample = PhotogrammetrySample(id:count, image: imageBuffer )
+                    count = count+1
+                    imgs.append(sample)
+                }
+            }
+        print("Loaded: \(count) frames")
+        return imgs
     }
+    
 
     var fileURL : URL? {
         get {
@@ -49,14 +72,25 @@ class Converter: ObservableObject {
         set(newfile) {
                 inputURL = newfile
                 model = nil
-//                let outputFilename = "testing.usdz"
-//                let outputUrl = URL(fileURLWithPath: outputFilename)
-//            let oo = newfile?.absoluteString.applying(".usdz")
-            let outputUrl = newfile?.appendingPathComponent("../"+newfile!.lastPathComponent + ".usdz",isDirectory: false).standardized
-            //("usdz") UTType
-                print(outputUrl)
+            
+            
+            let newfile = newfile?.appendingPathComponent("../"+newfile!.lastPathComponent + ".usdz",isDirectory: false).standardized
+//                print(outputUrl)
+            let fm = FileManager.default
+            let outputUrl: URL!
+            if !fm.isWritableFile(atPath: newfile!.path) {
+                outputUrl = URL(fileURLWithPath: "new.usdz")
+            } else {
+                outputUrl = newfile
+            }
+           // if fm.  outputUrl.
                 do {
-                    session = try PhotogrammetrySession(input: inputURL!)
+                    if ((inputURL?.isFileURL) != nil) {
+                        let frames = getImages(fileURL: inputURL!)
+                        session = try PhotogrammetrySession(input: frames!)
+                    }else {
+                        session = try PhotogrammetrySession(input: inputURL!)
+                    }
                     let detail: Request.Detail? = detail.det
 
                     let req = PhotogrammetrySession.Request.modelFile(url: outputUrl!, detail: detail!)
