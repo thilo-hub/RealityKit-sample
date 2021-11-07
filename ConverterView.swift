@@ -7,11 +7,6 @@
 import SwiftUI
 import SceneKit
 import RealityKit
-func *(vector:SCNVector3, multiplier:SCNFloat) -> SCNVector3 {
- 
-    return SCNVector3(vector.x * multiplier, vector.y * multiplier, vector.z * multiplier)
-}
-
 
 struct ConverterView: View {
     @ObservedObject var converter: Converter
@@ -37,6 +32,12 @@ struct ConverterView: View {
 //                        converter.bbox = bb
                         converter.boundingBox = geom
 //                    }
+                } else {
+                    let bb = s.rootNode.boundingBox
+                    let w = bb.max - bb.min
+                    let bx=SCNBox(width:w.x,height: w.y, length: w.z,chamferRadius: 0.1)
+                    let node = SCNNode(geometry: bx)
+                    s.rootNode.addChildNode(node)
                 }
                 converter.viewedScene = s
                 return s;
