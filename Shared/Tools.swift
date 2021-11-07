@@ -17,7 +17,7 @@ func -(left:SCNVector3, right:SCNVector3) -> SCNVector3 {
     return SCNVector3(left.x - right.x, left.y - right.y, left.z - right.z)
 }
 
-func makeBBox( ch: SCNNode) -> SCNNode {
+func makeBBox(_ ch: SCNNode) -> SCNNode {
     let bb = ch.boundingBox
     let dm = bb.max - bb.min
     let box = SCNBox(width:  dm.z, height: dm.y, length: dm.x, chamferRadius: 0.01)
