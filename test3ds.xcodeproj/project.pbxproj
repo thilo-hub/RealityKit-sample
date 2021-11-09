@@ -11,12 +11,19 @@
 		B60EA74827350D73000D1526 /* ConverterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F9C89827332CDF000008F2 /* ConverterView.swift */; };
 		B60EA74927350D73000D1526 /* PlayGround.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F9C89E27342C66000008F2 /* PlayGround.swift */; };
 		B60EA74A27350D73000D1526 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F9C87A2731B4A6000008F2 /* Converter.swift */; };
+		B623A303273841C6004F323B /* BboxEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D16C862737E93F0012F94E /* BboxEditor.swift */; };
+		B623A3452738872A004F323B /* SceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B623A34227387BBF004F323B /* SceneController.swift */; };
+		B674453227393CA3008B52F2 /* CamTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674453127393CA3008B52F2 /* CamTestApp.swift */; };
+		B674453427393CA3008B52F2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674453327393CA3008B52F2 /* ContentView.swift */; };
+		B674453627393CA5008B52F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B674453527393CA5008B52F2 /* Assets.xcassets */; };
+		B674453927393CA5008B52F2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B674453827393CA5008B52F2 /* Preview Assets.xcassets */; };
+		B674453E27393D71008B52F2 /* MyScene.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C85927308A7B000008F2 /* MyScene.scnassets */; };
 		B6833F5727347122000ACCA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C83D273080D1000008F2 /* Assets.xcassets */; };
 		B6833F802734942D000ACCA8 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B6833F732734942D000ACCA8 /* README.md */; };
-		B6833F8A27349632000ACCA8 /* test3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6833F8927349632000ACCA8 /* test3App.swift */; };
 		B6833F8E27349634000ACCA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6833F8D27349634000ACCA8 /* Assets.xcassets */; };
 		B6833F9127349634000ACCA8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6833F9027349634000ACCA8 /* Preview Assets.xcassets */; };
 		B6833F9B273496A9000ACCA8 /* MyScene.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C85927308A7B000008F2 /* MyScene.scnassets */; };
+		B69A5B6B27398B84000AAD40 /* MyScene.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C85927308A7B000008F2 /* MyScene.scnassets */; };
 		B6A166B22736D35200A84F0E /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A166B12736D35200A84F0E /* Tools.swift */; };
 		B6A166B32736D35200A84F0E /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A166B12736D35200A84F0E /* Tools.swift */; };
 		B6A166B42736D35A00A84F0E /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A166B12736D35200A84F0E /* Tools.swift */; };
@@ -27,27 +34,38 @@
 		B6A166BF2737DC2A00A84F0E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F9C83C273080D0000008F2 /* ContentView.swift */; };
 		B6A166C02737DC8000A84F0E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F9C83C273080D0000008F2 /* ContentView.swift */; };
 		B6A166C12737DDEB00A84F0E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A166B92737C54E00A84F0E /* ContentView.swift */; };
-		B6A735D72736A448003A0239 /* Test_rotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A735D62736A448003A0239 /* Test_rotate.swift */; };
 		B6A735DF2736BDD9003A0239 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A735DE2736BDD9003A0239 /* AppDelegate.swift */; };
 		B6A735E12736BDD9003A0239 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A735E02736BDD9003A0239 /* ContentView.swift */; };
 		B6A735E32736BDD9003A0239 /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = B6A735E22736BDD9003A0239 /* Experience.rcproject */; };
 		B6A735E52736BDDB003A0239 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6A735E42736BDDB003A0239 /* Assets.xcassets */; };
 		B6A735E82736BDDB003A0239 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6A735E72736BDDB003A0239 /* Preview Assets.xcassets */; };
+		B6D16C882737E9B30012F94E /* test3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6833F8927349632000ACCA8 /* test3App.swift */; };
+		B6D16C8C2737F1F90012F94E /* MinimanNoCamReset.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D16C8B2737F1F90012F94E /* MinimanNoCamReset.swift */; };
+		B6D16C902737F9110012F94E /* BboxEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D16C862737E93F0012F94E /* BboxEditor.swift */; };
+		B6D16C922737FB740012F94E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D16C912737FB740012F94E /* ContentView.swift */; };
 		B6F9C84F273080D1000008F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C83D273080D1000008F2 /* Assets.xcassets */; };
 		B6F9C850273080D1000008F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C83D273080D1000008F2 /* Assets.xcassets */; };
 		B6F9C8BD273432C9000008F2 /* test1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F9C8BC273432C9000008F2 /* test1App.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B623A34227387BBF004F323B /* SceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
+		B674452F27393CA3008B52F2 /* CamTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CamTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B674453127393CA3008B52F2 /* CamTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamTestApp.swift; sourceTree = "<group>"; };
+		B674453327393CA3008B52F2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B674453527393CA5008B52F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B674453827393CA5008B52F2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B674453A27393CA5008B52F2 /* CamTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CamTest.entitlements; sourceTree = "<group>"; };
 		B6833F5E2734942D000ACCA8 /* macOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		B6833F5F2734942D000ACCA8 /* test3ds.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = test3ds.xcodeproj; sourceTree = "<group>"; };
 		B6833F732734942D000ACCA8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B6833F8727349632000ACCA8 /* test3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6833F8927349632000ACCA8 /* test3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test3App.swift; sourceTree = "<group>"; };
-		B6833F8B27349632000ACCA8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B6833F8B27349632000ACCA8 /* ContentView_disabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView_disabled.swift; sourceTree = "<group>"; };
 		B6833F8D27349634000ACCA8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B6833F9027349634000ACCA8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B6833F9227349634000ACCA8 /* test3.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = test3.entitlements; sourceTree = "<group>"; };
+		B69A5B6A2739850E000AAD40 /* FutureBedit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureBedit.swift; sourceTree = "<group>"; };
 		B6A166B12736D35200A84F0E /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		B6A166B82737057F00A84F0E /* NoNorking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoNorking.swift; sourceTree = "<group>"; };
 		B6A166B92737C54E00A84F0E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -58,6 +76,9 @@
 		B6A735E22736BDD9003A0239 /* Experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; path = Experience.rcproject; sourceTree = "<group>"; };
 		B6A735E42736BDDB003A0239 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B6A735E72736BDDB003A0239 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B6D16C862737E93F0012F94E /* BboxEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BboxEditor.swift; sourceTree = "<group>"; };
+		B6D16C8B2737F1F90012F94E /* MinimanNoCamReset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimanNoCamReset.swift; sourceTree = "<group>"; };
+		B6D16C912737FB740012F94E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B6F9C83B273080D0000008F2 /* test3dsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test3dsApp.swift; sourceTree = "<group>"; };
 		B6F9C83C273080D0000008F2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B6F9C83D273080D1000008F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -77,6 +98,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		B674452C27393CA3008B52F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B6833F8427349632000ACCA8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +143,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B674453027393CA3008B52F2 /* CamTest */ = {
+			isa = PBXGroup;
+			children = (
+				B674453127393CA3008B52F2 /* CamTestApp.swift */,
+				B674453327393CA3008B52F2 /* ContentView.swift */,
+				B674453527393CA5008B52F2 /* Assets.xcassets */,
+				B674453A27393CA5008B52F2 /* CamTest.entitlements */,
+				B674453727393CA5008B52F2 /* Preview Content */,
+			);
+			path = CamTest;
+			sourceTree = "<group>";
+		};
+		B674453727393CA5008B52F2 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				B674453827393CA5008B52F2 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		B6833F5C2734942D000ACCA8 /* test3ds */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,8 +195,11 @@
 			isa = PBXGroup;
 			children = (
 				B6833F8927349632000ACCA8 /* test3App.swift */,
-				B6833F8B27349632000ACCA8 /* ContentView.swift */,
+				B6833F8B27349632000ACCA8 /* ContentView_disabled.swift */,
+				B69A5B6A2739850E000AAD40 /* FutureBedit.swift */,
+				B6D16C912737FB740012F94E /* ContentView.swift */,
 				B6A735D62736A448003A0239 /* Test_rotate.swift */,
+				B6D16C8B2737F1F90012F94E /* MinimanNoCamReset.swift */,
 				B6833F8D27349634000ACCA8 /* Assets.xcassets */,
 				B6833F9227349634000ACCA8 /* test3.entitlements */,
 				B6833F8F27349634000ACCA8 /* Preview Content */,
@@ -193,6 +244,7 @@
 				B6F9C8BB273432C9000008F2 /* test1 */,
 				B6833F8827349632000ACCA8 /* test3 */,
 				B6A735DD2736BDD9003A0239 /* NewTest */,
+				B674453027393CA3008B52F2 /* CamTest */,
 				B6F9C843273080D1000008F2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -200,6 +252,8 @@
 		B6F9C83A273080D0000008F2 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				B6D16C862737E93F0012F94E /* BboxEditor.swift */,
+				B623A34227387BBF004F323B /* SceneController.swift */,
 				B6A166B12736D35200A84F0E /* Tools.swift */,
 				B6F9C89D2733ED9F000008F2 /* MyPlayground.playground */,
 				B6F9C85927308A7B000008F2 /* MyScene.scnassets */,
@@ -216,6 +270,7 @@
 				B6F9C8BA273432C9000008F2 /* test1.app */,
 				B6833F8727349632000ACCA8 /* test3.app */,
 				B6A735DC2736BDD9003A0239 /* NewTest.app */,
+				B674452F27393CA3008B52F2 /* CamTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -252,6 +307,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B674452E27393CA3008B52F2 /* CamTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B674453D27393CA5008B52F2 /* Build configuration list for PBXNativeTarget "CamTest" */;
+			buildPhases = (
+				B674452B27393CA3008B52F2 /* Sources */,
+				B674452C27393CA3008B52F2 /* Frameworks */,
+				B674452D27393CA3008B52F2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CamTest;
+			productName = CamTest;
+			productReference = B674452F27393CA3008B52F2 /* CamTest.app */;
+			productType = "com.apple.product-type.application";
+		};
 		B6833F8627349632000ACCA8 /* test3 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B6833F9327349634000ACCA8 /* Build configuration list for PBXNativeTarget "test3" */;
@@ -347,6 +419,9 @@
 				LastSwiftUpdateCheck = 1310;
 				LastUpgradeCheck = 1310;
 				TargetAttributes = {
+					B674452E27393CA3008B52F2 = {
+						CreatedOnToolsVersion = 13.1;
+					};
 					B6833F8627349632000ACCA8 = {
 						CreatedOnToolsVersion = 13.1;
 					};
@@ -388,11 +463,22 @@
 				B6F9C8B9273432C9000008F2 /* test1 */,
 				B6833F8627349632000ACCA8 /* test3 */,
 				B6A735DB2736BDD9003A0239 /* NewTest */,
+				B674452E27393CA3008B52F2 /* CamTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		B674452D27393CA3008B52F2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B674453927393CA5008B52F2 /* Preview Assets.xcassets in Resources */,
+				B674453627393CA5008B52F2 /* Assets.xcassets in Resources */,
+				B674453E27393D71008B52F2 /* MyScene.scnassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B6833F8527349632000ACCA8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -424,6 +510,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B69A5B6B27398B84000AAD40 /* MyScene.scnassets in Resources */,
 				B6F9C850273080D1000008F2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -441,13 +528,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		B674452B27393CA3008B52F2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B674453427393CA3008B52F2 /* ContentView.swift in Sources */,
+				B674453227393CA3008B52F2 /* CamTestApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B6833F8327349632000ACCA8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B6D16C902737F9110012F94E /* BboxEditor.swift in Sources */,
+				B6D16C922737FB740012F94E /* ContentView.swift in Sources */,
+				B623A3452738872A004F323B /* SceneController.swift in Sources */,
+				B6D16C8C2737F1F90012F94E /* MinimanNoCamReset.swift in Sources */,
 				B6A166B42736D35A00A84F0E /* Tools.swift in Sources */,
-				B6A735D72736A448003A0239 /* Test_rotate.swift in Sources */,
-				B6833F8A27349632000ACCA8 /* test3App.swift in Sources */,
+				B6D16C882737E9B30012F94E /* test3App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,6 +579,7 @@
 				B60EA74827350D73000D1526 /* ConverterView.swift in Sources */,
 				B60EA74927350D73000D1526 /* PlayGround.swift in Sources */,
 				B6A166B22736D35200A84F0E /* Tools.swift in Sources */,
+				B623A303273841C6004F323B /* BboxEditor.swift in Sources */,
 				B60EA74A27350D73000D1526 /* Converter.swift in Sources */,
 				B60EA74627350D4B000D1526 /* test3dsApp.swift in Sources */,
 			);
@@ -498,6 +598,64 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		B674453B27393CA5008B52F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CamTest/CamTest.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CamTest/Preview Content\"";
+				DEVELOPMENT_TEAM = V2QU2ZP5Z5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.CamTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B674453C27393CA5008B52F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = CamTest/CamTest.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"CamTest/Preview Content\"";
+				DEVELOPMENT_TEAM = V2QU2ZP5Z5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.CamTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		B6833F9427349634000ACCA8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -912,6 +1070,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		B674453D27393CA5008B52F2 /* Build configuration list for PBXNativeTarget "CamTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B674453B27393CA5008B52F2 /* Debug */,
+				B674453C27393CA5008B52F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B6833F9327349634000ACCA8 /* Build configuration list for PBXNativeTarget "test3" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
