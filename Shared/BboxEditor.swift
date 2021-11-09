@@ -38,68 +38,66 @@ fileprivate func addEditorTools(s: SCNScene)  {
 
             ar1.scale = SCNVector3(bw)
             ar1.position = topleft
+            ar1.name = "arrow"
+//            redBoundingBox.addChildNode(ar1)
             s.rootNode.addChildNode(ar1)
           }
     }
 }
 
-class MySceneView: SCNScene {
-    override init() {
-         super.init()
-        let model = SCNScene(named: "MyScene.scnassets/Data5.usdz")!
-        let arrow = SCNScene(named: "MyScene.scnassets/Arrows.dae")!
-        let bbox  = makeBBox(model.rootNode)
-        self.rootNode.addChildNode(model.rootNode)
-        self.rootNode.addChildNode(arrow.rootNode)
-        self.rootNode.addChildNode(bbox)
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-//
-//    var sscene: SCNScene
-//    init(model: SCNScene ){
-//        SceneView(
-//            scene: scene,
-//                options: [
-//                .allowsCameraControl,
-//                .autoenablesDefaultLighting,
-//                .temporalAntialiasingEnabled
-//                ]
-//            )
-//        scene = model
-//    }
-}
+
 struct BoundBoxEditorView: View {
 
     @State var myscene: SCNScene
-    @State var pos = SCNVector3(0,0,0)
-    @State var scale = 1.0
-    @State var topRight = SCNVector3(1,1,1)
-    @State var bottomLeft = SCNVector3(0,0,0)
+    @State var scale = SCNVector3(1,1,1)
+    @State var center = SCNVector3(0,0,0)
 
     var scene: SCNScene {
         let s = myscene
         addEditorTools(s: s)
  
         let bbx = s.rootNode.childNode(withName: "MyBounding", recursively: false)!
-            bbx.position = bottomLeft
-            bbx.scale = topRight
+            bbx.position = center
+            bbx.scale = scale
+        if let ar = s.rootNode.childNode(withName: "arrow", recursively: false ) {
+            let bl =  simd_float3(bbx.position) - (simd_float3(bbx.boundingBox.max) - simd_float3(bbx.boundingBox.min))/2.0 
+            ar.position = SCNVector3(bl)
+
+        }
         return s
 
     }
-     
+    var bbox: SCNNode? {
+        if let bbx = scene.rootNode.childNode(withName: "MyBounding", recursively: false) {
+            let bb  = bbx.boundingBox
+            let pw = (simd_float3(bb.max) - simd_float3(bb.min)) * simd_float3(bbx.scale)
+            let pori = bbx.position
+            let bx2 = SCNBox(width: CGFloat(pw.x), height: CGFloat(pw.y), length: CGFloat(pw.z), chamferRadius: 0.3)
+            bx2.materials.first?.diffuse.contents = CGColor(red: 0, green: 0, blue: 1, alpha: 1)
+            let nx2 = SCNNode(geometry: bx2)
+            nx2.position = pori
+            return nx2
+        }
+        return nil
+            
+    }
     var body: some View {
         VStack{
             HStack {
-                Slider(value: $topRight.x, in:0 ... 2).background(.red)
-                Slider(value: $topRight.y, in:0 ... 2).background(.green)
-                Slider(value: $topRight.z, in:0 ... 2).background(.blue)
+                Slider(value: $scale.x, in:0 ... 2).background(.red)
+                Slider(value: $scale.y, in:0 ... 2).background(.green)
+                Slider(value: $scale.z, in:0 ... 2).background(.blue)
             }
             HStack {
-                Slider(value: $bottomLeft.x, in:-1 ... 1).background(.red)
-                Slider(value: $bottomLeft.y, in:-1 ... 1).background(.green)
-                Slider(value: $bottomLeft.z, in:-1 ... 1).background(.blue)
+                Slider(value: $center.x, in:-1 ... 1).background(.red)
+                Slider(value: $center.y, in:-1 ... 1).background(.green)
+                Slider(value: $center.z, in:-1 ... 1).background(.blue)
+                Button("X") {
+                    if let bbx = bbox {
+                     scene.rootNode.addChildNode(bbx)
+                    print(bbx.position)
+                    }
+                }
             }
             SceneView(
                 scene: scene,
@@ -115,7 +113,7 @@ struct BoundBoxEditorView: View {
 }
 
 struct BoundingView: View {
-    let scene: SCNScene = SCNScene(named: "MyScene.scnassets/Data5.usdz")!
+    @State var scene: SCNScene = SCNScene(named: "MyScene.scnassets/Data5.usdz")!
     
     var body: some View {
         BoundBoxEditorView(myscene: scene)
