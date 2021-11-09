@@ -48,6 +48,20 @@
 		B6F9C8BD273432C9000008F2 /* test1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F9C8BC273432C9000008F2 /* test1App.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXBuildRule section */
+		B6594F8B273B21FD0006B976 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = text.xml.dae;
+			inputFiles = (
+			);
+			isEditable = 1;
+			outputFiles = (
+			);
+			script = "# scntool\n";
+		};
+/* End PBXBuildRule section */
+
 /* Begin PBXFileReference section */
 		B623A34227387BBF004F323B /* SceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
 		B674452F27393CA3008B52F2 /* CamTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CamTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,6 +157,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B6594F8A273B20F50006B976 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				B674453027393CA3008B52F2 /* CamTest */,
+				B6A735DD2736BDD9003A0239 /* NewTest */,
+				B6833F8827349632000ACCA8 /* RealityBoundsEditor */,
+				B6F9C8BB273432C9000008F2 /* test1 */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		B674453027393CA3008B52F2 /* CamTest */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,7 +188,7 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		B6833F5C2734942D000ACCA8 /* test3ds */ = {
+		B6833F5C2734942D000ACCA8 /* RealityGenerator */ = {
 			isa = PBXGroup;
 			children = (
 				B6833F5D2734942D000ACCA8 /* macOS */,
@@ -175,7 +200,7 @@
 				B6F9C89E27342C66000008F2 /* PlayGround.swift */,
 				B6F9C87A2731B4A6000008F2 /* Converter.swift */,
 			);
-			name = test3ds;
+			name = RealityGenerator;
 			sourceTree = "<group>";
 		};
 		B6833F5D2734942D000ACCA8 /* macOS */ = {
@@ -238,13 +263,10 @@
 		B6F9C835273080D0000008F2 = {
 			isa = PBXGroup;
 			children = (
-				B6833F5C2734942D000ACCA8 /* test3ds */,
+				B6594F8A273B20F50006B976 /* Tests */,
+				B6833F5C2734942D000ACCA8 /* RealityGenerator */,
 				B6F9C83A273080D0000008F2 /* Shared */,
 				B6F9C849273080D1000008F2 /* macOS */,
-				B6F9C8BB273432C9000008F2 /* test1 */,
-				B6833F8827349632000ACCA8 /* RealityBoundsEditor */,
-				B6A735DD2736BDD9003A0239 /* NewTest */,
-				B674453027393CA3008B52F2 /* CamTest */,
 				B6F9C843273080D1000008F2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -333,6 +355,7 @@
 				B6833F8527349632000ACCA8 /* Resources */,
 			);
 			buildRules = (
+				B6594F8B273B21FD0006B976 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -661,11 +684,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = RealityBoundsEditor/test3.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Tests/RealityBoundsEditor/test3.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"RealityBoundsEditor/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Tests/RealityBoundsEditor/Preview Content\"";
 				DEVELOPMENT_TEAM = V2QU2ZP5Z5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -690,11 +714,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = RealityBoundsEditor/test3.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Tests/RealityBoundsEditor/test3.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"RealityBoundsEditor/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Tests/RealityBoundsEditor/Preview Content\"";
 				DEVELOPMENT_TEAM = V2QU2ZP5Z5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
