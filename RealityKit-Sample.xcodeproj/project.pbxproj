@@ -82,8 +82,8 @@
 		B6F9C83B273080D0000008F2 /* test3dsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test3dsApp.swift; sourceTree = "<group>"; };
 		B6F9C83C273080D0000008F2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B6F9C83D273080D1000008F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		B6F9C842273080D1000008F2 /* test3ds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test3ds.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B6F9C848273080D1000008F2 /* test3ds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test3ds.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6F9C842273080D1000008F2 /* RealityKit-Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RealityKit-Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6F9C848273080D1000008F2 /* RealityKit-Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RealityKit-Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6F9C84A273080D1000008F2 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		B6F9C85927308A7B000008F2 /* MyScene.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = MyScene.scnassets; sourceTree = "<group>"; };
 		B6F9C87A2731B4A6000008F2 /* Converter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
@@ -265,8 +265,8 @@
 		B6F9C843273080D1000008F2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B6F9C842273080D1000008F2 /* test3ds.app */,
-				B6F9C848273080D1000008F2 /* test3ds.app */,
+				B6F9C842273080D1000008F2 /* RealityKit-Sample.app */,
+				B6F9C848273080D1000008F2 /* RealityKit-Sample.app */,
 				B6F9C8BA273432C9000008F2 /* test1.app */,
 				B6833F8727349632000ACCA8 /* test3.app */,
 				B6A735DC2736BDD9003A0239 /* NewTest.app */,
@@ -358,9 +358,9 @@
 			productReference = B6A735DC2736BDD9003A0239 /* NewTest.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B6F9C841273080D1000008F2 /* test3ds (iOS) */ = {
+		B6F9C841273080D1000008F2 /* RealityKit-Sample (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B6F9C853273080D1000008F2 /* Build configuration list for PBXNativeTarget "test3ds (iOS)" */;
+			buildConfigurationList = B6F9C853273080D1000008F2 /* Build configuration list for PBXNativeTarget "RealityKit-Sample (iOS)" */;
 			buildPhases = (
 				B6F9C83E273080D1000008F2 /* Sources */,
 				B6F9C83F273080D1000008F2 /* Frameworks */,
@@ -370,14 +370,14 @@
 			);
 			dependencies = (
 			);
-			name = "test3ds (iOS)";
+			name = "RealityKit-Sample (iOS)";
 			productName = "test3ds (iOS)";
-			productReference = B6F9C842273080D1000008F2 /* test3ds.app */;
+			productReference = B6F9C842273080D1000008F2 /* RealityKit-Sample.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B6F9C847273080D1000008F2 /* test3ds (macOS) */ = {
+		B6F9C847273080D1000008F2 /* RealityKit-Sample (macOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B6F9C856273080D1000008F2 /* Build configuration list for PBXNativeTarget "test3ds (macOS)" */;
+			buildConfigurationList = B6F9C856273080D1000008F2 /* Build configuration list for PBXNativeTarget "RealityKit-Sample (macOS)" */;
 			buildPhases = (
 				B6F9C844273080D1000008F2 /* Sources */,
 				B6F9C845273080D1000008F2 /* Frameworks */,
@@ -387,9 +387,9 @@
 			);
 			dependencies = (
 			);
-			name = "test3ds (macOS)";
+			name = "RealityKit-Sample (macOS)";
 			productName = "test3ds (macOS)";
-			productReference = B6F9C848273080D1000008F2 /* test3ds.app */;
+			productReference = B6F9C848273080D1000008F2 /* RealityKit-Sample.app */;
 			productType = "com.apple.product-type.application";
 		};
 		B6F9C8B9273432C9000008F2 /* test1 */ = {
@@ -439,7 +439,7 @@
 					};
 				};
 			};
-			buildConfigurationList = B6F9C839273080D0000008F2 /* Build configuration list for PBXProject "test3ds" */;
+			buildConfigurationList = B6F9C839273080D0000008F2 /* Build configuration list for PBXProject "RealityKit-Sample" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -458,8 +458,8 @@
 			);
 			projectRoot = "";
 			targets = (
-				B6F9C841273080D1000008F2 /* test3ds (iOS) */,
-				B6F9C847273080D1000008F2 /* test3ds (macOS) */,
+				B6F9C841273080D1000008F2 /* RealityKit-Sample (iOS) */,
+				B6F9C847273080D1000008F2 /* RealityKit-Sample (macOS) */,
 				B6F9C8B9273432C9000008F2 /* test1 */,
 				B6833F8627349632000ACCA8 /* test3 */,
 				B6A735DB2736BDD9003A0239 /* NewTest */,
@@ -914,7 +914,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.test1.test3ds;
-				PRODUCT_NAME = test3ds;
+				PRODUCT_NAME = "RealityKit-Sample";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -944,7 +944,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.test1.test3ds;
-				PRODUCT_NAME = test3ds;
+				PRODUCT_NAME = "RealityKit-Sample";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -974,7 +974,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.test1.test3ds;
-				PRODUCT_NAME = test3ds;
+				PRODUCT_NAME = "RealityKit-Sample";
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1002,7 +1002,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.test1.test3ds;
-				PRODUCT_NAME = test3ds;
+				PRODUCT_NAME = "RealityKit-Sample";
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1097,7 +1097,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B6F9C839273080D0000008F2 /* Build configuration list for PBXProject "test3ds" */ = {
+		B6F9C839273080D0000008F2 /* Build configuration list for PBXProject "RealityKit-Sample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B6F9C851273080D1000008F2 /* Debug */,
@@ -1106,7 +1106,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B6F9C853273080D1000008F2 /* Build configuration list for PBXNativeTarget "test3ds (iOS)" */ = {
+		B6F9C853273080D1000008F2 /* Build configuration list for PBXNativeTarget "RealityKit-Sample (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B6F9C854273080D1000008F2 /* Debug */,
@@ -1115,7 +1115,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B6F9C856273080D1000008F2 /* Build configuration list for PBXNativeTarget "test3ds (macOS)" */ = {
+		B6F9C856273080D1000008F2 /* Build configuration list for PBXNativeTarget "RealityKit-Sample (macOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B6F9C857273080D1000008F2 /* Debug */,
