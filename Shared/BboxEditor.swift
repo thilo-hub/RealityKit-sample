@@ -51,6 +51,7 @@ struct BoundBoxEditorView: View {
     @State var myscene: SCNScene
     @State var scale = SCNVector3(1,1,1)
     @State var center = SCNVector3(0,0,0)
+    @Binding var boundingBox: BoundingBox?
 
     var scene: SCNScene {
         let s = myscene
@@ -59,6 +60,9 @@ struct BoundBoxEditorView: View {
         let bbx = s.rootNode.childNode(withName: "MyBounding", recursively: false)!
             bbx.position = center
             bbx.scale = scale
+            let sim_scale = simd_float3(scale)
+            let sim_center = simd_float3(center)
+            boundingBox = BoundingBox(min: sim_center - sim_scale/2, max: sim_center + sim_scale/2)
         if let ar = s.rootNode.childNode(withName: "arrow", recursively: false ) {
             let bl =  simd_float3(bbx.position) - (simd_float3(bbx.boundingBox.max) - simd_float3(bbx.boundingBox.min))/2.0 
             ar.position = SCNVector3(bl)
@@ -114,18 +118,19 @@ struct BoundBoxEditorView: View {
 
 struct BoundingView: View {
     @State var scene: SCNScene = SCNScene(named: "MyScene.scnassets/Data5.usdz")!
+    @State var boundingBox: BoundingBox? = BoundingBox()
     
     var body: some View {
-        BoundBoxEditorView(myscene: scene)
+        BoundBoxEditorView(myscene: scene,boundingBox: $boundingBox)
   }
 }
 
 
 struct ContinousResizingOk_Previews: PreviewProvider {
     @State static var scene: SCNScene = SCNScene(named: "MyScene.scnassets/Data5.usdz")!
-    
+    @State static var boundingBox: BoundingBox? = BoundingBox()
     static var previews: some View {
-        BoundBoxEditorView(myscene: scene)
+        BoundBoxEditorView(myscene: scene,boundingBox: $boundingBox)
     }
 }
 

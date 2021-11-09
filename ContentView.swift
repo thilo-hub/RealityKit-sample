@@ -41,6 +41,7 @@ struct ContentView: View {
                                               Text(element.rawValue.capitalized)
                                           }
                                       }
+                .onSubmit({print ("Submit")})
                 if let model = converter.model{
                     Button("Save model") {
                         let panel = NSSavePanel()

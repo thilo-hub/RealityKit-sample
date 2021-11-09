@@ -18,58 +18,106 @@ let logger = Logger(subsystem: "com.apple.sample.photogrammetry",
 typealias Request = PhotogrammetrySession.Request
 
 class Converter: ObservableObject {
+    // if a progress value is published you can use it
+    @Published var progressValue : Double?
+
+    // if a model is published you can view it
+    @Published var olddetail: ViewDetails = .preview
+    @Published private var results: [ViewDetails:URL] = [:]
+
     private var inputURL : URL?
-    @Published var model: URL?
-    @Published var boundingBox: Request.Geometry? // BoundingBox.empty //(min: SCNVector3, max: SCNVector3)?
-//    @Published var bbox: SCNNode?
-    @Published var viewedScene: SCNScene?
-//     var mybbox : BoundingBox?
+    private var defaulturl: URL?
+    var boundingBox: Request.Geometry?
+    var bBox: BoundingBox?
+    private var session : PhotogrammetrySession?
+
+    var model: URL? {
+        get {
+            return results[olddetail]
+        }
+        set(newurl){
+            defaulturl = newurl
+            
+        }
+    }
+
+    var outURL: URL {
+        let file = "outputModel-" + olddetail.rawValue.capitalized + ".usdz"
+        return URL(fileURLWithPath: file)
+    }
     
-    var outputUrl = URL(fileURLWithPath: "outputModel.usdz")
-    var olddetail: ViewDetails = .preview
-    var results: [ViewDetails:URL]=[:]
+    
+     // Changing the view details relies on an existing session
+    // if the view is available and the bounding box did not change
+    
     var detail: ViewDetails  {
         get {
             return olddetail
         }
         set(newdetail) {
-            let base = "outputModel-" + newdetail.rawValue.capitalized + ".usdz"
-
-            outputUrl = URL(fileURLWithPath: base)
-            if results[newdetail] == outputUrl  {
-                model = outputUrl
-                olddetail = newdetail
-            } else {
-                if session != nil && newdetail != olddetail  {
-                    model = nil
-                    olddetail = newdetail
-                          let det = newdetail.det //{
-//                    let geo : Request.Geometry? = Request.Geometry(bounds: mybbox!)
-                        let req = PhotogrammetrySession.Request.modelFile(url: outputUrl, detail: det,geometry: boundingBox)
-                        try? session!.process(requests: [req])
+            // Do we have results already
+            olddetail = newdetail
+            if results[newdetail] == nil {
+                if let s = session {
+                    let det = newdetail.det
+                    if let bBox = bBox {
+                        boundingBox?.bounds.min = bBox.min
+                        boundingBox?.bounds.max = bBox.max
+                        print(det,outURL)
                     }
+                    let req = PhotogrammetrySession.Request.modelFile(url: outURL, detail: det,geometry: boundingBox)
+                    try? s.process(requests: [req])
+                }
             }
         }
     }
 
-
-    @Published var progressValue : Double?
-    private var session : PhotogrammetrySession?
-    
-    
+    // Start conversion when file update
+    var input : URL? {
+        get {
+            return inputURL
+        }
+        set(folder) {
+            if folder != inputURL {
+                inputURL = folder
+                 results = [:]
+                 do {
+                    // If I would only know how to tell file/folder from URL...
+                    do {
+                        // Try Movie first
+                        let frames = try PhotogrammetryFrames(fileURL: inputURL!)
+                        session = try PhotogrammetrySession(input: frames)
+                    } catch {
+                        // Lets hope its a directory
+                        session = try PhotogrammetrySession(input: inputURL!)
+                    }
+                
+                    let detail: Request.Detail? = detail.det
+                    let oreq = PhotogrammetrySession.Request.bounds
+                    let req = PhotogrammetrySession.Request.modelFile(url: outURL, detail: detail!)
+                    try session!.process(requests: [req,oreq])
+                    _ = sessionHandler()
+                } catch {
+                    print("Failed")
+                    return
+                }
+            }
+            
+            }
+    }
+       
     @MainActor
     private func outputReady(request: PhotogrammetrySession.Request,
                               result: PhotogrammetrySession.Result) {
         
             switch result {
                 case .modelFile(let url):
-                    model = url
-                    results[detail]=url
+                    results[olddetail] = url
                     progressValue = nil
-            case .bounds(let box):
-                print("Got a box: \(box)")
-                boundingBox = Request.Geometry(bounds:box)
-            default:
+                case .bounds(let box):
+                    print("Got a box: \(box)")
+                    boundingBox = Request.Geometry(bounds:box)
+                default:
                     logger.warning("\tUnexpected result: \(String(describing: result))")
             }
     }
@@ -114,41 +162,6 @@ class Converter: ObservableObject {
             }
         }
     }
-    var input : URL? {
-        get {
-            return inputURL
-        }
-    set(folder) {
-        inputURL = folder
-        model = nil
-        do {
-            // If I would only know how to tell file/folder from URL...
-            do {
-                // Try Movie first
-                let frames = try PhotogrammetryFrames(fileURL: inputURL!)
-                session = try PhotogrammetrySession(input: frames)
-            } catch {
-                // Lets hope its a directory
-                session = try PhotogrammetrySession(input: inputURL!)
-            }
-            outputUrl = URL(fileURLWithPath: "outputModel-" + detail.rawValue.capitalized + ".usdz")
-            let detail: Request.Detail? = detail.det
-            let oreq = PhotogrammetrySession.Request.bounds
-            let req = PhotogrammetrySession.Request.modelFile(url: outputUrl, detail: detail!)
-            try session!.process(requests: [req,oreq])
-            _ = sessionHandler()
-        } catch {
-            print("Failed")
-            return
-        }
-
-          
-    
-        }
-    }
-
-    
-    
 }
 
 // Itterator for movie files
@@ -156,7 +169,6 @@ struct PhotogrammetryFrames : IteratorProtocol, Sequence  {
     
     typealias Element = PhotogrammetrySample
     
-//    var imgs: [PhotogrammetrySample] = []
     var count: Int
     let trackReaderOutput: AVAssetReaderTrackOutput
     init(fileURL:URL) throws {
