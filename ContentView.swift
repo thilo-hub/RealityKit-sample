@@ -76,10 +76,8 @@ struct ContentView: View {
                     }
               }
             }
-            ZStack {
-//                ScenekitView()
-                ConverterView(converter: converter)//,currentView: filename)
-            }
+            ConverterView(converter: converter)//,currentView: filename)
+            Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     

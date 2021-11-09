@@ -23,22 +23,22 @@ struct ConverterView: View {
             
             if let s = try? SCNScene(url: fileURL) {
                 
-                if let bb = s.rootNode.childNode(withName: "BB", recursively: true) {
-                    print("WOrk??")
-                    let box=BoundingBox(min:SIMD3(bb.boundingBox.min),max:SIMD3(bb.boundingBox.max))
-                    let tr = Transform(scale: bb.simdScale)
-                    let geom = Request.Geometry(bounds: box,transform: tr)
-//                    if converter.bbox != bb {
-//                        converter.bbox = bb
-                        converter.boundingBox = geom
-//                    }
-                } else {
-                    let bb = s.rootNode.boundingBox
-                    let w = bb.max - bb.min
-                    let bx=SCNBox(width:w.x,height: w.y, length: w.z,chamferRadius: 0.1)
-                    let node = SCNNode(geometry: bx)
-                    s.rootNode.addChildNode(node)
-                }
+//                if let bb = s.rootNode.childNode(withName: "BB", recursively: true) {
+//                    print("WOrk??")
+//                    let box=BoundingBox(min:SIMD3(bb.boundingBox.min),max:SIMD3(bb.boundingBox.max))
+//                    let tr = Transform(scale: bb.simdScale)
+//                    let geom = Request.Geometry(bounds: box,transform: tr)
+////                    if converter.bbox != bb {
+////                        converter.bbox = bb
+//                        converter.boundingBox = geom
+////                    }
+//                } else {
+//                    let bb = s.rootNode.boundingBox
+//                    let w = bb.max - bb.min
+//                    let bx=SCNBox(width:w.x,height: w.y, length: w.z,chamferRadius: 0.1)
+//                    let node = SCNNode(geometry: bx)
+//                    s.rootNode.addChildNode(node)
+//                }
                 converter.viewedScene = s
                 return s;
             }
@@ -48,56 +48,17 @@ struct ConverterView: View {
         return converter.viewedScene
      }
  
-    var cameraNode: SCNNode? {
-        let cameraNode = SCNNode()
-        cameraNode.camera = SCNCamera()
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 5)
-        cameraNode.camera?.zNear = 0.1
-        return cameraNode
-    }
  
-    fileprivate func createBox(_ s: SCNScene) {
-        let rv: SCNQuaternion = SCNQuaternion(scale,scale,scale,scale)
-        let sc = SCNVector3Make(scale,scale,scale)
-        let b = SCNBox(width: 1,height: 1,length: 1,chamferRadius: 0.1)
-        let boxnode = SCNNode(geometry: b)
-        //                boxnode.simdScale = SIMD3(Float(scale),Float(scale),Float(scale)) //.simscale = $scale
-        boxnode.scale = sc
-        s.rootNode.addChildNode(boxnode)
-    }
     
     var body: some View {
-        VStack {
-        if let s = scene {
-            HStack {
-            Slider(
-                 value: $scale,
-                 in: 0...2,
-                 onEditingChanged: {_ in
-                     print("S:\(scale)")
-                 }
-             )
-            Button("Do") {createBox(s)}
-            }
-
-            SceneView(
-                scene: s,
-                pointOfView: cameraNode,
-                options: [
-                    .allowsCameraControl,
-                    .autoenablesDefaultLighting,
-                    .temporalAntialiasingEnabled
-                ]
-            ).onAppear(perform: { })
-                
+         if let s = scene {
+             BoundBoxEditorView(myscene: s)
             } else if let f = converter.progressValue {
                 ProgressView(value: f)
             } else {
                 Text("Please select a directory or movie to convert")
             }
-        }
-        Spacer()
-        
+         
     }
 }
 
