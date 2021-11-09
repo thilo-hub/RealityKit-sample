@@ -59,7 +59,7 @@
 		B6833F5E2734942D000ACCA8 /* macOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		B6833F5F2734942D000ACCA8 /* test3ds.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = test3ds.xcodeproj; sourceTree = "<group>"; };
 		B6833F732734942D000ACCA8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		B6833F8727349632000ACCA8 /* test3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = test3.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6833F8727349632000ACCA8 /* RealityBoundsEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RealityBoundsEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6833F8927349632000ACCA8 /* test3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test3App.swift; sourceTree = "<group>"; };
 		B6833F8B27349632000ACCA8 /* ContentView_disabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView_disabled.swift; sourceTree = "<group>"; };
 		B6833F8D27349634000ACCA8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -191,7 +191,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B6833F8827349632000ACCA8 /* test3 */ = {
+		B6833F8827349632000ACCA8 /* RealityBoundsEditor */ = {
 			isa = PBXGroup;
 			children = (
 				B6833F8927349632000ACCA8 /* test3App.swift */,
@@ -204,7 +204,7 @@
 				B6833F9227349634000ACCA8 /* test3.entitlements */,
 				B6833F8F27349634000ACCA8 /* Preview Content */,
 			);
-			path = test3;
+			path = RealityBoundsEditor;
 			sourceTree = "<group>";
 		};
 		B6833F8F27349634000ACCA8 /* Preview Content */ = {
@@ -242,7 +242,7 @@
 				B6F9C83A273080D0000008F2 /* Shared */,
 				B6F9C849273080D1000008F2 /* macOS */,
 				B6F9C8BB273432C9000008F2 /* test1 */,
-				B6833F8827349632000ACCA8 /* test3 */,
+				B6833F8827349632000ACCA8 /* RealityBoundsEditor */,
 				B6A735DD2736BDD9003A0239 /* NewTest */,
 				B674453027393CA3008B52F2 /* CamTest */,
 				B6F9C843273080D1000008F2 /* Products */,
@@ -268,7 +268,7 @@
 				B6F9C842273080D1000008F2 /* RealityKit-Sample.app */,
 				B6F9C848273080D1000008F2 /* RealityKit-Sample.app */,
 				B6F9C8BA273432C9000008F2 /* test1.app */,
-				B6833F8727349632000ACCA8 /* test3.app */,
+				B6833F8727349632000ACCA8 /* RealityBoundsEditor.app */,
 				B6A735DC2736BDD9003A0239 /* NewTest.app */,
 				B674452F27393CA3008B52F2 /* CamTest.app */,
 			);
@@ -324,9 +324,9 @@
 			productReference = B674452F27393CA3008B52F2 /* CamTest.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B6833F8627349632000ACCA8 /* test3 */ = {
+		B6833F8627349632000ACCA8 /* RealityBoundsEditor */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B6833F9327349634000ACCA8 /* Build configuration list for PBXNativeTarget "test3" */;
+			buildConfigurationList = B6833F9327349634000ACCA8 /* Build configuration list for PBXNativeTarget "RealityBoundsEditor" */;
 			buildPhases = (
 				B6833F8327349632000ACCA8 /* Sources */,
 				B6833F8427349632000ACCA8 /* Frameworks */,
@@ -336,9 +336,9 @@
 			);
 			dependencies = (
 			);
-			name = test3;
+			name = RealityBoundsEditor;
 			productName = test3;
-			productReference = B6833F8727349632000ACCA8 /* test3.app */;
+			productReference = B6833F8727349632000ACCA8 /* RealityBoundsEditor.app */;
 			productType = "com.apple.product-type.application";
 		};
 		B6A735DB2736BDD9003A0239 /* NewTest */ = {
@@ -461,7 +461,7 @@
 				B6F9C841273080D1000008F2 /* RealityKit-Sample (iOS) */,
 				B6F9C847273080D1000008F2 /* RealityKit-Sample (macOS) */,
 				B6F9C8B9273432C9000008F2 /* test1 */,
-				B6833F8627349632000ACCA8 /* test3 */,
+				B6833F8627349632000ACCA8 /* RealityBoundsEditor */,
 				B6A735DB2736BDD9003A0239 /* NewTest */,
 				B674452E27393CA3008B52F2 /* CamTest */,
 			);
@@ -661,11 +661,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = test3/test3.entitlements;
+				CODE_SIGN_ENTITLEMENTS = RealityBoundsEditor/test3.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"test3/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"RealityBoundsEditor/Preview Content\"";
 				DEVELOPMENT_TEAM = V2QU2ZP5Z5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -690,11 +690,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = test3/test3.entitlements;
+				CODE_SIGN_ENTITLEMENTS = RealityBoundsEditor/test3.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"test3/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"RealityBoundsEditor/Preview Content\"";
 				DEVELOPMENT_TEAM = V2QU2ZP5Z5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -1079,7 +1079,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B6833F9327349634000ACCA8 /* Build configuration list for PBXNativeTarget "test3" */ = {
+		B6833F9327349634000ACCA8 /* Build configuration list for PBXNativeTarget "RealityBoundsEditor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B6833F9427349634000ACCA8 /* Debug */,
