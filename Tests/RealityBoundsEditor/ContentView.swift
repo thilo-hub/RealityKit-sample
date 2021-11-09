@@ -21,8 +21,7 @@ struct ContentView: View {
     var body: some View {
         
         HStack{
-            CamNotResetView(mycam:$cam)
-            BoundingView()
+             BoundingView()
         }
     }
 }
