@@ -61,6 +61,7 @@ struct ContentView: View {
     @State var scene: SCNScene? = SCNScene(named: "MyScene.scnassets/Data5.usdz")!
     
     var body: some View {
+        
         SuperView(scene: $scene)
     }
 }
