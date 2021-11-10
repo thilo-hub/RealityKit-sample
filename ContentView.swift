@@ -10,6 +10,7 @@ import AppKit
 import os
 import RealityKit
 
+typealias MyDetail = ViewDetails?
 
 enum ViewDetails: String, CaseIterable {
     case preview
@@ -28,33 +29,40 @@ enum ViewDetails: String, CaseIterable {
 }
 
 struct ContentView: View {
-//    @State var filename: URL? // = "Filename"
-    @StateObject var converter = Converter()
+   @State var filename: URL? // = "Filename"
+//    @StateObject var converter: Converter?
+    @State var input: URL?
+//    @State var detail: ViewDetails?
+    @StateObject private var converter = Converter()
     
     var body: some View {
         VStack {
             HStack {
                 Spacer()
-                Text(converter.model?.lastPathComponent ?? "--")
-                Picker(selection: $converter.detail, label: Text("Detail")) {
-                    ForEach(ViewDetails.allCases, id: \.self) { element in
-                                              Text(element.rawValue.capitalized)
+                if self.filename != nil {
+                    Text(input?.lastPathComponent ?? "--")
+                    if nil != converter.session {
+                        Picker(selection: $converter.detail, label: Text("Detail")) {
+                        ForEach(ViewDetails.allCases, id: \.self) { element in
+                            Text(element.rawValue.capitalized).tag(element as ViewDetails?)                                             }
                                           }
-                                      }
-                .onSubmit({print ("Submit")})
-                if let model = converter.model{
-                    Button("Save model") {
-                        let panel = NSSavePanel()
-                        panel.allowedContentTypes = [.usdz]
-                        if panel.runModal() == .OK {
-                            if let url = panel.url {
-                                try? FileManager.default.moveItem(at: model, to: url)
+                        
+                    .onSubmit({print ("Submit")})
+                    }
+                    if let model = converter.model {
+                        Button("Save model") {
+                            let panel = NSSavePanel()
+                            panel.allowedContentTypes = [.usdz]
+                            if panel.runModal() == .OK {
+                                if let url = panel.url {
+                                    try? FileManager.default.moveItem(at: model, to: url)
+                                }
                             }
-                        }
 
+                        }
                     }
                 }
-                Button("Convert file")
+                Button("Open file")
                 {
                     let panel = NSOpenPanel()
                     panel.allowsMultipleSelection = false
@@ -62,14 +70,16 @@ struct ContentView: View {
                     panel.canChooseDirectories = true
                     if panel.runModal() == .OK {
                         if let url = panel.url {
-//                            self.filename = url
+                            self.filename = url
                             switch url {
                             case let(dir) where panel.directoryURL == url:
                                 converter.input = dir
                             case let(model) where url.pathExtension == "usdz":
                                 converter.model = model
+                                print("Lost 3d viewer")
                             default:
                                 converter.input = url
+                                
                             }
 
                         }
@@ -77,7 +87,9 @@ struct ContentView: View {
                     }
               }
             }
-            ConverterView(converter: converter)//,currentView: filename)
+            if let conv = converter {
+                ConverterView(converter: conv)
+            }
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

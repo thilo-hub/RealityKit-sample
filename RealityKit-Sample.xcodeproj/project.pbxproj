@@ -12,7 +12,6 @@
 		B60EA74927350D73000D1526 /* PlayGround.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F9C89E27342C66000008F2 /* PlayGround.swift */; };
 		B60EA74A27350D73000D1526 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F9C87A2731B4A6000008F2 /* Converter.swift */; };
 		B623A303273841C6004F323B /* BboxEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D16C862737E93F0012F94E /* BboxEditor.swift */; };
-		B623A3452738872A004F323B /* SceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B623A34227387BBF004F323B /* SceneController.swift */; };
 		B674453227393CA3008B52F2 /* CamTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674453127393CA3008B52F2 /* CamTestApp.swift */; };
 		B674453427393CA3008B52F2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674453327393CA3008B52F2 /* ContentView.swift */; };
 		B674453627393CA5008B52F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B674453527393CA5008B52F2 /* Assets.xcassets */; };
@@ -566,7 +565,6 @@
 			files = (
 				B6D16C902737F9110012F94E /* BboxEditor.swift in Sources */,
 				B6D16C922737FB740012F94E /* ContentView.swift in Sources */,
-				B623A3452738872A004F323B /* SceneController.swift in Sources */,
 				B6D16C8C2737F1F90012F94E /* MinimanNoCamReset.swift in Sources */,
 				B6A166B42736D35A00A84F0E /* Tools.swift in Sources */,
 				B6D16C882737E9B30012F94E /* test3App.swift in Sources */,
