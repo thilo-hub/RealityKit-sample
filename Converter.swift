@@ -7,18 +7,14 @@
 
 import Foundation
 import RealityKit
-import AVKit
-
-import os
-
-let logger = Logger(subsystem: "com.apple.sample.photogrammetry",
-                            category: "HelloPhotogrammetry")
 
 typealias Request = PhotogrammetrySession.Request
+typealias Element = PhotogrammetrySample
 
 class Converter: ObservableObject {
     // if a progress value is published you can use it
     @Published var progressValue : Double?
+    @Published var skip: Int = 0
 
     // if a model is published you can view it
 
@@ -53,8 +49,15 @@ class Converter: ObservableObject {
     }
     
     // Create converter session on input file
+    private var loadedFile: URL?
     var input: URL? {
         get {
+            if let s = session {
+            if s.isProcessing {
+                return nil
+            }
+            return loadedFile
+            }
             return nil
         }
         set(input){
@@ -70,7 +73,8 @@ class Converter: ObservableObject {
                     // If I would only know how to tell file/folder from URL...
                     do {
                         // Try Movie first
-                        if let frames = try? PhotogrammetryFrames(fileURL: input!) {
+                        if let frames = try? PhotogrammetryFrames(fileURL: input!,skip: skip) {
+                            loadedFile = input
                             session = try PhotogrammetrySession(input: frames)
                         } else {
                             session = try PhotogrammetrySession(input: input!)
@@ -116,7 +120,10 @@ class Converter: ObservableObject {
             }
           }
     }
-
+    @MainActor
+    private func inputDone() {
+        
+    }
     @MainActor
     private func outputReady(request: PhotogrammetrySession.Request,
                               result: PhotogrammetrySession.Result) {
@@ -134,7 +141,7 @@ class Converter: ObservableObject {
     }
 
     @MainActor
-    private func progress(value:Double){
+    private func progress(value:Double?){
         progressValue = value
     }
  
@@ -145,6 +152,7 @@ class Converter: ObservableObject {
                     switch output {
                     case .processingComplete:
                         logger.log("Processing is complete!")
+                        await self.progress(value: nil)
                     case .requestError(let request, let error):
                         logger.error("Request \(String(describing: request)) had an error: \(String(describing: error))")
                     case .requestComplete(let request, let result):
@@ -152,6 +160,7 @@ class Converter: ObservableObject {
                     case .requestProgress(_, let fractionComplete):
                         await self.progress(value: fractionComplete)
                     case .inputComplete:  // data ingestion only!
+                        await self.inputDone()
                         logger.log("Data ingestion is complete.  Beginning processing...")
                     case .invalidSample(let id, let reason):
                         logger.warning("Invalid Sample! id=\(id)  reason=\"\(reason)\"")
@@ -174,37 +183,4 @@ class Converter: ObservableObject {
         }
     }
 }
-
-// Itterator for movie files
-struct PhotogrammetryFrames : IteratorProtocol, Sequence  {
-    
-    typealias Element = PhotogrammetrySample
-    
-    var count: Int
-    let trackReaderOutput: AVAssetReaderTrackOutput
-    init(fileURL:URL) throws {
-        let asset = AVURLAsset(url: fileURL)
-        let reader = try AVAssetReader(asset: asset)
-        let videoTrack = asset.tracks(withMediaType: AVMediaType.video)[0]
-
-        // read video frames as BGRA
-        trackReaderOutput = AVAssetReaderTrackOutput(track: videoTrack, outputSettings:[String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)])
-        count = 0
-        reader.add(trackReaderOutput)
-        reader.startReading()
-    }
-    mutating func next() -> PhotogrammetrySample? {
-        if let sampleBuffer = trackReaderOutput.copyNextSampleBuffer() {
-            let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
-            count += 1
-
-//            let count = sampleBuffer!.decodeTimeStamp
-             let sample = PhotogrammetrySample(id:count, image: imageBuffer! )
-            return sample
-        }
-        
-       return nil
-    }
-}
-
 
