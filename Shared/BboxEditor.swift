@@ -24,7 +24,7 @@ fileprivate func addEditorTools(s: SCNScene)  {
             return
         }else{
                    
-            let topleft: SCNVector3 = element.boundingBox.max
+            let topleft: SCNVector3 = element.boundingBox.min
              redBoundingBox = makeBBox(element)
              redBoundingBox.name = "MyBounding"
             s.rootNode.addChildNode(redBoundingBox)
@@ -32,12 +32,14 @@ fileprivate func addEditorTools(s: SCNScene)  {
             
             // Add arrows scaled  to scene
             let ar_a = SCNScene(named: "MyScene.scnassets/Arrows.dae")!
+            
             let ar1 = ar_a.rootNode
             let bb = ar1.boundingBox
             let bw = 0.1 / (simd_float3(bb.max) - simd_float3(bb.min))
 
             ar1.scale = SCNVector3(bw)
             ar1.position = topleft
+            ar1.position.z += 0.5
             ar1.name = "arrow"
 //            redBoundingBox.addChildNode(ar1)
             s.rootNode.addChildNode(ar1)
@@ -57,14 +59,18 @@ struct BoundBoxEditorView: View {
         let s = myscene
         addEditorTools(s: s)
  
+        // position bounding box
         let bbx = s.rootNode.childNode(withName: "MyBounding", recursively: false)!
             bbx.position = center
             bbx.scale = scale
             let sim_scale = simd_float3(scale)
             let sim_center = simd_float3(center)
             boundingBox = BoundingBox(min: sim_center - sim_scale/2, max: sim_center + sim_scale/2)
+        
+        // position arrows
         if let ar = s.rootNode.childNode(withName: "arrow", recursively: false ) {
-            let bl =  simd_float3(bbx.position) - (simd_float3(bbx.boundingBox.max) - simd_float3(bbx.boundingBox.min))/2.0 
+            let bl =  simd_float3(bbx.position) -
+                (simd_float3(bbx.boundingBox.max) - simd_float3(bbx.boundingBox.min))/2.0
             ar.position = SCNVector3(bl)
 
         }
@@ -89,13 +95,13 @@ struct BoundBoxEditorView: View {
         VStack{
             HStack {
                 Slider(value: $scale.x, in:0 ... 2).background(.red)
-                Slider(value: $scale.y, in:0 ... 2).background(.green)
-                Slider(value: $scale.z, in:0 ... 2).background(.blue)
+                Slider(value: $scale.y, in:0 ... 2).background(.blue)
+                Slider(value: $scale.z, in:0 ... 2).background(.green)
             }
             HStack {
                 Slider(value: $center.x, in:-1 ... 1).background(.red)
-                Slider(value: $center.y, in:-1 ... 1).background(.green)
-                Slider(value: $center.z, in:-1 ... 1).background(.blue)
+                Slider(value: $center.y, in:-1 ... 1).background(.blue)
+                Slider(value: $center.z, in:-1 ... 1).background(.green)
                 Button("X") {
                     if let bbx = bbox {
                      scene.rootNode.addChildNode(bbx)
