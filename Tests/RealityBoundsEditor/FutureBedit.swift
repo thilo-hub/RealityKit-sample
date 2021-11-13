@@ -63,7 +63,7 @@ struct GlobeView: View {
 
     var sceneArrow: SCNScene {
         // Add arrows scaled  to scene
-        let ar_a = SCNScene(named: "MyScene.scnassets/Arrows.dae")!
+        let ar_a = SCNScene(named: "MyScene.scnassets/ArrowsXX.dae")!
 //        let ar1 = ar_a.rootNode
 //        let bb = ar1.boundingBox
 //        let bw = bb.max - bb.min

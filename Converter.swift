@@ -11,45 +11,87 @@ import RealityKit
 typealias Request = PhotogrammetrySession.Request
 typealias Element = PhotogrammetrySample
 
+enum ConverterState {
+    case empty   // Nothing loaded
+    case ready   // Session running, file loaded
+    case digesting  // Request running
+//    case loaded   // Request finished model available
+}
+
+
 class Converter: ObservableObject {
     // if a progress value is published you can use it
     @Published var progressValue : Double?
-    @Published var skip: Int = 0
-    
-    @Published var frames: PhotogrammetryFrames?
-    @Published var state: digested = .empty
+    var skip: Int = 0
+    @Published var state: ConverterState = .empty
+
+    @Published var thumbnails: [ImageFrame] = []
+
     // if a model is published you can view it
     
     @Published private var results: [ViewDetails:URL] = [:]
 
     
+    private var frames: PhotogrammetryFrames?
+
+    @Published var sessionConfig = PhotogrammetrySession.Configuration()
     private var defaulturl: URL?
     var boundingBox: Request.Geometry?
     var bBox: BoundingBox?
     
-    private  var session : PhotogrammetrySession?
+    @Published  var session : PhotogrammetrySession?
     private  var SessionHandler :  Task<(), Never>?
     
-    @Published var images: [ImageFrame] = []
-    
-    func killSession() {
-        session = nil
-        SessionHandler = nil
-    }
-    
-    var model: URL? {
-        get {
-            if let detail = detail {
-                return results[detail]
-            }
-            return nil
-        }
-        set(newurl){
-            defaulturl = newurl
-            
-        }
-    }
+    func cancelRequest() {
+        if let s = session {
+            s.cancel()
+         }
 
+    }
+    func killSession() {
+        if let s = session {
+            s.cancel()
+        }
+        session = nil
+//        SessionHandler = nil
+        results = [:]
+        progressValue = nil
+        state = .empty
+    }
+    @Published var model: URL?
+    
+// Changing the view details relies on an existing session
+// if the view is available and the bounding box did not change
+   
+   @Published var detail: ViewDetails? {
+       willSet(newvalue) {
+           if newvalue != nil && newvalue != detail {
+               results[newvalue!] = nil
+               model = nil
+           }
+           if let dtl = newvalue {
+               if let res = results[dtl]  {
+                   model = res
+               } else {
+                   model = nil
+                   if session != nil {
+                       
+                       let det = dtl.det
+                       if let bBox = bBox {
+                           // TODO: Add rotation / translation to boundingbox
+                           boundingBox?.bounds.min = bBox.min
+                           boundingBox?.bounds.max = bBox.max
+                           print(det,outURL)
+                       }
+                       let req = PhotogrammetrySession.Request.modelFile(url: outURL, detail: det,geometry: boundingBox)
+                       try? session?.process(requests: [req])
+                       print("Request started")
+                   }
+               }
+           }
+         }
+   }
+ 
     var outURL: URL {
         let file: String
         if let dname = detail?.rawValue.capitalized {
@@ -65,36 +107,42 @@ class Converter: ObservableObject {
     var input: URL? {
         get {
             if let s = session {
-            if s.isProcessing {
-                return nil
-            }
+                if s.isProcessing {
+                    return nil
+                }
             return loadedFile
             }
             return nil
         }
         set(input){
             results = [:]
+            model = nil
+            detail = nil
   
-            if loadedFile != input &&  session != nil {
+            if loadedFile != input {
+                
+//            }&&  session != nil {
                 session = nil
                 SessionHandler = nil
-                images = []
+                thumbnails = []
                 frames = nil
+                bBox = nil
             }
             
-            let imagelist = images.filter({$0.isenabled}).map({$0.image})
+            // Grab enabled frames and use as input
+            let selectionList = thumbnails.filter({$0.isenabled}).map({$0.image})
             do {
                
-                if  !imagelist.isEmpty {
-                    session = try PhotogrammetrySession(input: imagelist)
+                if  !selectionList.isEmpty {
+                    session = try PhotogrammetrySession(input: selectionList,configuration: sessionConfig)
                 } else {
                     frames = try PhotogrammetryFrames(fileURL: input!, skip: skip)
-                    session = try PhotogrammetrySession(input: frames!)
+                    session = try PhotogrammetrySession(input: frames!,configuration: sessionConfig)
 
                 }
             } catch {
                 do {
-                    session = try PhotogrammetrySession(input: input!)
+                    session = try PhotogrammetrySession(input: input!,configuration: sessionConfig)
                 } catch {
                     print("Error")
                 }
@@ -102,15 +150,18 @@ class Converter: ObservableObject {
  
             loadedFile = input
             self.state = .digesting
-        
-            // Do an initial bounds request?
-            let oreq = PhotogrammetrySession.Request.bounds
-            do {
-                try session!.process(requests: [oreq])
-            } catch {
-                print ("Error")
+            if bBox == nil {
+                // Do an initial bounds request?
+                let oreq = PhotogrammetrySession.Request.bounds
+                do {
+                    try session!.process(requests: [oreq])
+                } catch {
+                    print ("Error")
+                }
             }
-            SessionHandler = sessionHandler()
+//            if SessionHandler == nil {
+                SessionHandler = sessionHandler()
+//            }
         
             if session != nil {
                 print("Session created")
@@ -118,37 +169,15 @@ class Converter: ObservableObject {
 
        }
     }
-     // Changing the view details relies on an existing session
-    // if the view is available and the bounding box did not change
-    
-    @Published var detail: ViewDetails? {
-        
-        didSet {
-            if let dtl = detail {
-                if results[dtl] == nil {
-                    
-                    if session != nil {
-                        
-                        let det = dtl.det
-                        if let bBox = bBox {
-                            boundingBox?.bounds.min = bBox.min
-                            boundingBox?.bounds.max = bBox.max
-                            print(det,outURL)
-                        }
-                        let req = PhotogrammetrySession.Request.modelFile(url: outURL, detail: det,geometry: boundingBox)
-                        try? session?.process(requests: [req])
-                        print("Request started")
-                    }
-                }
-            }
-          }
-    }
-    
-    
+   
+    // Processor
     @MainActor
     private func inputDone() {
-        self.state = .loaded
-        self.images = self.frames?.thumbnails ?? []
+        self.state = .ready
+        if let frames = self.frames {
+            self.thumbnails = frames.thumbnails  
+            self.frames = nil
+        }
     }
     @MainActor
     private func outputReady(request: PhotogrammetrySession.Request,
@@ -157,6 +186,7 @@ class Converter: ObservableObject {
             switch result {
                 case .modelFile(let url):
                     results[detail!] = url
+                    model = url
                     progressValue = nil
                 case .bounds(let box):
                     print("Got a box: \(box)")
@@ -167,8 +197,11 @@ class Converter: ObservableObject {
     }
 
     @MainActor
-    private func progress(value:Double?){
+    private func progress(value:Double? = nil,state: ConverterState? = nil){
         progressValue = value
+        if let s = state {
+            self.state = s
+        }
     }
  
     fileprivate func sessionHandler() -> Task<(), Never> {
@@ -178,7 +211,7 @@ class Converter: ObservableObject {
                     switch output {
                     case .processingComplete:
                         logger.log("Processing is complete!")
-                        await self.progress(value: nil)
+                        await self.progress(state: .ready)
                     case .requestError(let request, let error):
                         logger.error("Request \(String(describing: request)) had an error: \(String(describing: error))")
                     case .requestComplete(let request, let result):
@@ -195,6 +228,7 @@ class Converter: ObservableObject {
                     case .automaticDownsampling:
                         logger.warning("Automatic downsampling was applied!")
                     case .processingCancelled:
+                        await self.progress(state: .ready)
                         logger.warning("Processing was cancelled.")
                     @unknown default:
                         logger.error("Output: unhandled message: \(output.localizedDescription)")

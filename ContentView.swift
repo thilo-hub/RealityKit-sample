@@ -28,20 +28,52 @@ enum ViewDetails: String, CaseIterable {
         
 }
 
-struct ContentView: View {
+struct ContentView__: View {
     @State var filename: URL? // = "Filename"
     @State var input: URL?
     @StateObject private var converter = Converter()
-//    @StateObject private var images = AllImages()
+    typealias FeatureSensitivity = PhotogrammetrySession.Configuration.FeatureSensitivity
+    typealias Ordering = PhotogrammetrySession.Configuration.SampleOrdering
+    
     
     var body: some View {
         VStack {
             HStack {
                 Spacer()
+                if converter.model != nil {
+                    Button("Clear"){ converter.model = nil}
+                }
+                HStack {
+                     if let s = converter.session {
+                        if s.isProcessing {
+                            Button("Cancel Request"){converter.cancelRequest()}
+                        } else {
+                            Button("Kill Session"){converter.killSession()}
+                        }
+                        
+                    }
+                }
+                .disabled(converter.state == ConverterState.empty )
+                
+                HStack{
+                    Toggle(isOn:  $converter.sessionConfig.isObjectMaskingEnabled) {
+                        Text("Masking")
+                    }
+                    Picker("", selection: $converter.sessionConfig.featureSensitivity){
+                        Text("Normal").tag(FeatureSensitivity.normal)
+                        Text("High").tag(FeatureSensitivity.high)
+                    }
+                    Picker("", selection:  $converter.sessionConfig.sampleOrdering){
+                        Text("Sequential").tag(Ordering.sequential)
+                        Text("Unordered").tag(Ordering.unordered)
+                    }
+                }
+                .disabled(converter.state != ConverterState.empty )
+
                 if self.filename != nil {
                     Text(input?.lastPathComponent ?? "--")
-                    if  converter.state == .loaded {
-                        Picker(selection: $converter.detail, label: Text("Detail")) {
+                    if  converter.state != .empty {
+                        Picker(selection: $converter.detail, label: Text("Request")) {
                         ForEach(ViewDetails.allCases, id: \.self) { element in
                             Text(element.rawValue.capitalized).tag(element as ViewDetails?)                                             }
                                           }
@@ -86,9 +118,10 @@ struct ContentView: View {
                     }
               }
             }
-            ConverterView(converter: converter)
+//            ConverterView(converter: converter)
 
             Spacer()
+        
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     

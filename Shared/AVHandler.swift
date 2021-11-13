@@ -9,31 +9,16 @@ import SwiftUI
 import AVKit
 import RealityKit
 
-enum digested {
-    case empty
-    case digesting
-    case loaded
-}
 struct ImageFrame: Identifiable {
     var id:Int
     var thumbnail: NSImage
     var image: PhotogrammetrySample
     var isenabled: Bool = true
 }
-class XXX : IteratorProtocol, Sequence {
-//    typealias Element = XXX
-    var myselft: Int?
-    func next() -> XXX? {
-        return self
-        
-    }
- 
-}
-
 
 // Itterator for movie files
 class PhotogrammetryFrames : IteratorProtocol, Sequence  {
-    private var state: digested = .empty
+    private var state: ConverterState = .empty
     @Published var count: Int = 0
     private let trackReaderOutput: AVAssetReaderTrackOutput
     private var skip: Int = 0
@@ -65,10 +50,8 @@ class PhotogrammetryFrames : IteratorProtocol, Sequence  {
 //    }
     func next() -> PhotogrammetrySample? {
         
-        var getCountFrames = skip+1
-        if state == .loaded {
-            return nil
-        } else if state == .empty {
+        var getCountFrames = skip
+        if state == .empty {
             getCountFrames = skipStart
             state = .digesting
         }
@@ -93,7 +76,7 @@ class PhotogrammetryFrames : IteratorProtocol, Sequence  {
             }
             
         }
-       state = .loaded
+       state = .ready
        return nil
     }
 //    func getImage() -> ImageFrame? {

@@ -19,14 +19,14 @@ func convertCIImageToCGImage(_ inputImage: CIImage) -> CGImage? {
 
 extension  Converter {
     func setAll(flag: Bool){
-        for i in images.indices {
-            images[i].isenabled = flag
+        for i in thumbnails.indices {
+            thumbnails[i].isenabled = flag
         }
     }
 }
-struct MovieViewer: View {
+struct ThumbNailView: View {
     
-    @ObservedObject var Movie:  Converter
+    @ObservedObject var converter:  Converter
     @State var toggle: Bool = true
 
     var body: some View {
@@ -34,13 +34,19 @@ struct MovieViewer: View {
                  Array(repeating: .init(.adaptive(minimum: 120)), count: 8)
         VStack{
             HStack{
-                let cnt =  Movie.images
+                Stepper(value: $converter.skip,
+                        in: 0...10,
+                        step: 1) {
+                    Text("Skip: \(converter.skip)  ")
+                }
+
+                let cnt =  converter.thumbnails
                 Text("Frames: \(cnt.count)")
                 Button("Deselect all"){
-                    self.Movie.setAll(flag: false)
+                    self.converter.setAll(flag: false)
                 }
                 Button("Select all"){
-                    self.Movie.setAll(flag: true)
+                    self.converter.setAll(flag: true)
                 }
 
             }
@@ -48,7 +54,7 @@ struct MovieViewer: View {
             LazyVGrid(columns: columns, spacing: 10) {
                 
                 
-                ForEach($Movie.images){ $im  in
+                ForEach($converter.thumbnails){ $im  in
                 VStack {
                     Image(nsImage: im.thumbnail )
                         .onTapGesture { im.isenabled = !im.isenabled}

@@ -8,63 +8,173 @@ import SwiftUI
 import SceneKit
 import RealityKit
 
-struct ConverterView: View {
-    @ObservedObject var converter: Converter
-    
-    var scene: SCNScene? {
-        if let m = converter.model {
-            return try? SCNScene(url: m)
+struct SaveModelView: View {
+    var fromURL: URL
+    var body: some View {
+        Button("Save model") {
+            let panel = NSSavePanel()
+            panel.allowedContentTypes = [.usdz]
+            if panel.runModal() == .OK {
+                if let url = panel.url {
+                    try? FileManager.default.moveItem(at: fromURL, to: url)
+                }
+            }
+
         }
-        return nil
+
+    }
+}
+struct LoadFileView: View {
+    @StateObject var converter: Converter
+    
+    var body: some View {
+        Button("Load File"){
+            let panel = NSOpenPanel()
+            panel.allowsMultipleSelection = false
+             // panel.canChooseFiles = false
+            panel.canChooseDirectories = true
+            if panel.runModal() == .OK {
+                if let url = panel.url {
+                    switch url {
+                    case let(dir) where panel.directoryURL == url:
+                        converter.input = dir
+                    case let(model) where url.pathExtension == "usdz":
+                        converter.model = model
+                        print("Lost 3d viewer")
+                    default:
+                        converter.input = url
+                        
+                    }
+
+                }
+
+            }
+        }
+    }
+}
+
+struct ConverterThumbnailView: View {
+    @ObservedObject var converter: Converter
+    // A session shall let you modify request parameter and let you start a request
+    var body: some View {
+        
+        if converter.thumbnails.count > 0{
+                ThumbNailView(converter: converter, toggle: true)
+        }
+     }
+}
+struct ConverterRequestContentView: View {
+    @ObservedObject var converter: Converter
+
+    // A ready request, shall show the model
+    // and Bounding box editor
+        var body: some View {
+            if let f = converter.progressValue {
+                    ProgressView(value: f)
+            } else if let fl = converter.model {
+                if let s = try? SCNScene(url: fl) {
+                    BoundBoxEditorView(myscene: s,boundingBox: $converter.bBox)
+                }
+            }
+          
+    }
+}
+
+
+struct ConverterRequestMenueView: View {
+    @ObservedObject var converter: Converter
+    // A ready request, shall show the model
+    // and Bounding box editor
+    var body: some View {
+        HStack {
+            Button("Cancel Request"){ converter.cancelRequest() }
+            
+            Picker(selection: $converter.detail, label: Text("Request:")) {
+                Text("Select quality").tag(nil as ViewDetails?)
+                ForEach(ViewDetails.allCases, id: \.self) { element in
+                    Text(element.rawValue.capitalized).tag(element as ViewDetails?)
+                    
+                }
+            }
+        }
+        .disabled(converter.state != .ready)
+        if let fl = converter.model {
+            Button("Hide Model"){ converter.model = nil}
+            SaveModelView(fromURL: fl)
+        }
+        
+    
     }
     
-        
+}
+struct ConverterSessionMenueView: View {
+    @ObservedObject var converter: Converter
     var body: some View {
-        if let s = scene {
-            BoundBoxEditorView(myscene: s,boundingBox: $converter.bBox)
-             } else
-            {
-                 HStack {
-                 if let f = converter.progressValue {
-                    ProgressView(value: f)
-                }
-                 if converter.state != .empty {
-                     Button("Kill Session"){converter.killSession()}
-                 }
-                 }
-                 if converter.state == .loaded {
-                VStack {
-                    HStack{
-                        if  let furl = converter.input  {
-                        Button("Reload") { converter.input = furl}
-                        Text("Input ready: \(furl)")
-                        }
-                        Stepper(value: $converter.skip,
-                                in: 0...10,
-                                step: 1) {
-                            Text("Skip: \(converter.skip)  ")
-                        }
-//                                .onAppear(perform: {
-//                                    images.movie = $converter.frames
-                                    
-//                                })
+        Button("Kill Session"){ converter.killSession() }
+        .disabled(converter.session == nil)
+        if let furl = converter.input  {
+            Button("Reload \(furl)") { converter.input = furl}
+        }
+    }
+}
 
-                    }
-                    
-                    if converter.images.count > 0{
-                        MovieViewer(Movie: converter, toggle: true)
-                    }
-                    
-    
+
+
+typealias FeatureSensitivity = PhotogrammetrySession.Configuration.FeatureSensitivity
+typealias Ordering = PhotogrammetrySession.Configuration.SampleOrdering
+
+struct ConverterMenueView: View {
+    @StateObject var converter: Converter
+    var body: some View {
+        HStack {
+            LoadFileView(converter: converter)
+            ConverterSessionMenueView(converter:converter)
+            ConverterRequestMenueView(converter: converter)
                 
-                }
+            HStack{
+            Toggle(isOn:  $converter.sessionConfig.isObjectMaskingEnabled) {
+                Text("Masking")
+            }
+            Picker("", selection: $converter.sessionConfig.featureSensitivity){
+                Text("Normal").tag(FeatureSensitivity.normal)
+                Text("High").tag(FeatureSensitivity.high)
+            }
+            Picker("", selection:  $converter.sessionConfig.sampleOrdering){
+                Text("Sequential").tag(Ordering.sequential)
+                Text("Unordered").tag(Ordering.unordered)
+            }
+            }
+            .disabled(converter.session != nil)
+        }
+    }
+}
 
+struct ConverterContentView: View {
+    @StateObject var converter: Converter
+    var body: some View {
+        VStack{
+            ConverterRequestContentView(converter:converter)
+            if converter.model == nil {
+                ConverterThumbnailView(converter:converter)
             }
-                 else {
-                     Text("Please select a directory or movie to convert")
-                 }
-            }
-         
+        }
+    }
+}
+
+struct ContentView: View {
+    @State var filename: URL? // = "Filename"
+    @State var input: URL?
+    @StateObject private var converter = Converter()
+    
+    
+    
+    var body: some View {
+        VStack {
+            ConverterMenueView(converter: converter)
+            ConverterContentView(converter: converter)
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
