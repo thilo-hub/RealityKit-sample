@@ -15,16 +15,28 @@ class Converter: ObservableObject {
     // if a progress value is published you can use it
     @Published var progressValue : Double?
     @Published var skip: Int = 0
-
+    
+    @Published var frames: PhotogrammetryFrames?
+    @Published var state: digested = .empty
     // if a model is published you can view it
-
+    
     @Published private var results: [ViewDetails:URL] = [:]
 
+    
     private var defaulturl: URL?
     var boundingBox: Request.Geometry?
     var bBox: BoundingBox?
-    var session : PhotogrammetrySession?
-
+    
+    private  var session : PhotogrammetrySession?
+    private  var SessionHandler :  Task<(), Never>?
+    
+    @Published var images: [ImageFrame] = []
+    
+    func killSession() {
+        session = nil
+        SessionHandler = nil
+    }
+    
     var model: URL? {
         get {
             if let detail = detail {
@@ -61,36 +73,45 @@ class Converter: ObservableObject {
             return nil
         }
         set(input){
-                results = [:]
-            if let s = session {
-                if s.isProcessing {
-                    s.cancel()
-                }
+            results = [:]
+  
+            if loadedFile != input &&  session != nil {
                 session = nil
+                SessionHandler = nil
+                images = []
+                frames = nil
             }
-        
-                 do {
-                    // If I would only know how to tell file/folder from URL...
-                    do {
-                        // Try Movie first
-                        if let frames = try? PhotogrammetryFrames(fileURL: input!,skip: skip) {
-                            loadedFile = input
-                            session = try PhotogrammetrySession(input: frames)
-                        } else {
-                            session = try PhotogrammetrySession(input: input!)
-                        }
-                    } catch {
-                        // Lets hope its a directory
-                        session = try PhotogrammetrySession(input: input!)
-                    }
-                     let oreq = PhotogrammetrySession.Request.bounds
-                     try session!.process(requests: [oreq])
-                     _ = sessionHandler()
+            
+            let imagelist = images.filter({$0.isenabled}).map({$0.image})
+            do {
+               
+                if  !imagelist.isEmpty {
+                    session = try PhotogrammetrySession(input: imagelist)
+                } else {
+                    frames = try PhotogrammetryFrames(fileURL: input!, skip: skip)
+                    session = try PhotogrammetrySession(input: frames!)
 
-                 } catch {
-                    print("Failed")
-                    return
                 }
+            } catch {
+                do {
+                    session = try PhotogrammetrySession(input: input!)
+                } catch {
+                    print("Error")
+                }
+            }
+ 
+            loadedFile = input
+            self.state = .digesting
+        
+            // Do an initial bounds request?
+            let oreq = PhotogrammetrySession.Request.bounds
+            do {
+                try session!.process(requests: [oreq])
+            } catch {
+                print ("Error")
+            }
+            SessionHandler = sessionHandler()
+        
             if session != nil {
                 print("Session created")
             }
@@ -105,7 +126,9 @@ class Converter: ObservableObject {
         didSet {
             if let dtl = detail {
                 if results[dtl] == nil {
-                    if let s = session {
+                    
+                    if session != nil {
+                        
                         let det = dtl.det
                         if let bBox = bBox {
                             boundingBox?.bounds.min = bBox.min
@@ -113,16 +136,19 @@ class Converter: ObservableObject {
                             print(det,outURL)
                         }
                         let req = PhotogrammetrySession.Request.modelFile(url: outURL, detail: det,geometry: boundingBox)
-                        try? s.process(requests: [req])
+                        try? session?.process(requests: [req])
                         print("Request started")
                     }
                 }
             }
           }
     }
+    
+    
     @MainActor
     private func inputDone() {
-        
+        self.state = .loaded
+        self.images = self.frames?.thumbnails ?? []
     }
     @MainActor
     private func outputReady(request: PhotogrammetrySession.Request,

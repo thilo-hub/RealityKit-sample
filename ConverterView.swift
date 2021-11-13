@@ -10,8 +10,6 @@ import RealityKit
 
 struct ConverterView: View {
     @ObservedObject var converter: Converter
-    @ObservedObject var images: AllImages = AllImages()
-    
     
     var scene: SCNScene? {
         if let m = converter.model {
@@ -24,29 +22,47 @@ struct ConverterView: View {
     var body: some View {
         if let s = scene {
             BoundBoxEditorView(myscene: s,boundingBox: $converter.bBox)
-             } else if let f = converter.progressValue {
-                ProgressView(value: f)
-            } else if let furl = converter.input {
-                if converter.session != nil {
+             } else
+            {
+                 HStack {
+                 if let f = converter.progressValue {
+                    ProgressView(value: f)
+                }
+                 if converter.state != .empty {
+                     Button("Kill Session"){converter.killSession()}
+                 }
+                 }
+                 if converter.state == .loaded {
                 VStack {
                     HStack{
+                        if  let furl = converter.input  {
                         Button("Reload") { converter.input = furl}
                         Text("Input ready: \(furl)")
+                        }
                         Stepper(value: $converter.skip,
                                 in: 0...10,
                                 step: 1) {
                             Text("Skip: \(converter.skip)  ")
                         }
-                                .onAppear(perform: {images.fileURL = furl })
+//                                .onAppear(perform: {
+//                                    images.movie = $converter.frames
+                                    
+//                                })
 
                     }
-                    MovieViewer(Movie: images, toggle: true)
                     
-                }
+                    if converter.images.count > 0{
+                        MovieViewer(Movie: converter, toggle: true)
+                    }
+                    
+    
+                
                 }
 
-            } else {
-                Text("Please select a directory or movie to convert")
+            }
+                 else {
+                     Text("Please select a directory or movie to convert")
+                 }
             }
          
     }

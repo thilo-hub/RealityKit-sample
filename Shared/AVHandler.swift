@@ -9,14 +9,39 @@ import SwiftUI
 import AVKit
 import RealityKit
 
+enum digested {
+    case empty
+    case digesting
+    case loaded
+}
+struct ImageFrame: Identifiable {
+    var id:Int
+    var thumbnail: NSImage
+    var image: PhotogrammetrySample
+    var isenabled: Bool = true
+}
+class XXX : IteratorProtocol, Sequence {
+//    typealias Element = XXX
+    var myselft: Int?
+    func next() -> XXX? {
+        return self
+        
+    }
+ 
+}
+
+
 // Itterator for movie files
-struct PhotogrammetryFrames : IteratorProtocol, Sequence  {
-    
-    
-    var count: Int
-    let trackReaderOutput: AVAssetReaderTrackOutput
-    var skip: Int = 0
-    var maxFrames: Int = 1000
+class PhotogrammetryFrames : IteratorProtocol, Sequence  {
+    private var state: digested = .empty
+    @Published var count: Int = 0
+    private let trackReaderOutput: AVAssetReaderTrackOutput
+    private var skip: Int = 0
+    private var skipStart: Int = 0
+    private var maxFrames: Int = 1000
+//    private var thumbidx: Int = 0
+//    var wanted: [Bool]?
+    @Published var thumbnails: [ImageFrame]=[]
     
     init(fileURL:URL, skip: Int = 0,start: Int = 0,maxFrames: Int = 1000) throws {
         let asset = AVURLAsset(url: fileURL)
@@ -24,38 +49,59 @@ struct PhotogrammetryFrames : IteratorProtocol, Sequence  {
         let videoTrack = asset.tracks(withMediaType: AVMediaType.video)[0]
         self.skip = skip
         self.maxFrames = maxFrames
-        
+        thumbnails = []
         // read video frames as BGRA
         trackReaderOutput = AVAssetReaderTrackOutput(track: videoTrack, outputSettings:[String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)])
         count = 0
         reader.add(trackReaderOutput)
         reader.startReading()
-    }
-    func reset() {
-        let tr: CMTimeRange = .zero
-        let start: [NSValue] = [tr as NSValue]
     
-        trackReaderOutput.reset(forReadingTimeRanges: start)
     }
-    mutating func next() -> PhotogrammetrySample? {
+//    func reset() {
+//        let tr: CMTimeRange = .zero
+//        let start: [NSValue] = [tr as NSValue]
+//
+//        trackReaderOutput.reset(forReadingTimeRanges: start)
+//    }
+    func next() -> PhotogrammetrySample? {
         
-       
-            if let sampleBuffer = trackReaderOutput.copyNextSampleBuffer() {
-                let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
-            count += 1
-                let imid=count
-                for _ in  0 ..< skip {
-                    if trackReaderOutput.copyNextSampleBuffer() != nil {
-                        count += 1
-                    }
-                  }
-//            let count = sampleBuffer!.decodeTimeStamp
-             let sample = PhotogrammetrySample(id:imid, image: imageBuffer! )
-            return sample 
+        var getCountFrames = skip+1
+        if state == .loaded {
+            return nil
+        } else if state == .empty {
+            getCountFrames = skipStart
+            state = .digesting
         }
-        
+        // Skip as needed
+        while getCountFrames > 0 {
+             getCountFrames -= 1
+             trackReaderOutput.copyNextSampleBuffer()
+        }
+        if let sampleBuffer = trackReaderOutput.copyNextSampleBuffer() {
+            count += 1
+            let imid = count
+            if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
+                let sample = PhotogrammetrySample(id:imid, image: imageBuffer )
+                let cii = CIImage(cvImageBuffer: imageBuffer)
+                if let cgim = convertCIImageToCGImage(cii) {
+                    let size: CGSize = CGSize(width: 120, height: 100)
+                    let thumbnail = NSImage(cgImage: cgim, size: size)
+                    thumbnails.append(ImageFrame(id: imid, thumbnail: thumbnail, image: sample, isenabled: true))
+                }
+                
+                return sample
+            }
+            
+        }
+       state = .loaded
        return nil
     }
+//    func getImage() -> ImageFrame? {
+//            if thumbidx < count {
+//                thumbidx += 1
+//                return thumbnails[thumbidx]
+//            }
+//            return nil;
+//    }
+
 }
-
-

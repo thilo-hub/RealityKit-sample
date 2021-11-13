@@ -29,11 +29,10 @@ enum ViewDetails: String, CaseIterable {
 }
 
 struct ContentView: View {
-   @State var filename: URL? // = "Filename"
-//    @StateObject var converter: Converter?
+    @State var filename: URL? // = "Filename"
     @State var input: URL?
-//    @State var detail: ViewDetails?
     @StateObject private var converter = Converter()
+//    @StateObject private var images = AllImages()
     
     var body: some View {
         VStack {
@@ -41,7 +40,7 @@ struct ContentView: View {
                 Spacer()
                 if self.filename != nil {
                     Text(input?.lastPathComponent ?? "--")
-                    if nil != converter.session {
+                    if  converter.state == .loaded {
                         Picker(selection: $converter.detail, label: Text("Detail")) {
                         ForEach(ViewDetails.allCases, id: \.self) { element in
                             Text(element.rawValue.capitalized).tag(element as ViewDetails?)                                             }
@@ -87,9 +86,8 @@ struct ContentView: View {
                     }
               }
             }
-            if let conv = converter {
-                ConverterView(converter: conv)
-            }
+            ConverterView(converter: converter)
+
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
