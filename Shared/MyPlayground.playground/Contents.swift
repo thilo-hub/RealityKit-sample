@@ -1,4 +1,8 @@
-import UIKit
+//import UIKit
+import SwiftUI
+import PlaygroundSupport
+
+import Foundation
 
 var greeting = "Hello, playground"
 ////
@@ -108,11 +112,26 @@ var greeting = "Hello, playground"
 //}
 //
 
+let f1 = "IMG_1668.MOV"
 
-var vv: [String:URL] = [:]
+//let f2 = Bundle.main.url(forResource: "IMG_1668", withExtension: "MOV")!
+//
+//
+//print(f2)
+//
+//var n = 0
+//
+//var k = try? PhotogrammetryFrames(fileURL: f2)
+//
+//struct MyView: View {
+        
+//    var body: some View {
+//        ForEach(0..<3) {_ in
+//            let sm = k!.next()
+//            Image(sm?.image)
+//        }
+//
+//    }
+//}
 
-vv["Thilo"] = URL(string: "hoho")
-vv["Test"] = URL(fileURLWithPath: "A test")
-
-print(vv)
-print (vv["Thilo"])
+//PlaygroundPage.current.setLiveView(MyView())
