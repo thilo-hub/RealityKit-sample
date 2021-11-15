@@ -17,12 +17,19 @@
 		B6118A8D273C7D8F00A7C2ED /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6118A8C273C7D8F00A7C2ED /* Preview Assets.xcassets */; };
 		B6118A92273C7EBB00A7C2ED /* AVHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FEFB98273C579200C6F27F /* AVHandler.swift */; };
 		B623A303273841C6004F323B /* BboxEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D16C862737E93F0012F94E /* BboxEditor.swift */; };
+		B67114122742701900B2E2BC /* SceneviewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = B671141027426FA100B2E2BC /* SceneviewX.swift */; };
+		B67114132742701C00B2E2BC /* SceneviewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = B671141027426FA100B2E2BC /* SceneviewX.swift */; };
 		B6716527273DC0D700EEDA12 /* AssetPreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6118A87273C7D8E00A7C2ED /* AssetPreView.swift */; };
 		B674453227393CA3008B52F2 /* CamTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674453127393CA3008B52F2 /* CamTestApp.swift */; };
 		B674453427393CA3008B52F2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674453327393CA3008B52F2 /* ContentView.swift */; };
 		B674453627393CA5008B52F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B674453527393CA5008B52F2 /* Assets.xcassets */; };
 		B674453927393CA5008B52F2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B674453827393CA5008B52F2 /* Preview Assets.xcassets */; };
 		B674453E27393D71008B52F2 /* MyScene.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C85927308A7B000008F2 /* MyScene.scnassets */; };
+		B67EA0B927416C9200B5F878 /* DelgateTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67EA0B827416C9200B5F878 /* DelgateTestApp.swift */; };
+		B67EA0BB27416C9200B5F878 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67EA0BA27416C9200B5F878 /* ContentView.swift */; };
+		B67EA0BD27416C9300B5F878 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B67EA0BC27416C9300B5F878 /* Assets.xcassets */; };
+		B67EA0C027416C9300B5F878 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B67EA0BF27416C9300B5F878 /* Preview Assets.xcassets */; };
+		B67EA0C627416D3500B5F878 /* TextView.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67EA0C527416D3500B5F878 /* TextView.swift.swift */; };
 		B6833F5727347122000ACCA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C83D273080D1000008F2 /* Assets.xcassets */; };
 		B6833F802734942D000ACCA8 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B6833F732734942D000ACCA8 /* README.md */; };
 		B6833F8E27349634000ACCA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6833F8D27349634000ACCA8 /* Assets.xcassets */; };
@@ -105,12 +112,20 @@
 		B6118A8C273C7D8F00A7C2ED /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B6118A8E273C7D8F00A7C2ED /* testMovie.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = testMovie.entitlements; sourceTree = "<group>"; };
 		B623A34227387BBF004F323B /* SceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
+		B671141027426FA100B2E2BC /* SceneviewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneviewX.swift; sourceTree = "<group>"; };
 		B674452F27393CA3008B52F2 /* CamTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CamTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B674453127393CA3008B52F2 /* CamTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamTestApp.swift; sourceTree = "<group>"; };
 		B674453327393CA3008B52F2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B674453527393CA5008B52F2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B674453827393CA5008B52F2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B674453A27393CA5008B52F2 /* CamTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CamTest.entitlements; sourceTree = "<group>"; };
+		B67EA0B627416C9200B5F878 /* DelgateTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DelgateTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B67EA0B827416C9200B5F878 /* DelgateTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelgateTestApp.swift; sourceTree = "<group>"; };
+		B67EA0BA27416C9200B5F878 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B67EA0BC27416C9300B5F878 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B67EA0BF27416C9300B5F878 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B67EA0C127416C9300B5F878 /* DelgateTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DelgateTest.entitlements; sourceTree = "<group>"; };
+		B67EA0C527416D3500B5F878 /* TextView.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift.swift; sourceTree = "<group>"; };
 		B6833F5E2734942D000ACCA8 /* macOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		B6833F732734942D000ACCA8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B6833F8727349632000ACCA8 /* RealityBoundsEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RealityBoundsEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,6 +190,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		B674452C27393CA3008B52F2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B67EA0B327416C9200B5F878 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -288,6 +310,27 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		B67EA0B727416C9200B5F878 /* DelgateTest */ = {
+			isa = PBXGroup;
+			children = (
+				B67EA0B827416C9200B5F878 /* DelgateTestApp.swift */,
+				B67EA0BA27416C9200B5F878 /* ContentView.swift */,
+				B67EA0C527416D3500B5F878 /* TextView.swift.swift */,
+				B67EA0BC27416C9300B5F878 /* Assets.xcassets */,
+				B67EA0C127416C9300B5F878 /* DelgateTest.entitlements */,
+				B67EA0BE27416C9300B5F878 /* Preview Content */,
+			);
+			path = DelgateTest;
+			sourceTree = "<group>";
+		};
+		B67EA0BE27416C9300B5F878 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				B67EA0BF27416C9300B5F878 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		B6833F5C2734942D000ACCA8 /* RealityGenerator */ = {
 			isa = PBXGroup;
 			children = (
@@ -386,6 +429,7 @@
 				B6F9C83A273080D0000008F2 /* Shared */,
 				B6F9C849273080D1000008F2 /* macOS */,
 				B6DB3168273D8950002DE19F /* macOS */,
+				B67EA0B727416C9200B5F878 /* DelgateTest */,
 				B6F9C843273080D1000008F2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -397,6 +441,7 @@
 				B6118A87273C7D8E00A7C2ED /* AssetPreView.swift */,
 				B6FEFB98273C579200C6F27F /* AVHandler.swift */,
 				B6D16C862737E93F0012F94E /* BboxEditor.swift */,
+				B671141027426FA100B2E2BC /* SceneviewX.swift */,
 				B623A34227387BBF004F323B /* SceneController.swift */,
 				B6A166B12736D35200A84F0E /* Tools.swift */,
 				B6F9C89D2733ED9F000008F2 /* MyPlayground.playground */,
@@ -419,6 +464,7 @@
 				B6118A83273C7D8E00A7C2ED /* testAssetView.app */,
 				B6DB3162273D8950002DE19F /* testmovies.app */,
 				B6DB3167273D8950002DE19F /* testmovies.app */,
+				B67EA0B627416C9200B5F878 /* DelgateTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -505,6 +551,23 @@
 			name = CamTest;
 			productName = CamTest;
 			productReference = B674452F27393CA3008B52F2 /* CamTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B67EA0B527416C9200B5F878 /* DelgateTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B67EA0C427416C9300B5F878 /* Build configuration list for PBXNativeTarget "DelgateTest" */;
+			buildPhases = (
+				B67EA0B227416C9200B5F878 /* Sources */,
+				B67EA0B327416C9200B5F878 /* Frameworks */,
+				B67EA0B427416C9200B5F878 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DelgateTest;
+			productName = DelgateTest;
+			productReference = B67EA0B627416C9200B5F878 /* DelgateTest.app */;
 			productType = "com.apple.product-type.application";
 		};
 		B6833F8627349632000ACCA8 /* RealityBoundsEditor */ = {
@@ -648,6 +711,9 @@
 					B674452E27393CA3008B52F2 = {
 						CreatedOnToolsVersion = 13.1;
 					};
+					B67EA0B527416C9200B5F878 = {
+						CreatedOnToolsVersion = 13.1;
+					};
 					B6833F8627349632000ACCA8 = {
 						CreatedOnToolsVersion = 13.1;
 					};
@@ -694,6 +760,7 @@
 				B6118A82273C7D8E00A7C2ED /* testAssetView */,
 				B6DB3161273D8950002DE19F /* testmovies (iOS) */,
 				B6DB3166273D8950002DE19F /* testmovies (macOS) */,
+				B67EA0B527416C9200B5F878 /* DelgateTest */,
 			);
 		};
 /* End PBXProject section */
@@ -724,6 +791,15 @@
 				B674453927393CA5008B52F2 /* Preview Assets.xcassets in Resources */,
 				B674453627393CA5008B52F2 /* Assets.xcassets in Resources */,
 				B674453E27393D71008B52F2 /* MyScene.scnassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B67EA0B427416C9200B5F878 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B67EA0C027416C9300B5F878 /* Preview Assets.xcassets in Resources */,
+				B67EA0BD27416C9300B5F878 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -816,6 +892,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B67EA0B227416C9200B5F878 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B67EA0C627416D3500B5F878 /* TextView.swift.swift in Sources */,
+				B67EA0BB27416C9200B5F878 /* ContentView.swift in Sources */,
+				B67EA0B927416C9200B5F878 /* DelgateTestApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B6833F8327349632000ACCA8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -824,6 +910,7 @@
 				B6D16C922737FB740012F94E /* ContentView.swift in Sources */,
 				B6D16C8C2737F1F90012F94E /* MinimanNoCamReset.swift in Sources */,
 				B6A166B42736D35A00A84F0E /* Tools.swift in Sources */,
+				B67114122742701900B2E2BC /* SceneviewX.swift in Sources */,
 				B6D16C882737E9B30012F94E /* test3App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -878,6 +965,7 @@
 				B60EA74927350D73000D1526 /* PlayGround.swift in Sources */,
 				B6A166B22736D35200A84F0E /* Tools.swift in Sources */,
 				B623A303273841C6004F323B /* BboxEditor.swift in Sources */,
+				B67114132742701C00B2E2BC /* SceneviewX.swift in Sources */,
 				B60EA74A27350D73000D1526 /* Converter.swift in Sources */,
 				B60EA74627350D4B000D1526 /* test3dsApp.swift in Sources */,
 				B6FEFB9A273C581600C6F27F /* AVHandler.swift in Sources */,
@@ -1062,6 +1150,64 @@
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.CamTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		B67EA0C227416C9300B5F878 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DelgateTest/DelgateTest.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"DelgateTest/Preview Content\"";
+				DEVELOPMENT_TEAM = V2QU2ZP5Z5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.DelgateTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B67EA0C327416C9300B5F878 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = DelgateTest/DelgateTest.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"DelgateTest/Preview Content\"";
+				DEVELOPMENT_TEAM = V2QU2ZP5Z5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.DelgateTest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1624,6 +1770,15 @@
 			buildConfigurations = (
 				B674453B27393CA5008B52F2 /* Debug */,
 				B674453C27393CA5008B52F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B67EA0C427416C9300B5F878 /* Build configuration list for PBXNativeTarget "DelgateTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B67EA0C227416C9300B5F878 /* Debug */,
+				B67EA0C327416C9300B5F878 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

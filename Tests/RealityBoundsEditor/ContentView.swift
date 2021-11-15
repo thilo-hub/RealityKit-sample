@@ -16,13 +16,18 @@ struct ContentView: View {
             cameraNode.camera = SCNCamera()
             cameraNode.position = SCNVector3(x: 0 , y: 0, z: 3)
             cameraNode.camera?.zNear = 0.1
+            cameraNode.name = "cam"
             cam =  cameraNode
     }
     var body: some View {
         
-        HStack{
+        VStack{
 //            CamNotResetView(mycam:$cam)
+            
+//            Text("C: \(cam.position) - \(cam.rotation)")
+            
             BoundingView()
+            
         }
     }
 }
