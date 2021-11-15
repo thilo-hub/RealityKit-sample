@@ -50,17 +50,30 @@ fileprivate func addEditorTools(s: SCNScene)  {
 
 struct viewScene: View {
     @State var scene:SCNScene
+    @State var cam: SCNNode
     @State var target: SCNNode
+    @State private var boxOrig: SCNMaterial
+    let redBox: SCNMaterial
+
+    var mouseLocation: NSPoint { NSEvent.mouseLocation }
+    @State var mouse: CGPoint?
+//    @State var mousee: CGPoint?
+    @State var overImg = false
+    @State var modcam = true
     
     init(scene: SCNScene) {
-        if let bx = scene.rootNode.childNode(withName: "MyBounding", recursively: true) {
-            target = bx
-        } else {
         
-            target = scene.rootNode.childNodes(passingTest: { node, p in node.camera != nil}).last!
-        }
+        redBox = SCNMaterial()
+        redBox.diffuse.contents = CGColor(red: 1.0, green: 0, blue: 0, alpha: 0.6)
+        let bx = scene.rootNode.childNode(withName: "MyBounding", recursively: true)!
+        target = bx
+        boxOrig = (bx.geometry?.firstMaterial)!
+        let cx = scene.rootNode.childNodes(passingTest: { node, p in node.camera != nil}).last!
+        cam = cx
         self.scene = scene
+        
     }
+    
     // gestures
     @State private var magnification        = CGFloat(1.0)
     @State private var isDragging           = false
@@ -76,7 +89,7 @@ struct viewScene: View {
     var rotation: some Gesture {
         RotationGesture()
             .onChanged { angle in
-//                self.angle = angle
+
                 var rotationVector = SCNVector4()
 
                 
@@ -109,67 +122,66 @@ struct viewScene: View {
     }
     var tap: some Gesture {
         TapGesture()
-            
     }
+    
     var drag: some Gesture {
         DragGesture()
             .onChanged { value in
                 if !self.isDragging {
-                    let hit = scnview.hitTest(value.startLocation, options: nil).first
-                     
-                    print(hit?.node.name)
-                    target = hit?.node ?? scene.rootNode.childNodes(passingTest: { node, p in node.camera != nil}).last!
-                
+                    if scnview.hitTest(value.startLocation, options: nil).first != nil{
+                        modcam = false
+                        target.geometry?.materials[0] = redBox
+                    } else {
+                        modcam = true
+                    }
                 self.isDragging = true
                 }
-                // hitTest(_ point: CGPoint,
-//            options: [SCNHitTestOption : Any]? = nil) -> [SCNHitTestResult]
-                changeOrientation(of: target, with: value.translation)
                 
+                changeOrientation(of: modcam ? cam : target, with: value.translation)
+
             }
             .onEnded { value in
                 self.isDragging = false
+                if !modcam {
+                    target.geometry?.materials[0] = boxOrig
+                }
                 print(value.location)
                 
 
-                updateOrientation(of: target)
-//                updateOrientation(of: scene.rootNode.childNode(withName: "MyBounding", recursively: true)!)
+                updateOrientation(of: modcam ? cam : target)
             }
     }
     @GestureState var magnifyBy = CGFloat(1.0)
     var magnify: some Gesture {
         MagnificationGesture()
-            .updating($magnifyBy) { currentState, gestureState, transaction in
-                            gestureState = currentState
-                        }
             .onChanged{ (value) in
+                if !self.isDragging {
+                    if let mousee = mouse {
+                        modcam = scnview.hitTest(mousee, options: nil).first == nil
+                    }
+                    print(modcam,mouse)
+                    if !modcam {
+                        target.geometry?.materials[0] = redBox
+                    }
+                    self.isDragging = true
+                }
+                
                 self.magnification = value
-                if target == nil {
-                    // check if target is boundingbox or "cam"
-                    
+                if modcam {
+                    changeCameraFOV(of: cam.camera!, value: value)
                 } else {
-//                print("magnify = \(self.magnification)")
-                if let obj = target.camera {
-                    
-                        
-                        changeCameraFOV(of: obj,
-                                    value: self.magnification)
-                        }
-                    else {
-//                        let mag = 1.0 //value,value,value)
-                        let s = value
-//                        let os = target.scale
-//                        let news = SCNVector3( os.x*s,os.y*s,os.z*s)
-                        target.scale = SCNVector3(s,s,s)
-                        
-                    }
-                    }
+                    target.scale = SCNVector3(value,value,value)
+                }
             }
             .onEnded{ value in
                 print("Ended pinch with value \(value)\n\n")
-                if target.camera == nil {
+                if !modcam {
+                    target.geometry?.materials[0] = boxOrig
                     updateOrientation(of: target)
                 }
+                self.isDragging = false
+                modcam = true
+                
             }
     }
 
@@ -199,25 +211,9 @@ struct viewScene: View {
     }
 
     private func changeCameraFOV(of camera: SCNCamera, value: CGFloat) {
-        if self.magnification >= 1.025 {
-            self.magnification = 1.025
-        }
-        if self.magnification <= 0.97 {
-            self.magnification = 0.97
-        }
-
-        let maximumFOV: CGFloat = 25 // Zoom-in.
-        let minimumFOV: CGFloat = 90 // Zoom-out.
-
-        camera.fieldOfView /= magnification
-
-        if camera.fieldOfView <= maximumFOV {
-            camera.fieldOfView = maximumFOV
-            self.magnification        = 1.0
-        }
-        if camera.fieldOfView >= minimumFOV {
-            camera.fieldOfView = minimumFOV
-            self.magnification        = 1.0
+        let nl = camera.focalLength * value
+        if nl < 100 {
+            camera.focalLength = nl
         }
     }
 
@@ -270,7 +266,20 @@ struct viewScene: View {
                 .gesture(tap)
                 .gesture(exclusiveGesture)
                 .gesture(rotation)
+                .onHover { over in
+                                overImg = over
+                            }
+                            .onAppear(perform: {
+                                NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
+                                    if overImg {
+                                        
+//                                        mouse = self.mouseLocation
+                                        mouse = $0.locationInWindow
 
+                                    }
+                                    return $0
+                                }
+                            })
 
     }
         }

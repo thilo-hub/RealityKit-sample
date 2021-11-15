@@ -19,6 +19,7 @@
 		B623A303273841C6004F323B /* BboxEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D16C862737E93F0012F94E /* BboxEditor.swift */; };
 		B67114122742701900B2E2BC /* SceneviewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = B671141027426FA100B2E2BC /* SceneviewX.swift */; };
 		B67114132742701C00B2E2BC /* SceneviewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = B671141027426FA100B2E2BC /* SceneviewX.swift */; };
+		B67114162742D91200B2E2BC /* MultiTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67114142742D8ED00B2E2BC /* MultiTap.swift */; };
 		B6716527273DC0D700EEDA12 /* AssetPreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6118A87273C7D8E00A7C2ED /* AssetPreView.swift */; };
 		B674453227393CA3008B52F2 /* CamTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674453127393CA3008B52F2 /* CamTestApp.swift */; };
 		B674453427393CA3008B52F2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674453327393CA3008B52F2 /* ContentView.swift */; };
@@ -113,6 +114,7 @@
 		B6118A8E273C7D8F00A7C2ED /* testMovie.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = testMovie.entitlements; sourceTree = "<group>"; };
 		B623A34227387BBF004F323B /* SceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
 		B671141027426FA100B2E2BC /* SceneviewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneviewX.swift; sourceTree = "<group>"; };
+		B67114142742D8ED00B2E2BC /* MultiTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiTap.swift; sourceTree = "<group>"; };
 		B674452F27393CA3008B52F2 /* CamTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CamTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B674453127393CA3008B52F2 /* CamTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamTestApp.swift; sourceTree = "<group>"; };
 		B674453327393CA3008B52F2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -447,6 +449,7 @@
 				B6F9C89D2733ED9F000008F2 /* MyPlayground.playground */,
 				B6F9C85927308A7B000008F2 /* MyScene.scnassets */,
 				B6F9C83D273080D1000008F2 /* Assets.xcassets */,
+				B67114142742D8ED00B2E2BC /* MultiTap.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -908,6 +911,7 @@
 			files = (
 				B6D16C902737F9110012F94E /* BboxEditor.swift in Sources */,
 				B6D16C922737FB740012F94E /* ContentView.swift in Sources */,
+				B67114162742D91200B2E2BC /* MultiTap.swift in Sources */,
 				B6D16C8C2737F1F90012F94E /* MinimanNoCamReset.swift in Sources */,
 				B6A166B42736D35A00A84F0E /* Tools.swift in Sources */,
 				B67114122742701900B2E2BC /* SceneviewX.swift in Sources */,
