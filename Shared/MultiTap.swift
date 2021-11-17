@@ -1,7 +1,7 @@
 import SwiftUI
 import SceneKit
 //import Kit
-
+#if false
 class NFingerGestureRecognizer: NSGestureRecognizer {
 
     var tappedCallback: (NSTouch, CGPoint?) -> Void
@@ -39,3 +39,4 @@ class NFingerGestureRecognizer: NSGestureRecognizer {
     }
 
 }
+#endif

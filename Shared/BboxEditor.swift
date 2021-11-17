@@ -15,9 +15,6 @@ fileprivate func addEditorTools(s: SCNScene)  {
     
     let redBoundingBox: SCNNode
     
-//    if let top = s.rootNode.childNodes.first {
-//        top.name = "toi"
-//    }
     
     if let element = s.rootNode.childNodes.first {
         if  s.rootNode.childNode(withName: "MyBounding", recursively: false) != nil{
@@ -31,19 +28,51 @@ fileprivate func addEditorTools(s: SCNScene)  {
             
             
             // Add arrows scaled  to scene
-            let ar_a = SCNScene(named: "MyScene.scnassets/Arrows.dae")!
+//            let ar_a = SCNScene(named: "MyScene.scnassets/ship.scn")!
+
+            let ar_a = SCNScene(named: "MyScene.scnassets/Arrows.scn")!
             
             let ar1 = ar_a.rootNode
             let bb = ar1.boundingBox
             let bw = 0.1 / (simd_float3(bb.max) - simd_float3(bb.min))
 
             ar1.scale = SCNVector3(bw)
+            
             ar1.position = topleft
             ar1.position.z += 0.5
             ar1.name = "arrow"
-//            redBoundingBox.addChildNode(ar1)
             s.rootNode.addChildNode(ar1)
           }
+    }
+}
+private func updateOrientation(of node: SCNNode) {
+    let currentPivot = node.pivot
+    let changePivot = SCNMatrix4Invert(node.transform)
+//    totalChangePivot = SCNMatrix4Mult(changePivot, currentPivot)
+    node.pivot = SCNMatrix4Mult(changePivot, currentPivot)
+    node.transform = SCNMatrix4Identity
+}
+
+private func changeOrientation(of node: SCNNode, with translation: CGSize) {
+    let x = Float(translation.width)
+    let y = Float(-translation.height)
+
+    let anglePan = sqrt(pow(x,2)+pow(y,2)) * (Float)(Double.pi) / 180.0
+
+    var rotationVector = SCNVector4()
+
+    rotationVector.x = CGFloat(-y)
+    rotationVector.y = CGFloat(x)
+    rotationVector.z = 0
+    rotationVector.w = CGFloat(anglePan)
+
+    node.rotation = rotationVector
+}
+
+private func changeCameraFOV(of camera: SCNCamera, value: CGFloat) {
+    let nl = camera.focalLength * value
+    if nl < 100 && nl > 1 {
+        camera.focalLength = nl
     }
 }
 
@@ -57,7 +86,7 @@ struct viewScene: View {
 
     var mouseLocation: NSPoint { NSEvent.mouseLocation }
     @State var mouse: CGPoint?
-//    @State var mousee: CGPoint?
+
     @State var overImg = false
     @State var modcam = true
     
@@ -70,6 +99,7 @@ struct viewScene: View {
         boxOrig = (bx.geometry?.firstMaterial)!
         let cx = scene.rootNode.childNodes(passingTest: { node, p in node.camera != nil}).last!
         cam = cx
+        
         self.scene = scene
         
     }
@@ -77,7 +107,6 @@ struct viewScene: View {
     // gestures
     @State private var magnification        = CGFloat(1.0)
     @State private var isDragging           = false
-    @State private var totalChangePivot     = SCNMatrix4Identity
     @State private var angle                = Angle()
     @State private var box                  = SCNNode()
 
@@ -106,29 +135,30 @@ struct viewScene: View {
             .onEnded { angle in
                 print("Rot ended")
                 
-//                updateOrientation(of: box)
-//
-//                let c = scene.rootNode.childNodes(passingTest: { n,p in
-//                    return n.camera != nil
-//                }).first
-////                let c = n.first
-//                let currentPivot = c!.pivot
-//                let changePivot = SCNMatrix4Invert(c!.transform)
-//                totalChangePivot = SCNMatrix4Mult(changePivot, currentPivot)
-//               let n = SCNMatrix4Mult(changePivot, currentPivot)
-//
-//                print(n)
             }
     }
+    var locString : String {
+            guard let loc = tapLocation else { return "Tap" }
+            return "\(Int(loc.x)), \(Int(loc.y))"
+        }
+    @State var tapLocation: CGPoint?
     var tap: some Gesture {
         TapGesture()
+            .onEnded{ value in
+                 tapLocation = dragLocation
+            print("Tapped: \(locString)")
+        }
     }
-    
+    @State var dragLocation: CGPoint?
+       
     var drag: some Gesture {
         DragGesture()
             .onChanged { value in
                 if !self.isDragging {
-                    if scnview.hitTest(value.startLocation, options: nil).first != nil{
+                    let tgt = scnview.hitTest(value.startLocation, options: [.searchMode:1])
+                    if  tgt.count > 0 {
+                        print(tgt)
+                        
                         modcam = false
                         target.geometry?.materials[0] = redBox
                     } else {
@@ -184,92 +214,39 @@ struct viewScene: View {
                 
             }
     }
-
     
-    private func updateOrientation(of node: SCNNode) {
-        let currentPivot = node.pivot
-        let changePivot = SCNMatrix4Invert(node.transform)
-        totalChangePivot = SCNMatrix4Mult(changePivot, currentPivot)
-        node.pivot = SCNMatrix4Mult(changePivot, currentPivot)
-        node.transform = SCNMatrix4Identity
-    }
-
-    private func changeOrientation(of node: SCNNode, with translation: CGSize) {
-        let x = Float(translation.width)
-        let y = Float(-translation.height)
-
-        let anglePan = sqrt(pow(x,2)+pow(y,2)) * (Float)(Double.pi) / 180.0
-
-        var rotationVector = SCNVector4()
-
-        rotationVector.x = CGFloat(-y)
-        rotationVector.y = CGFloat(x)
-        rotationVector.z = 0
-        rotationVector.w = CGFloat(anglePan)
-
-        node.rotation = rotationVector
-    }
-
-    private func changeCameraFOV(of camera: SCNCamera, value: CGFloat) {
-        let nl = camera.focalLength * value
-        if nl < 100 {
-            camera.focalLength = nl
-        }
-    }
-
-
-    // Don't forget to comment this is you are using .allowsCameraControl
    
 
-     
-//    private var scene:SCNScene {
-//
-//        let node=SCNNode()
-//        node.position = SCNVector3(x: 0 , y: 0, z: 1)
-//        node.name = "cam"
-//        let cam = SCNCamera()
-//        node.camera = cam
-//        cam.zNear = 0.1
-//        let scene = Xscene ?? SCNScene()
-//        scene.rootNode.addChildNode(node)
-//
-//        let box = SCNBox(width: 0.5, height: 0.4, length: 0.3, chamferRadius: 0.01)
-////        let boxn = SCNNode(geometry: box)
-////        boxn.name="xbox"
-//        self.box.geometry = box
-//        self.box.name="xbox"
-////        self.box.rotation = SCNVector4(x:1,y:2,z:0,w: angle.radians)
-//        scene.rootNode.addChildNode(self.box)
-//        return scene
-//    }
-//
-//    @StateObject var coordinator = SceneCoordinator()
     @State var scnview: SCNView = SCNView()
     var body: some View{
-//        Slider(value: $xx,in:-1...1)
+
         HStack{
+            
             // Make a scene per camera
-        ForEach( scene.rootNode.childNodes(passingTest: {node,p in node.camera != nil}), id:\.self)  { n in
+            ForEach( scene.rootNode.childNodes(passingTest: {node,p in node.camera != nil}), id:\.self)  { n in
             SceneViewX (
                 sview: $scnview,
-
-//            SceneView(
                 scene: scene,
                 pointOfView: n,
                 options: [
-    //                .allowsCameraControl,
+
                     .autoenablesDefaultLighting,
                     .temporalAntialiasingEnabled
                     ]
-    //            , delegate: coordinator
                 )
-                .gesture(tap)
+                
+//                .gesture(tap)
+//                .gesture(drag)
+            
                 .gesture(exclusiveGesture)
                 .gesture(rotation)
+                
+                // Check if there is a better way..
                 .onHover { over in
                                 overImg = over
                             }
                             .onAppear(perform: {
+                                updateOrientation(of: cam)
                                 NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) {
                                     if overImg {
                                         
@@ -286,19 +263,13 @@ struct viewScene: View {
     }
 }
 
-//class SceneCoordinator: NSObject, SCNSceneRendererDelegate, ObservableObject {
-//    func renderer(_ renderer: SCNSceneRenderer,
-//            didRenderScene scene: SCNScene,
-//                    atTime time: TimeInterval) {
-//       // print("Render..")
-//    }
-//}
+
 
 struct BoundBoxEditorView: View {
 
     @State var myscene: SCNScene
-    @State var scale = SCNVector3(1,1,1)
-    @State var center = SCNVector3(0,0,0)
+//    @State var scale = SCNVector3(1,1,1)
+//    @State var center = SCNVector3(0,0,0)
     @Binding var boundingBox: BoundingBox?
     @State var cam1: SCNCamera = SCNCamera()
 
@@ -308,23 +279,19 @@ struct BoundBoxEditorView: View {
 
         // position bounding box
         let bbx = s.rootNode.childNode(withName: "MyBounding", recursively: false)!
-            bbx.position = center
-            bbx.scale = scale
-            let sim_scale = simd_float3(scale)
-            let sim_center = simd_float3(center)
-//            boundingBox = BoundingBox(min: sim_center - sim_scale/2, max: sim_center + sim_scale/2)
         
         // position arrows
         if let ar = s.rootNode.childNode(withName: "arrow", recursively: false ) {
             let bl =  simd_float3(bbx.position) -
                 (simd_float3(bbx.boundingBox.max) - simd_float3(bbx.boundingBox.min))/2.0
             ar.position = SCNVector3(bl)
-
+            updateOrientation(of: ar)
         }
         return s
 
     }
-    var bbox: SCNNode? {
+    // Dumplicate current bounding box -- DEBUG
+    var BigRoundBox: SCNNode? {
         if let bbx = scene.rootNode.childNode(withName: "MyBounding", recursively: false) {
             let bb  = bbx.boundingBox
             let pw = (simd_float3(bb.max) - simd_float3(bb.min)) * simd_float3(bbx.scale)
@@ -340,34 +307,16 @@ struct BoundBoxEditorView: View {
     }
     var body: some View {
         VStack{
-//            HStack {
-//
-//                Slider(value: $cam1.zNear, in:0 ... 2).background(.red)
-//                Slider(value: $scale.y, in:0 ... 2).background(.blue)
-//                Slider(value: $scale.z, in:0 ... 2).background(.green)
-//            }
             HStack {
                 Spacer()
-//                Slider(value: $center.x, in:-1 ... 1).background(.red)
-//                Slider(value: $center.y, in:-1 ... 1).background(.blue)
-//                Slider(value: $center.z, in:-1 ... 1).background(.green)
                 Button("X") {
-                    if let bbx = bbox {
+                    if let bbx = BigRoundBox {
                      scene.rootNode.addChildNode(bbx)
                     print(bbx.position)
                     }
                 }
             }
             viewScene(scene: scene)
-//            SceneView(
-//                scene: scene,
-//                pointOfView: scene.rootNode.childNode(withName: "cam", recursively: true),
-//                options: [
-//                    .allowsCameraControl,
-//                    .autoenablesDefaultLighting,
-//                    .temporalAntialiasingEnabled
-//                    ]
-//                )
         }
     }
 
@@ -376,8 +325,11 @@ struct BoundBoxEditorView: View {
 struct BoundingView: View {
     @State var scene: SCNScene
 //    @State var boundingBox: BoundingBox?
+    @State var boundingBox: BoundingBox? = BoundingBox()
+
     @State var object: SCNNode?
     
+   // @EnvironmentObject
     
     init() {
         let objscene = SCNScene(named: "MyScene.scnassets/Data5.usdz")!
@@ -387,13 +339,12 @@ struct BoundingView: View {
         obj.name = "Object"
         sc.rootNode.addChildNode(obj)
 
-//        let pos = SCNVector3(1,0,0)
         let cm = SCNCamera()
+ 
         for camno in 0 ... 0 {
             
-            
             let cmn = SCNNode()
-            
+
             cmn.camera = cm
             cmn.name =  "cam" + String(camno)
             cmn.transform = SCNMatrix4MakeRotation(CGFloat(camno),1,1,1)
@@ -402,16 +353,9 @@ struct BoundingView: View {
             sc.rootNode.addChildNode(cmn)
         }
         
-//        let bx = SCNBox(width: 0.3, height: 0.4, length: 0.5, chamferRadius: 0.03)
-//        let bnx = SCNNode(geometry: bx)
-//        bnx.name = "xbox"
-//        sc.rootNode.addChildNode(bnx)
-        
-        
         scene = sc
     }
-    @State var boundingBox: BoundingBox? = BoundingBox()
-//    @Binding var cam:SCNNode
+
     
     var body: some View {
         BoundBoxEditorView(myscene: scene,boundingBox: $boundingBox)
@@ -432,10 +376,12 @@ struct BoundingView: View {
 
 #if false
 struct ContinousResizingOk_Previews: PreviewProvider {
-    @State static var scene: SCNScene = SCNScene(named: "MyScene.scnassets/Data5.usdz")!
-    @State static var boundingBox: BoundingBox? = BoundingBox()
+    @StateObject static var scene: SCNScene = SCNScene(named: "MyScene.scnassets/Data5.usdz")!
+    @StateObject static var boundingBox: BoundingBox? = BoundingBox()
     static var previews: some View {
         BoundBoxEditorView(myscene: scene,boundingBox: $boundingBox)
+            .environmentObject(scene)
+            
     }
 }
 

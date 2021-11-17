@@ -19,7 +19,13 @@
 		B623A303273841C6004F323B /* BboxEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D16C862737E93F0012F94E /* BboxEditor.swift */; };
 		B67114122742701900B2E2BC /* SceneviewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = B671141027426FA100B2E2BC /* SceneviewX.swift */; };
 		B67114132742701C00B2E2BC /* SceneviewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = B671141027426FA100B2E2BC /* SceneviewX.swift */; };
-		B67114162742D91200B2E2BC /* MultiTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67114142742D8ED00B2E2BC /* MultiTap.swift */; };
+		B671141E274314AA00B2E2BC /* ViewTestsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B671141D274314AA00B2E2BC /* ViewTestsApp.swift */; };
+		B6711420274314AA00B2E2BC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B671141F274314AA00B2E2BC /* ContentView.swift */; };
+		B6711422274314AB00B2E2BC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6711421274314AB00B2E2BC /* Assets.xcassets */; };
+		B6711425274314AB00B2E2BC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6711424274314AB00B2E2BC /* Preview Assets.xcassets */; };
+		B671142A274314C700B2E2BC /* MyScene.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C85927308A7B000008F2 /* MyScene.scnassets */; };
+		B671142B2743160B00B2E2BC /* SceneviewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = B671141027426FA100B2E2BC /* SceneviewX.swift */; };
+		B671142D2744595300B2E2BC /* Sometest2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B671142C2744595300B2E2BC /* Sometest2.swift */; };
 		B6716527273DC0D700EEDA12 /* AssetPreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6118A87273C7D8E00A7C2ED /* AssetPreView.swift */; };
 		B674453227393CA3008B52F2 /* CamTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674453127393CA3008B52F2 /* CamTestApp.swift */; };
 		B674453427393CA3008B52F2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B674453327393CA3008B52F2 /* ContentView.swift */; };
@@ -115,6 +121,13 @@
 		B623A34227387BBF004F323B /* SceneController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
 		B671141027426FA100B2E2BC /* SceneviewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneviewX.swift; sourceTree = "<group>"; };
 		B67114142742D8ED00B2E2BC /* MultiTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiTap.swift; sourceTree = "<group>"; };
+		B671141B274314AA00B2E2BC /* ViewTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B671141D274314AA00B2E2BC /* ViewTestsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewTestsApp.swift; sourceTree = "<group>"; };
+		B671141F274314AA00B2E2BC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B6711421274314AB00B2E2BC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B6711424274314AB00B2E2BC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B6711426274314AB00B2E2BC /* ViewTests.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ViewTests.entitlements; sourceTree = "<group>"; };
+		B671142C2744595300B2E2BC /* Sometest2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sometest2.swift; sourceTree = "<group>"; };
 		B674452F27393CA3008B52F2 /* CamTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CamTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B674453127393CA3008B52F2 /* CamTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CamTestApp.swift; sourceTree = "<group>"; };
 		B674453327393CA3008B52F2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -185,6 +198,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		B6118A80273C7D8E00A7C2ED /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B6711418274314AA00B2E2BC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -290,6 +310,27 @@
 				B6F9C8BB273432C9000008F2 /* test1 */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		B671141C274314AA00B2E2BC /* ViewTests */ = {
+			isa = PBXGroup;
+			children = (
+				B671141D274314AA00B2E2BC /* ViewTestsApp.swift */,
+				B671141F274314AA00B2E2BC /* ContentView.swift */,
+				B671142C2744595300B2E2BC /* Sometest2.swift */,
+				B6711421274314AB00B2E2BC /* Assets.xcassets */,
+				B6711426274314AB00B2E2BC /* ViewTests.entitlements */,
+				B6711423274314AB00B2E2BC /* Preview Content */,
+			);
+			path = ViewTests;
+			sourceTree = "<group>";
+		};
+		B6711423274314AB00B2E2BC /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				B6711424274314AB00B2E2BC /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		B674453027393CA3008B52F2 /* CamTest */ = {
@@ -432,6 +473,7 @@
 				B6F9C849273080D1000008F2 /* macOS */,
 				B6DB3168273D8950002DE19F /* macOS */,
 				B67EA0B727416C9200B5F878 /* DelgateTest */,
+				B671141C274314AA00B2E2BC /* ViewTests */,
 				B6F9C843273080D1000008F2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -468,6 +510,7 @@
 				B6DB3162273D8950002DE19F /* testmovies.app */,
 				B6DB3167273D8950002DE19F /* testmovies.app */,
 				B67EA0B627416C9200B5F878 /* DelgateTest.app */,
+				B671141B274314AA00B2E2BC /* ViewTests.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -537,6 +580,23 @@
 			name = testAssetView;
 			productName = testMovie;
 			productReference = B6118A83273C7D8E00A7C2ED /* testAssetView.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B671141A274314AA00B2E2BC /* ViewTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B6711427274314AB00B2E2BC /* Build configuration list for PBXNativeTarget "ViewTests" */;
+			buildPhases = (
+				B6711417274314AA00B2E2BC /* Sources */,
+				B6711418274314AA00B2E2BC /* Frameworks */,
+				B6711419274314AA00B2E2BC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ViewTests;
+			productName = ViewTests;
+			productReference = B671141B274314AA00B2E2BC /* ViewTests.app */;
 			productType = "com.apple.product-type.application";
 		};
 		B674452E27393CA3008B52F2 /* CamTest */ = {
@@ -711,6 +771,9 @@
 					B6118A82273C7D8E00A7C2ED = {
 						CreatedOnToolsVersion = 13.1;
 					};
+					B671141A274314AA00B2E2BC = {
+						CreatedOnToolsVersion = 13.1;
+					};
 					B674452E27393CA3008B52F2 = {
 						CreatedOnToolsVersion = 13.1;
 					};
@@ -764,6 +827,7 @@
 				B6DB3161273D8950002DE19F /* testmovies (iOS) */,
 				B6DB3166273D8950002DE19F /* testmovies (macOS) */,
 				B67EA0B527416C9200B5F878 /* DelgateTest */,
+				B671141A274314AA00B2E2BC /* ViewTests */,
 			);
 		};
 /* End PBXProject section */
@@ -784,6 +848,16 @@
 				B6118A8A273C7D8F00A7C2ED /* Assets.xcassets in Resources */,
 				B68B876C273E615500F48635 /* Media.xcassets in Resources */,
 				B68B8768273E5E3100F48635 /* IMG_1537.MOV in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B6711419274314AA00B2E2BC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B6711425274314AB00B2E2BC /* Preview Assets.xcassets in Resources */,
+				B6711422274314AB00B2E2BC /* Assets.xcassets in Resources */,
+				B671142A274314C700B2E2BC /* MyScene.scnassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -886,6 +960,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B6711417274314AA00B2E2BC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B671142D2744595300B2E2BC /* Sometest2.swift in Sources */,
+				B6711420274314AA00B2E2BC /* ContentView.swift in Sources */,
+				B671142B2743160B00B2E2BC /* SceneviewX.swift in Sources */,
+				B671141E274314AA00B2E2BC /* ViewTestsApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B674452B27393CA3008B52F2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -911,7 +996,6 @@
 			files = (
 				B6D16C902737F9110012F94E /* BboxEditor.swift in Sources */,
 				B6D16C922737FB740012F94E /* ContentView.swift in Sources */,
-				B67114162742D91200B2E2BC /* MultiTap.swift in Sources */,
 				B6D16C8C2737F1F90012F94E /* MinimanNoCamReset.swift in Sources */,
 				B6A166B42736D35A00A84F0E /* Tools.swift in Sources */,
 				B67114122742701900B2E2BC /* SceneviewX.swift in Sources */,
@@ -1096,6 +1180,64 @@
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.testMovie;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		B6711428274314AB00B2E2BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ViewTests/ViewTests.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ViewTests/Preview Content\"";
+				DEVELOPMENT_TEAM = V2QU2ZP5Z5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.ViewTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		B6711429274314AB00B2E2BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ViewTests/ViewTests.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ViewTests/Preview Content\"";
+				DEVELOPMENT_TEAM = V2QU2ZP5Z5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.ViewTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1765,6 +1907,15 @@
 			buildConfigurations = (
 				B6118A90273C7D8F00A7C2ED /* Debug */,
 				B6118A91273C7D8F00A7C2ED /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B6711427274314AB00B2E2BC /* Build configuration list for PBXNativeTarget "ViewTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B6711428274314AB00B2E2BC /* Debug */,
+				B6711429274314AB00B2E2BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
