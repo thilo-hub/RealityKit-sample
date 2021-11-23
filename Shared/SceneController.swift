@@ -80,7 +80,7 @@ struct SceneViewController: NSViewRepresentable {
 
               // check what nodes are clicked
               let p = gestureRecognizer.location(in: scnView)
-              let hitResults = scnView.hitTest(p, options: [:])
+              let hitResults = scnView.XhitTest(p, options: [:])
               // check that we clicked on at least one object
               if hitResults.count > 0 {
                   // retrieved the first clicked object

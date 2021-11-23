@@ -79,9 +79,9 @@ struct DraggableCircle: View {
                  x: viewState.width + dragState.translation.width,
                  y: viewState.height + dragState.translation.height
              )
-             .animation(nil)
+             .animation(nil, value: false)
              .shadow(radius: dragState.isActive ? 8 : 0)
-             .animation(.linear(duration: minimumLongPressDuration))
+             .animation(.linear(duration: minimumLongPressDuration),value: false)
              .gesture(longPressDrag)
              .frame(maxWidth: .infinity, maxHeight: .infinity)
      }

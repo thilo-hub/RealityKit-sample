@@ -97,8 +97,14 @@ struct viewScene: View {
         let bx = scene.rootNode.childNode(withName: "MyBounding", recursively: true)!
         target = bx
         boxOrig = (bx.geometry?.firstMaterial)!
-        let cx = scene.rootNode.childNodes(passingTest: { node, p in node.camera != nil}).last!
+        if let cx = scene.rootNode.childNodes(passingTest: { node, p in node.camera != nil}).last {
         cam = cx
+        } else {
+            let camc = SCNCamera()
+            let camn = SCNNode()
+            camn.camera = camc
+            cam = camn
+        }
         
         self.scene = scene
         
@@ -155,7 +161,7 @@ struct viewScene: View {
         DragGesture()
             .onChanged { value in
                 if !self.isDragging {
-                    let tgt = scnview.hitTest(value.startLocation, options: [.searchMode:1])
+                    let tgt = scnview.XhitTest(value.startLocation, options: [.searchMode:1])
                     if  tgt.count > 0 {
                         print(tgt)
                         
@@ -164,7 +170,6 @@ struct viewScene: View {
                     } else {
                         modcam = true
                     }
-                self.isDragging = true
                 }
                 
                 changeOrientation(of: modcam ? cam : target, with: value.translation)
@@ -187,9 +192,9 @@ struct viewScene: View {
             .onChanged{ (value) in
                 if !self.isDragging {
                     if let mousee = mouse {
-                        modcam = scnview.hitTest(mousee, options: nil).first == nil
+                        modcam = scnview.XhitTest(mousee, options: nil).first == nil
                     }
-                    print(modcam,mouse)
+//                    print(modcam,mouse)
                     if !modcam {
                         target.geometry?.materials[0] = redBox
                     }
@@ -376,11 +381,11 @@ struct BoundingView: View {
 
 #if false
 struct ContinousResizingOk_Previews: PreviewProvider {
-    @StateObject static var scene: SCNScene = SCNScene(named: "MyScene.scnassets/Data5.usdz")!
+    @StateObject static var sceneObject: SCNScene = SCNScene(named: "MyScene.scnassets/Data5.usdz")!
     @StateObject static var boundingBox: BoundingBox? = BoundingBox()
     static var previews: some View {
-        BoundBoxEditorView(myscene: scene,boundingBox: $boundingBox)
-            .environmentObject(scene)
+        BoundBoxEditorView(myscene: sceneObject,boundingBox: $boundingBox)
+            .environmentObject(sceneObject)
             
     }
 }
