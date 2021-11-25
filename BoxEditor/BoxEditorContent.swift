@@ -13,6 +13,7 @@ enum gestureS {
     case cameraZoom
     case cameraMove
     case objectZoom
+    case objectMove
     case objectRotate
 }
 
@@ -20,14 +21,15 @@ let url = URL(fileURLWithPath: "/Users/thilo/Downloads/File.scn")
 struct BoxEditorView: View {
     @EnvironmentObject var sceneViewStore: SceneData
     // @State var scene: SCNScene
-    @State var view: SCNView
+//    @State var view: SCNView
     let selectedSurface = CGColor(red: 1, green: 0, blue: 0, alpha: 0.8)
     let defaultSurface = CGColor(red: 0, green: 0, blue: 1, alpha: 0.8)
     @State var otherMaterial = SCNMaterial()
     init()
     {
-        let view = SCNView()
-        self.view = view
+//        let view = SCNView()
+//        self.view = view
+//        view.scene = sceneViewStore.sceneObject
         otherMaterial.diffuse.contents = CGColor(red: 1, green: 0, blue: 0, alpha: 0.8)
         otherMaterial.isDoubleSided = true
     }
@@ -41,7 +43,7 @@ struct BoxEditorView: View {
                 switch state.state {
                     case .idle:
                         if let value = values.first {
-                            let hit = view.XhitTest(value.startLocation, options: [:])
+                            let hit = sceneViewStore.view.XhitTest(value.startLocation, options: [:])
                             if !hit.isEmpty {
                                 state.state = .objectRotate
                                 state.node = hit.first!.node
@@ -54,7 +56,7 @@ struct BoxEditorView: View {
                                     state.node = cam
                                     print("camera")
                                 }
-                        } else if let value = values.second {
+                        } else if values.second != nil {
                             state.state = .cameraZoom
                         }
                     case .cameraZoom:
@@ -72,12 +74,12 @@ struct BoxEditorView: View {
                         }
 
                     case .cameraMove:
-                        if let value = values.second {
+                    if values.second != nil {
                             state.state = .cameraZoom
                         } else {
                             if let value = values.first {
-                                let w = 2 * .pi  * value.translation.height/self.view.frame.height
-                                let h = 2 * .pi  * value.translation.width/self.view.frame.width
+                                let w = 2 * .pi  * value.translation.height/self.sceneViewStore.view.frame.height
+                                let h = 2 * .pi  * value.translation.width/self.sceneViewStore.view.frame.width
                                 state.node!.eulerAngles = SCNVector3( w , h  , 0)
                             }
                         }
@@ -87,11 +89,11 @@ struct BoxEditorView: View {
                                 node.scale = SCNVector3(x:value,y:value,z:value)
                             }
                         }
-                    case .objectRotate:
+                case .objectRotate, .objectMove:
                         if let node = state.node {
                             if let value = values.first {
-                                let w = 2 * .pi  * value.translation.height/self.view.frame.height
-                                let h = 2 * .pi  * value.translation.width/self.view.frame.width
+                                let w = 2 * .pi  * value.translation.height/self.sceneViewStore.view.frame.height
+                                let h = 2 * .pi  * value.translation.width/self.sceneViewStore.view.frame.width
                                 var vec = state.oldAngles
                                 vec.x += w
                                 vec.y += h
@@ -162,7 +164,7 @@ struct BoxEditorView: View {
             let now = timeline.date.formatted(date: .omitted, time: .standard)
 //            let myAngle = now.remainder(dividingBy: 10)*36
             ZStack {
-                SceneViewX(sview: $view,  scene: sceneViewStore.sceneObject,
+                SceneViewX(sview: $sceneViewStore.view,
                        //    pointOfView: scene.rootNode.childNodes(passingTest: {node,p in node.camera != nil}).first,
     
                     options: [

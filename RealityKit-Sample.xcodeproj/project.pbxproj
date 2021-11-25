@@ -39,6 +39,8 @@
 		B62A2C8C274AD29A0023D84E /* SceneViewXios.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CC992B2746DF2400AD03F0 /* SceneViewXios.swift */; };
 		B6551BD6274D7C4D0061F64A /* GestureAnalyze.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6551BD5274D7C4D0061F64A /* GestureAnalyze.swift */; };
 		B6551BD7274D7C4D0061F64A /* GestureAnalyze.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6551BD5274D7C4D0061F64A /* GestureAnalyze.swift */; };
+		B6551BD9274DAB210061F64A /* BoxEditorContent4.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6551BD8274DAB210061F64A /* BoxEditorContent4.swift */; };
+		B6551BDA274DAB210061F64A /* BoxEditorContent4.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6551BD8274DAB210061F64A /* BoxEditorContent4.swift */; };
 		B67114122742701900B2E2BC /* SceneviewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = B671141027426FA100B2E2BC /* SceneviewX.swift */; };
 		B67114132742701C00B2E2BC /* SceneviewX.swift in Sources */ = {isa = PBXBuildFile; fileRef = B671141027426FA100B2E2BC /* SceneviewX.swift */; };
 		B671141E274314AA00B2E2BC /* ViewTestsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B671141D274314AA00B2E2BC /* ViewTestsApp.swift */; };
@@ -93,6 +95,8 @@
 		B6D16C8C2737F1F90012F94E /* MinimanNoCamReset.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D16C8B2737F1F90012F94E /* MinimanNoCamReset.swift */; };
 		B6D16C902737F9110012F94E /* BboxEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D16C862737E93F0012F94E /* BboxEditor.swift */; };
 		B6D16C922737FB740012F94E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D16C912737FB740012F94E /* ContentView.swift */; };
+		B6D1D208274ECDC70057DF3D /* NodeStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1D207274ECDC70057DF3D /* NodeStack.swift */; };
+		B6D1D209274ECDC70057DF3D /* NodeStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1D207274ECDC70057DF3D /* NodeStack.swift */; };
 		B6DB316A273D8950002DE19F /* testmoviesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DB315B273D894F002DE19F /* testmoviesApp.swift */; };
 		B6DB316B273D8950002DE19F /* testmoviesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DB315B273D894F002DE19F /* testmoviesApp.swift */; };
 		B6DB316C273D8950002DE19F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DB315C273D894F002DE19F /* ContentView.swift */; };
@@ -161,6 +165,7 @@
 		B62A2C7B274ACE900023D84E /* BoxEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B62A2C7D274ACE900023D84E /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		B6551BD5274D7C4D0061F64A /* GestureAnalyze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GestureAnalyze.swift; sourceTree = "<group>"; };
+		B6551BD8274DAB210061F64A /* BoxEditorContent4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxEditorContent4.swift; sourceTree = "<group>"; };
 		B671141027426FA100B2E2BC /* SceneviewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneviewX.swift; sourceTree = "<group>"; };
 		B67114142742D8ED00B2E2BC /* MultiTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiTap.swift; sourceTree = "<group>"; };
 		B671141B274314AA00B2E2BC /* ViewTests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ViewTests.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -219,6 +224,7 @@
 		B6D16C862737E93F0012F94E /* BboxEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BboxEditor.swift; sourceTree = "<group>"; };
 		B6D16C8B2737F1F90012F94E /* MinimanNoCamReset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimanNoCamReset.swift; sourceTree = "<group>"; };
 		B6D16C912737FB740012F94E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B6D1D207274ECDC70057DF3D /* NodeStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeStack.swift; sourceTree = "<group>"; };
 		B6DB315B273D894F002DE19F /* testmoviesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testmoviesApp.swift; sourceTree = "<group>"; };
 		B6DB315C273D894F002DE19F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B6DB3162273D8950002DE19F /* testmovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testmovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -388,7 +394,9 @@
 				B62A2C70274ACE8D0023D84E /* BoxEditorContent.swift */,
 				B6059CEA274C6A2B00084D61 /* BoxEditorContent2.swift */,
 				B6E5BF80274D054800CCAAF3 /* BoxEditorContent3.swift */,
+				B6551BD8274DAB210061F64A /* BoxEditorContent4.swift */,
 				B6551BD5274D7C4D0061F64A /* GestureAnalyze.swift */,
+				B6D1D207274ECDC70057DF3D /* NodeStack.swift */,
 				B6059CE4274C5AF600084D61 /* FileMenue.swift */,
 				B6059CE7274C5C0600084D61 /* SceneClass.swift */,
 				B62A2C71274ACE8F0023D84E /* Assets.xcassets */,
@@ -1235,6 +1243,7 @@
 			files = (
 				B62A2C80274ACE900023D84E /* BoxEditorContent.swift in Sources */,
 				B6290CFC274D79A60010DF8F /* TabSelector.swift in Sources */,
+				B6D1D208274ECDC70057DF3D /* NodeStack.swift in Sources */,
 				B62A2C8C274AD29A0023D84E /* SceneViewXios.swift in Sources */,
 				B62A2C7E274ACE900023D84E /* BoxEditorApp.swift in Sources */,
 				B6551BD6274D7C4D0061F64A /* GestureAnalyze.swift in Sources */,
@@ -1242,6 +1251,7 @@
 				B60C9146274AFBFB007EA5EC /* Tools.swift in Sources */,
 				B6E5BF81274D054900CCAAF3 /* BoxEditorContent3.swift in Sources */,
 				B6059CE5274C5AF600084D61 /* FileMenue.swift in Sources */,
+				B6551BD9274DAB210061F64A /* BoxEditorContent4.swift in Sources */,
 				B6E5BF83274D058500CCAAF3 /* BoxEditorContent2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1252,6 +1262,7 @@
 			files = (
 				B62A2C81274ACE900023D84E /* BoxEditorContent.swift in Sources */,
 				B6290CFD274D79A60010DF8F /* TabSelector.swift in Sources */,
+				B6D1D209274ECDC70057DF3D /* NodeStack.swift in Sources */,
 				B62A2C8A274AD23D0023D84E /* SceneviewX.swift in Sources */,
 				B62A2C7F274ACE900023D84E /* BoxEditorApp.swift in Sources */,
 				B6551BD7274D7C4D0061F64A /* GestureAnalyze.swift in Sources */,
@@ -1259,6 +1270,7 @@
 				B60C9147274AFBFB007EA5EC /* Tools.swift in Sources */,
 				B6E5BF82274D054900CCAAF3 /* BoxEditorContent3.swift in Sources */,
 				B6059CE6274C5AF600084D61 /* FileMenue.swift in Sources */,
+				B6551BDA274DAB210061F64A /* BoxEditorContent4.swift in Sources */,
 				B6E5BF84274D058600CCAAF3 /* BoxEditorContent2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1530,7 +1542,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.BoxEditor;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.test3;
 				PRODUCT_NAME = BoxEditor;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1560,7 +1572,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.BoxEditor;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nispuk.test3;
 				PRODUCT_NAME = BoxEditor;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;

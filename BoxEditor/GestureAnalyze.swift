@@ -10,17 +10,81 @@ import SceneKit
 
 struct GestureAnalyze: View {
     @EnvironmentObject var sceneViewStore: SceneData
-    @State var view: SCNView
-    init()
-    {
-        let view = SCNView()
-        self.view = view
+    struct Gstate {
+        var dragStart: CGPoint?
+        var dragSize: CGSize?
+        var magnification: CGFloat?
+        var rotation: CGFloat?
+        
+    }
+    @GestureState var dragState = Gstate()
+    var dragGesturedrag: some Gesture { DragGesture(minimumDistance: 0)
+            .updating($dragState) { m, state, transaction in
+                state.dragStart = m.startLocation
+                state.dragSize  = m.translation
+            }
+    }
+
+    var dragGesturerot: some Gesture { RotationGesture(minimumAngleDelta: Angle.degrees(0))
+            .updating($dragState) { m, state, transaction in
+                state.rotation = m.degrees
+            }
+    }
+
+    var dragGesturemag: some Gesture { MagnificationGesture(minimumScaleDelta: 0)
+            .updating($dragState) { m, state, transaction in
+                state.magnification = m
+            }
+    }
+    var twoGestures: some Gesture {
+         SimultaneousGesture(RotationGesture(minimumAngleDelta: Angle.degrees(0)),
+                             MagnificationGesture(minimumScaleDelta: 0))
+            .updating($dragState) { values, state, transaction in
+                if let m = values.first?.degrees {
+                    state.rotation = m
+                }
+                if let m = values.second?.magnitude {
+                    state.magnification = m
+                }
+            }
+    }
+
+    var threeGestures: some Gesture {
+        SimultaneousGesture( DragGesture( minimumDistance: 0),
+                             SimultaneousGesture(RotationGesture(minimumAngleDelta: Angle.degrees(0)),
+                             MagnificationGesture(minimumScaleDelta: 0)) )
+            .updating($dragState) { values, state, transaction in
+                if let m = values.second?.first?.degrees {
+                    state.rotation = m
+                }
+                if let m = values.second?.second?.magnitude {
+                    state.magnification = m
+                }
+                if let ds = values.first{
+                    state.dragStart = ds.startLocation
+                    state.dragSize = ds.translation
+                }
+            }
     }
     
+    @State var scale:CGFloat?
+    @State var angle:Double?
     var body: some View {
+        let magnificationGesture = MagnificationGesture().onChanged { (value) in
+             scale = value.magnitude
+         }
+         
+         // 3.
+         let rotationGesture = RotationGesture().onChanged { (value) in
+             angle = value.degrees
+         }
+         
+         // 4.
+         let magnificationAndRotateGesture = magnificationGesture.simultaneously(with: rotationGesture)
+
+
         ZStack {
-            SceneViewX(sview: $view,  scene: sceneViewStore.sceneObject,
-                   //    pointOfView: scene.rootNode.childNodes(passingTest: {node,p in node.camera != nil}).first,
+            SceneViewX(sview: $sceneViewStore.view,
 
                 options: [
 //                    .allowsCameraControl,
@@ -29,6 +93,17 @@ struct GestureAnalyze: View {
                     ]
                   )
             VStack() {
+                HStack() {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Drag Start   : \(dragState.dragStart.debugDescription)")
+                        Text("Drag Size    : \(dragState.dragSize.debugDescription)")
+                        Text("Magnification: \(dragState.magnification.debugDescription)")
+                        Text("Rotation     : \(dragState.rotation.debugDescription)")
+                        Text("O-Rotation   : \(angle.debugDescription)")
+                        Text("O-Magnificati: \(scale.debugDescription)")
+                    }
+                Spacer()
+                }
                 Spacer()
                 HStack() {
 //                  Text( "Run: \( now) ")
@@ -38,7 +113,12 @@ struct GestureAnalyze: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-//        .gesture(dragGesture)
+//        .gesture(dragGesturemag)
+//        .gesture(dragGesturerot)
+//        .gesture(dragGesturedrag)
+//        .gesture(twoGestures)
+        .gesture(threeGestures)
+//        .gesture(magnificationAndRotateGesture)
     }
 }
 

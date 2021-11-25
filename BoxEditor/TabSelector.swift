@@ -10,6 +10,11 @@ import SwiftUI
 struct TabSelector: View {
     var body: some View {
         TabView {
+            BoxEditorContent4()
+                .tabItem{
+                    Image(systemName: "5.square.fill")
+                    Text("Select Faces")
+                }
             GestureAnalyze()
                 .tabItem {
                     Image(systemName: "4.square.fill")

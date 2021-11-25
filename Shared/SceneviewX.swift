@@ -31,7 +31,7 @@ class Coordinator: NSObject {
         self.parent = parent
     }
 }
-init(sview scn: Binding<SCNView>, scene: SCNScene? = nil, pointOfView: SCNNode? = nil, options: SceneView.Options = [], preferredFramesPerSecond: Int = 60, antialiasingMode: SCNAntialiasingMode = .multisampling4X, delegate: SCNSceneRendererDelegate? = nil, technique: SCNTechnique? = nil) {
+init(sview scn: Binding<SCNView>,  pointOfView: SCNNode? = nil, options: SceneView.Options = [], preferredFramesPerSecond: Int = 60, antialiasingMode: SCNAntialiasingMode = .multisampling4X, delegate: SCNSceneRendererDelegate? = nil, technique: SCNTechnique? = nil) {
 //    init(svgString: Binding<String>,scn: Binding<SCNView>) {
     let myview = scn.wrappedValue // SCNView()
     
@@ -48,7 +48,7 @@ init(sview scn: Binding<SCNView>, scene: SCNScene? = nil, pointOfView: SCNNode? 
         myview.autoenablesDefaultLighting = true
     }
 
-    myview.scene = scene
+//    myview.scene = scene
     myview.delegate = delegate
     myview.technique = technique
     myview.antialiasingMode = antialiasingMode

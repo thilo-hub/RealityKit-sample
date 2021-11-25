@@ -9,14 +9,15 @@ import SceneKit
 
 struct BoxEditorView3: View {
     @EnvironmentObject var sceneViewStore: SceneData
-    @State var view: SCNView
+//    @State var view: SCNView
     let selectedSurface = CGColor(red: 1, green: 0, blue: 0, alpha: 0.8)
     let defaultSurface = CGColor(red: 0, green: 0, blue: 1, alpha: 0.8)
     @State var otherMaterial = SCNMaterial()
     init()
     {
-        let view = SCNView()
-        self.view = view
+//        let view = SCNView()
+//        self.view = view
+//        view.scene = sceneViewStore.sceneObject
         otherMaterial.diffuse.contents = CGColor(red: 1, green: 0, blue: 0, alpha: 0.8)
         otherMaterial.isDoubleSided = true
     }
@@ -30,7 +31,7 @@ struct BoxEditorView3: View {
                 switch state.state {
                     case .idle:
                         if let value = values.first {
-                            let hit = view.XhitTest(value.startLocation, options: [:])
+                            let hit = sceneViewStore.view.XhitTest(value.startLocation, options: [:])
                             if let nd = hit.first {
                                 state.state = .objectRotate
                                 state.rotatorNode = nd.node
@@ -40,7 +41,7 @@ struct BoxEditorView3: View {
                                 state.rotatorNode = cam
                                 print("camera")
                                 }
-                        } else if let value = values.second {
+                        } else if values.second != nil {
                             if cam != nil {
                                 state.state = .cameraZoom
                                 state.rotatorNode = cam
@@ -51,23 +52,24 @@ struct BoxEditorView3: View {
                 case .objectZoom, .cameraZoom:
                         if let node = state.rotatorNode {
                             if let value = values.second {
+                                let value = Float(value)
                                 
                                 if state.state == .cameraZoom {
-                                    let mag = 1/value
+                                    let mag = CGFloat(1/value)
                                     node.scale = SCNVector3(x:mag,y:mag,z:mag)
                                 } else {
-                                    let mag = value
+                                    let mag = CGFloat(value)
                                     node.scale = SCNVector3(x:mag,y:mag,z:mag)
                                 }
                             }
                         }
-                case .objectRotate, .cameraMove:
+                case .objectRotate, .cameraMove, .objectMove:
                         if let node = state.rotatorNode {
-                            if let value = values.second {
+                            if values.second != nil {
                                 state.state = state.state == .cameraMove ? .cameraZoom : .objectZoom
                             } else if let value = values.first {
-                                let w = 2 * .pi  * value.translation.height/self.view.frame.height
-                                let h = 2 * .pi  * value.translation.width/self.view.frame.width
+                                let w = 2 * .pi  * value.translation.height/self.sceneViewStore.view.frame.height
+                                let h = 2 * .pi  * value.translation.width/self.sceneViewStore.view.frame.width
                                 node.eulerAngles = SCNVector3(x:w,y:h,z:0)
 
                             }
@@ -117,12 +119,6 @@ struct BoxEditorView3: View {
                             otherMaterial = geom.materials.removeFirst()
                         }
                         // apply transformation
-//                        updateOrientation(of: child)
-
-//                        let pp = nd.boundingBox.min
-//                        let po = nd.position
-//                        nd.position = SCNVector3(po.x-pp.x,po.y-pp.y,po.z-pp.z)
-                        let offset = SCNMatrix4MakeTranslation(nd.position.x, nd.position.y, nd.position.z)
                         let ntr = SCNMatrix4Mult(child.transform,nd.transform)
 
                         child.transform = ntr
@@ -158,7 +154,7 @@ struct BoxEditorView3: View {
         TimelineView(.animation) { timeline in
             let now = timeline.date.formatted(date: .omitted, time: .standard)
             ZStack {
-                SceneViewX(sview: $view,  scene: sceneViewStore.sceneObject,
+                SceneViewX(sview: $sceneViewStore.view,
                        //    pointOfView: scene.rootNode.childNodes(passingTest: {node,p in node.camera != nil}).first,
     
                     options: [
