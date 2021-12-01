@@ -59,7 +59,7 @@ struct SceneViewX: UIViewRepresentable {
                 myview.autoenablesDefaultLighting = true
             }
 
-            myview.scene = scene
+//            myview.scene = scene
             myview.delegate = delegate
             myview.technique = technique
             myview.antialiasingMode = antialiasingMode

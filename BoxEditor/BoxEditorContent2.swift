@@ -53,8 +53,8 @@ struct BoxEditorView2: View {
                     print("Zoom")
                         if let node = state.rotatorNode {
                             if let value = values.second {
-                                let mag = state.state == .cameraZoom ? 1/value : value
-                                node.scale = SCNVector3(x:mag,y:mag,z:mag)
+                                let mag = Float(state.state == .cameraZoom ? 1/value : value)
+                                node.simdScale = simd_float3(x:mag,y:mag,z:mag)
                             }
                         }
                 case .objectRotate, .cameraMove, .objectMove:
@@ -64,7 +64,7 @@ struct BoxEditorView2: View {
                             } else if let value = values.first {
                                 let w = 2 * .pi  * value.translation.height/self.sceneViewStore.view.frame.height
                                 let h = 2 * .pi  * value.translation.width/self.sceneViewStore.view.frame.width
-                                node.eulerAngles = SCNVector3(x:w,y:h,z:0)
+                                node.simdEulerAngles = simd_float3(x:Float(w),y:Float(h),z:0)
 
                             }
                         }

@@ -16,12 +16,12 @@ import SceneKit
 
 
 let box_name = "Box"
-private func updateOrientation(of node: SCNNode) {
-    let currentPivot = node.pivot
-    let changePivot = SCNMatrix4Invert(node.transform)
-    node.pivot = SCNMatrix4Mult(changePivot, currentPivot)
-    node.transform = SCNMatrix4Identity
-}
+//private func updateOrientation(of node: SCNNode) {
+//    let currentPivot = node.pivot
+//    let changePivot = SCNMatrix4Invert(node.transform)
+//    node.pivot = SCNMatrix4Mult(changePivot, currentPivot)
+//    node.transform = SCNMatrix4Identity
+//}
 
 fileprivate func createScene() -> SCNScene {
     let sc = SCNScene() // named:"MyScene.scnassets/Arrows.dae")!

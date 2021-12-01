@@ -14,7 +14,7 @@ final class SceneData: ObservableObject {
     @Published public var view: SCNView
 
     init(){
-        let scene = createScene2()
+        let scene = initScene1()
         let view  = SCNView()
         
         view.scene = scene
@@ -25,7 +25,7 @@ final class SceneData: ObservableObject {
 }
 
 
-fileprivate func createScene2() -> SCNScene {
+func initScene1() -> SCNScene {
     print("init")
     let scene = SCNScene(named: "SceneAssets.scnassets/Arrows.dae")!
 
@@ -59,3 +59,45 @@ fileprivate func createScene2() -> SCNScene {
     }
     return scene
 }
+func initScene2() -> SCNScene {
+    let scene = SCNScene()
+    func makeArrow(color: CGColor) -> SCNNode {
+        let arrtail = SCNNode(geometry: SCNCylinder(radius:0.5,height:6))
+        let arrhead = SCNNode(geometry: SCNCone(topRadius: 0, bottomRadius: 1.3, height: 3))
+        arrhead.position = SCNVector3(x: 0, y: 7.5, z: 0)
+        arrtail.position = SCNVector3(x: 0, y: 3, z: 0)
+        let arrow = SCNNode()
+        let cmat = SCNMaterial()
+        cmat.diffuse.contents = color
+        arrhead.geometry?.firstMaterial = cmat
+        arrow.addChildNode(arrtail)
+        arrow.addChildNode(arrhead)
+        
+        return arrow
+    }
+    
+    let arrowBlue  = makeArrow( color: CGColor(red: 0, green: 0, blue: 1, alpha: 1))
+    let arrowRed   = makeArrow( color: CGColor(red: 1, green: 0, blue: 0, alpha: 1))
+    let arrowGreen = makeArrow( color: CGColor(red: 0, green: 1, blue: 0, alpha: 1))
+    
+    let rv:Float = .pi/2.0
+    
+    arrowRed.simdEulerAngles.x = rv //.pi/2
+    arrowRed.simdEulerAngles.y = rv // .pi/4
+    arrowRed.simdEulerAngles.z = rv // .pi/4
+    scene.rootNode.addChildNode(arrowRed)
+    scene.rootNode.addChildNode(arrowGreen)
+    scene.rootNode.addChildNode(arrowBlue)
+    
+    
+    arrowRed.simdEulerAngles  = simd_float3(.pi/2, 0, 0)
+    arrowBlue.simdEulerAngles = simd_float3(0, .pi/2, 0)
+    arrowGreen.simdEulerAngles = simd_float3(0, 0, .pi/2)
+    
+    arrowGreen.simdTransform = arrowBlue.simdTransform + arrowRed.simdTransform
+    
+    let plane = SCNNode(geometry: SCNFloor())
+    scene.rootNode.addChildNode(plane)
+    return scene
+}
+

@@ -48,7 +48,7 @@ struct BoxEditorView: View {
                                 state.state = .objectRotate
                                 state.node = hit.first!.node
 //                                state.node!.geometry?.materials[0].diffuse.contents = selectedSurface
-                                state.oldAngles = state.node!.eulerAngles
+                                state.oldAngles = state.node!.simdEulerAngles
                                 print("Object")
                             } else if let cam = sceneViewStore.sceneObject.rootNode.childNode(withName: "camera", recursively: true) {
                                 state.state = .cameraMove
@@ -86,7 +86,8 @@ struct BoxEditorView: View {
                     case .objectZoom:
                         if let node = state.node {
                             if let value = values.second {
-                                node.scale = SCNVector3(x:value,y:value,z:value)
+                                let value = Float(value)
+                                node.simdScale = simd_float3(x:value,y:value,z:value)
                             }
                         }
                 case .objectRotate, .objectMove:
@@ -95,9 +96,9 @@ struct BoxEditorView: View {
                                 let w = 2 * .pi  * value.translation.height/self.sceneViewStore.view.frame.height
                                 let h = 2 * .pi  * value.translation.width/self.sceneViewStore.view.frame.width
                                 var vec = state.oldAngles
-                                vec.x += w
-                                vec.y += h
-                                node.eulerAngles = vec
+                                vec.x += Float(w)
+                                vec.y += Float(h)
+                                    node.simdEulerAngles = vec
 
                             }
                         }
@@ -152,7 +153,7 @@ struct BoxEditorView: View {
         var dragging = false
         var node:SCNNode? = nil
         var oldMag = 1.0
-        var oldAngles = SCNVector3(0,0,0)
+        var oldAngles = simd_float3(0,0,0)
     }
     @State var SelectedNode: SCNNode?
     @GestureState var dragState = DragS()

@@ -10,9 +10,14 @@ import SwiftUI
 struct TabSelector: View {
     var body: some View {
         TabView {
-            BoxEditorContent4()
+            VectorView()
                 .tabItem{
                     Image(systemName: "5.square.fill")
+                    Text("Vectors")
+                }
+            BoxEditorContent4()
+                .tabItem{
+                    Image(systemName: "6.square.fill")
                     Text("Select Faces")
                 }
             GestureAnalyze()

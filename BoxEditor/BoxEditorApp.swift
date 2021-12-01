@@ -25,12 +25,12 @@ struct BoxEditorApp: App {
             SidebarCommands()
 //            PlantCommands()
             ImportExportCommands(store: scene)
-            ImportFromDevicesCommands()
+//            ImportFromDevicesCommands()
         }
-        Settings {
+//        Settings {
 //            SettingsView()
 //                .environmentObject(store)
-        }
+//        }
 }
 }
 

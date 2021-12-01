@@ -52,12 +52,12 @@ private func changeOrientation(of node: SCNNode, with translation: CGSize) {
     node.rotation = rotationVector
 }
 
-private func updateOrientation(of node: SCNNode) {
-    let currentPivot = node.pivot
-    let changePivot = SCNMatrix4Invert(node.transform)
-    node.pivot = SCNMatrix4Mult(changePivot, currentPivot)
-    node.transform = SCNMatrix4Identity
-}
+//private func updateOrientation(of node: SCNNode) {
+//    let currentPivot = node.pivot
+//    let changePivot = SCNMatrix4Invert(node.transform)
+//    node.pivot = SCNMatrix4Mult(changePivot, currentPivot)
+//    node.transform = SCNMatrix4Identity
+//}
 struct ContentView: View {
     @State var scnview = SCNView()
     var scene: SCNScene = createScene()

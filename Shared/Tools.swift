@@ -30,15 +30,11 @@ func updateOrientation(of node: SCNNode) {
     // pivot^-1 * transform => transform, 1 => pivot
     
     let currentPivot = node.pivot
-    let changePivot = SCNMatrix4Invert(node.transform)
-//    totalChangePivot = SCNMatrix4Mult(changePivot, currentPivot)
-    node.pivot = SCNMatrix4Mult(changePivot, currentPivot)
+    let invTran = SCNMatrix4Invert(node.transform)
+    node.pivot = SCNMatrix4Mult(invTran, currentPivot)
     node.transform = SCNMatrix4Identity
 }
 func normalizeNode(_ node: SCNNode) {
-    //                        child.pivot = SCNMatrix4Identity
-    //                        updateOrientation(of: child)
-    // pivot^-1 * transform => transform, 1 => pivot
     let invpiv = SCNMatrix4Invert(node.pivot)
     node.transform = SCNMatrix4Mult(invpiv, node.transform)
     node.pivot = SCNMatrix4Identity

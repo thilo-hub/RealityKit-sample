@@ -55,11 +55,11 @@ struct BoxEditorView3: View {
                                 let value = Float(value)
                                 
                                 if state.state == .cameraZoom {
-                                    let mag = CGFloat(1/value)
-                                    node.scale = SCNVector3(x:mag,y:mag,z:mag)
+                                    let mag = Float(1/value)
+                                    node.simdScale = simd_float3(x:mag,y:mag,z:mag)
                                 } else {
-                                    let mag = CGFloat(value)
-                                    node.scale = SCNVector3(x:mag,y:mag,z:mag)
+                                    let mag = Float(value)
+                                    node.simdScale = simd_float3(x:mag,y:mag,z:mag)
                                 }
                             }
                         }
@@ -68,9 +68,9 @@ struct BoxEditorView3: View {
                             if values.second != nil {
                                 state.state = state.state == .cameraMove ? .cameraZoom : .objectZoom
                             } else if let value = values.first {
-                                let w = 2 * .pi  * value.translation.height/self.sceneViewStore.view.frame.height
-                                let h = 2 * .pi  * value.translation.width/self.sceneViewStore.view.frame.width
-                                node.eulerAngles = SCNVector3(x:w,y:h,z:0)
+                                let w = Float(2 * .pi  * value.translation.height/self.sceneViewStore.view.frame.height)
+                                let h = Float(2 * .pi  * value.translation.width/self.sceneViewStore.view.frame.width)
+                                node.simdEulerAngles = simd_float3(x:w,y:h,z:0)
 
                             }
                         }

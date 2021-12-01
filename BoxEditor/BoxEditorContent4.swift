@@ -14,7 +14,7 @@ struct BoxEditorContent4: View {
     let defaultSurface = CGColor(red: 0, green: 0, blue: 1, alpha: 0.8)
     @State var otherMaterial = SCNMaterial()
     @State var nview = SCNView()
- 
+    @State var camT: SCNMatrix4 = SCNMatrix4Identity
     @State var undoStack = NodeStack()
     init()
     {
@@ -43,6 +43,7 @@ struct BoxEditorContent4: View {
                 switch state.state {
                     case .idle:
                         if let value = values.first {
+                            camT = cam!.worldTransform
                             let hit = nview.XhitTest(value.startLocation, options: [:])
                             if let nd = hit.first {
                                 self.undoStack.push(node: nd.node)
@@ -50,6 +51,13 @@ struct BoxEditorContent4: View {
                                 state.handle = nd.node
                                 state.hitp = nd.localCoordinates
                                 state.hitn = nd.localNormal
+//                                let camr = SCNMatrix4Mult(camT, nd.modelTransform)
+//                                print(camr)
+//                                if let e = nd.node.geometry?.elements {
+////                                    for el in e {
+////                                        print(e)
+////                                    }
+//                                }
                                 print(nd.localNormal)
                                 print("Object")
                             } else if  cam != nil {
@@ -71,11 +79,11 @@ struct BoxEditorContent4: View {
                                 let value = Float(value)
                                 
                                 if state.state == .cameraZoom {
-                                    let mag = CGFloat(1/value)
-                                    node.scale = SCNVector3(x:mag,y:mag,z:mag)
+                                    let mag = Float(1/value)
+                                    node.simdScale = simd_float3(x:mag,y:mag,z:mag)
                                 } else {
-                                    let mag = CGFloat(value)
-                                    node.scale = SCNVector3(x:mag,y:mag,z:mag)
+                                    let mag = Float(value)
+                                    node.simdScale = simd_float3(x:mag,y:mag,z:mag)
                                 }
                             }
                         }
@@ -85,10 +93,8 @@ struct BoxEditorContent4: View {
                             let v1 = value.translation.width
                             let v = Float(v1 / 400.0)
                             let vv = simd_float3(1,1,1) + v * simd_float3(state.hitn)
-                            node.scale.x =  CGFloat(vv.x)
-                            node.scale.y =  CGFloat(vv.y)
-                            node.scale.z =  CGFloat(vv.z)
-                            
+                            node.simdScale = vv
+                                 
 //                            node.transform = SCNMatrix4MakeTranslation(v * vx,v * vy, v * vz)
 //                            let w = 2 * .pi  * value.translation.height/self.nview.frame.height
 //                            let h = 2 * .pi  * value.translation.width/self.nview.frame.width
@@ -101,9 +107,10 @@ struct BoxEditorContent4: View {
                             if values.second != nil {
                                 state.state = state.state == .cameraMove ? .cameraZoom : .objectZoom
                             } else if let value = values.first {
+//                                let value = Float(value)
                                 let w = 2 * .pi  * value.translation.height/self.nview.frame.height
                                 let h = 2 * .pi  * value.translation.width/self.nview.frame.width
-                                node.eulerAngles = SCNVector3(x:w,y:h,z:0)
+                                node.simdEulerAngles = simd_float3(x:Float(w),y:Float(h),z:0)
 
                             }
                         }
@@ -162,7 +169,7 @@ struct BoxEditorContent4: View {
                         let ntr = SCNMatrix4Mult(child.transform,handle.transform)
 
                         child.transform = ntr
-                        normalizeNode(child)
+                            normalizeNode(child)
 
                         if let parent = handle.parent {
                             parent.replaceChildNode(handle, with: child)
@@ -202,12 +209,18 @@ struct BoxEditorContent4: View {
                       )
                     .onAppear(perform: {
                         nview.scene = sceneViewStore.sceneObject
+//                        let v1 = SCNVector3(1,0,0)
+//                        let v2 = SCNVector3(0,1,0)
                         for n in ["X","Y","Z"] {
                             if let nd = sceneViewStore.sceneObject.rootNode.childNode(withName: n, recursively: true) {
 //                                let v = SCNMatrix4MakeRotation(Angle.degrees(45).degrees, 1, 1, 0)
                                 let v = SCNMatrix4Identity
-                                let bx1=SCNBox(width: 1,height: 2,length: 3, chamferRadius: 0)
-                                bx1.materials[0].diffuse.contents = CGColor(red: abs(nd.position.x/10),green: abs( nd.position.y/10),blue: abs( nd.position.z/10), alpha: 1)
+                                let bx1=SCNBox(width: 0.5,height: 0.5,length: 3, chamferRadius: 0)
+                                bx1.materials[0].diffuse.contents =
+                                CGColor(red: abs(CGFloat(nd.position.x)/10),
+                                                green: abs( CGFloat(nd.position.y)/10),
+                                                blue: abs( CGFloat(nd.position.z)/10),
+                                                alpha: 1)
                                 let bxn=SCNNode(geometry: bx1)
                                 bxn.transform = SCNMatrix4Mult(nd.transform, v)
 //                                bxn.position = nd.position

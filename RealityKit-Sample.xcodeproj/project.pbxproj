@@ -29,7 +29,6 @@
 		B6290CFC274D79A60010DF8F /* TabSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6290CFB274D79A60010DF8F /* TabSelector.swift */; };
 		B6290CFD274D79A60010DF8F /* TabSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6290CFB274D79A60010DF8F /* TabSelector.swift */; };
 		B62A2C6D274AB6160023D84E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CC990D2746D7DF00AD03F0 /* ContentView.swift */; };
-		B62A2C7E274ACE900023D84E /* BoxEditorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A2C6F274ACE8D0023D84E /* BoxEditorApp.swift */; };
 		B62A2C7F274ACE900023D84E /* BoxEditorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A2C6F274ACE8D0023D84E /* BoxEditorApp.swift */; };
 		B62A2C80274ACE900023D84E /* BoxEditorContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A2C70274ACE8D0023D84E /* BoxEditorContent.swift */; };
 		B62A2C81274ACE900023D84E /* BoxEditorContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A2C70274ACE8D0023D84E /* BoxEditorContent.swift */; };
@@ -65,6 +64,9 @@
 		B6833F8E27349634000ACCA8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6833F8D27349634000ACCA8 /* Assets.xcassets */; };
 		B6833F9127349634000ACCA8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6833F9027349634000ACCA8 /* Preview Assets.xcassets */; };
 		B6833F9B273496A9000ACCA8 /* MyScene.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C85927308A7B000008F2 /* MyScene.scnassets */; };
+		B688D3712757514E00F57156 /* BoxEditorIos.swift in Sources */ = {isa = PBXBuildFile; fileRef = B688D3702757514E00F57156 /* BoxEditorIos.swift */; };
+		B688D3732757527D00F57156 /* MyScene.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C85927308A7B000008F2 /* MyScene.scnassets */; };
+		B688D3742757527D00F57156 /* MyScene.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C85927308A7B000008F2 /* MyScene.scnassets */; };
 		B68B8768273E5E3100F48635 /* IMG_1537.MOV in Resources */ = {isa = PBXBuildFile; fileRef = B68B8765273E5DE400F48635 /* IMG_1537.MOV */; };
 		B68B876C273E615500F48635 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B68B876B273E615500F48635 /* Media.xcassets */; };
 		B69A5B6B27398B84000AAD40 /* MyScene.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = B6F9C85927308A7B000008F2 /* MyScene.scnassets */; };
@@ -97,6 +99,8 @@
 		B6D16C922737FB740012F94E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D16C912737FB740012F94E /* ContentView.swift */; };
 		B6D1D208274ECDC70057DF3D /* NodeStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1D207274ECDC70057DF3D /* NodeStack.swift */; };
 		B6D1D209274ECDC70057DF3D /* NodeStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1D207274ECDC70057DF3D /* NodeStack.swift */; };
+		B6D1D20B274F80D40057DF3D /* VectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1D20A274F80D40057DF3D /* VectorView.swift */; };
+		B6D1D20C274F80D40057DF3D /* VectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6D1D20A274F80D40057DF3D /* VectorView.swift */; };
 		B6DB316A273D8950002DE19F /* testmoviesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DB315B273D894F002DE19F /* testmoviesApp.swift */; };
 		B6DB316B273D8950002DE19F /* testmoviesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DB315B273D894F002DE19F /* testmoviesApp.swift */; };
 		B6DB316C273D8950002DE19F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6DB315C273D894F002DE19F /* ContentView.swift */; };
@@ -196,6 +200,7 @@
 		B6833F8D27349634000ACCA8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B6833F9027349634000ACCA8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B6833F9227349634000ACCA8 /* test3.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = test3.entitlements; sourceTree = "<group>"; };
+		B688D3702757514E00F57156 /* BoxEditorIos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxEditorIos.swift; sourceTree = "<group>"; };
 		B68B8765273E5DE400F48635 /* IMG_1537.MOV */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = IMG_1537.MOV; sourceTree = "<group>"; };
 		B68B876B273E615500F48635 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		B69A5B6A2739850E000AAD40 /* FutureBedit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FutureBedit.swift; sourceTree = "<group>"; };
@@ -225,6 +230,7 @@
 		B6D16C8B2737F1F90012F94E /* MinimanNoCamReset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimanNoCamReset.swift; sourceTree = "<group>"; };
 		B6D16C912737FB740012F94E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B6D1D207274ECDC70057DF3D /* NodeStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeStack.swift; sourceTree = "<group>"; };
+		B6D1D20A274F80D40057DF3D /* VectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VectorView.swift; sourceTree = "<group>"; };
 		B6DB315B273D894F002DE19F /* testmoviesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testmoviesApp.swift; sourceTree = "<group>"; };
 		B6DB315C273D894F002DE19F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B6DB3162273D8950002DE19F /* testmovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testmovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -390,11 +396,13 @@
 			isa = PBXGroup;
 			children = (
 				B62A2C6F274ACE8D0023D84E /* BoxEditorApp.swift */,
+				B688D3702757514E00F57156 /* BoxEditorIos.swift */,
 				B6290CFB274D79A60010DF8F /* TabSelector.swift */,
 				B62A2C70274ACE8D0023D84E /* BoxEditorContent.swift */,
 				B6059CEA274C6A2B00084D61 /* BoxEditorContent2.swift */,
 				B6E5BF80274D054800CCAAF3 /* BoxEditorContent3.swift */,
 				B6551BD8274DAB210061F64A /* BoxEditorContent4.swift */,
+				B6D1D20A274F80D40057DF3D /* VectorView.swift */,
 				B6551BD5274D7C4D0061F64A /* GestureAnalyze.swift */,
 				B6D1D207274ECDC70057DF3D /* NodeStack.swift */,
 				B6059CE4274C5AF600084D61 /* FileMenue.swift */,
@@ -990,7 +998,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1310;
-				LastUpgradeCheck = 1310;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					B6118A73273C7CD500A7C2ED = {
 						CreatedOnToolsVersion = 13.1;
@@ -1101,6 +1109,7 @@
 			files = (
 				B62A2C82274ACE900023D84E /* Assets.xcassets in Resources */,
 				B6059CE2274C436B00084D61 /* SceneAssets.scnassets in Resources */,
+				B688D3732757527D00F57156 /* MyScene.scnassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1110,6 +1119,7 @@
 			files = (
 				B62A2C83274ACE900023D84E /* Assets.xcassets in Resources */,
 				B6059CE3274C436B00084D61 /* SceneAssets.scnassets in Resources */,
+				B688D3742757527D00F57156 /* MyScene.scnassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1245,7 +1255,8 @@
 				B6290CFC274D79A60010DF8F /* TabSelector.swift in Sources */,
 				B6D1D208274ECDC70057DF3D /* NodeStack.swift in Sources */,
 				B62A2C8C274AD29A0023D84E /* SceneViewXios.swift in Sources */,
-				B62A2C7E274ACE900023D84E /* BoxEditorApp.swift in Sources */,
+				B6D1D20B274F80D40057DF3D /* VectorView.swift in Sources */,
+				B688D3712757514E00F57156 /* BoxEditorIos.swift in Sources */,
 				B6551BD6274D7C4D0061F64A /* GestureAnalyze.swift in Sources */,
 				B6059CE8274C5C0600084D61 /* SceneClass.swift in Sources */,
 				B60C9146274AFBFB007EA5EC /* Tools.swift in Sources */,
@@ -1264,6 +1275,7 @@
 				B6290CFD274D79A60010DF8F /* TabSelector.swift in Sources */,
 				B6D1D209274ECDC70057DF3D /* NodeStack.swift in Sources */,
 				B62A2C8A274AD23D0023D84E /* SceneviewX.swift in Sources */,
+				B6D1D20C274F80D40057DF3D /* VectorView.swift in Sources */,
 				B62A2C7F274ACE900023D84E /* BoxEditorApp.swift in Sources */,
 				B6551BD7274D7C4D0061F64A /* GestureAnalyze.swift in Sources */,
 				B6059CE9274C5C0600084D61 /* SceneClass.swift in Sources */,
@@ -1469,6 +1481,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Tests/AssetViewer-Test/testMovie.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1498,6 +1511,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Tests/AssetViewer-Test/testMovie.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1588,6 +1602,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1616,6 +1631,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1644,6 +1660,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ViewTests/ViewTests.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1673,6 +1690,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ViewTests/ViewTests.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1702,6 +1720,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CamTest/CamTest.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1731,6 +1750,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CamTest/CamTest.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1760,6 +1780,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DelgateTest/DelgateTest.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1789,6 +1810,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = DelgateTest/DelgateTest.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1848,6 +1870,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Tests/RealityBoundsEditor/test3.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1944,6 +1967,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = hittest/hittest.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1973,6 +1997,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = hittest/hittest.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2063,6 +2088,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2091,6 +2117,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2180,6 +2207,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2208,6 +2236,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2347,6 +2376,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2375,6 +2405,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2403,6 +2434,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = test1/test1.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -2432,6 +2464,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = test1/test1.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
