@@ -13,6 +13,7 @@ struct BoxEditorView3: View {
     let selectedSurface = CGColor(red: 1, green: 0, blue: 0, alpha: 0.8)
     let defaultSurface = CGColor(red: 0, green: 0, blue: 1, alpha: 0.8)
     @State var otherMaterial = SCNMaterial()
+    @State var view:SCNView = SCNView()
     init()
     {
 //        let view = SCNView()
@@ -31,7 +32,7 @@ struct BoxEditorView3: View {
                 switch state.state {
                     case .idle:
                         if let value = values.first {
-                            let hit = sceneViewStore.view.XhitTest(value.startLocation, options: [:])
+                            let hit = view.XhitTest(value.startLocation, options: [:])
                             if let nd = hit.first {
                                 state.state = .objectRotate
                                 state.rotatorNode = nd.node
@@ -68,8 +69,8 @@ struct BoxEditorView3: View {
                             if values.second != nil {
                                 state.state = state.state == .cameraMove ? .cameraZoom : .objectZoom
                             } else if let value = values.first {
-                                let w = Float(2 * .pi  * value.translation.height/self.sceneViewStore.view.frame.height)
-                                let h = Float(2 * .pi  * value.translation.width/self.sceneViewStore.view.frame.width)
+                                let w = Float(2 * .pi  * value.translation.height/view.frame.height)
+                                let h = Float(2 * .pi  * value.translation.width/view.frame.width)
                                 node.simdEulerAngles = simd_float3(x:w,y:h,z:0)
 
                             }
@@ -154,7 +155,7 @@ struct BoxEditorView3: View {
         TimelineView(.animation) { timeline in
             let now = timeline.date.formatted(date: .omitted, time: .standard)
             ZStack {
-                SceneViewX(sview: $sceneViewStore.view,
+                SceneViewX(sview: $view,
                        //    pointOfView: scene.rootNode.childNodes(passingTest: {node,p in node.camera != nil}).first,
     
                     options: [
@@ -163,6 +164,7 @@ struct BoxEditorView3: View {
                         .temporalAntialiasingEnabled
                         ]
                       )
+                .onAppear(perform: {view.scene = sceneViewStore.sceneObject})
                 VStack() {
                     Text("Version 3")
                     Spacer()

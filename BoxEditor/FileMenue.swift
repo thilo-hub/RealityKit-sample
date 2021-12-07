@@ -8,11 +8,10 @@
 import SwiftUI
 import UniformTypeIdentifiers
 import SceneKit
-
 extension SceneData: ReferenceFileDocument {
     
     typealias Snapshot = SCNScene
-    static var readableContentTypes = [UTType.sceneKitScene]
+    static var readableContentTypes = [UTType.sceneKitScene,UTType.usdz,UTType.data]
 
     convenience init(configuration: ReadConfiguration) throws {
         self.init()
@@ -33,14 +32,35 @@ extension SceneData: ReferenceFileDocument {
     
 }
 struct ImportExportCommands: Commands {
-    var store:SceneData
+     var store: SceneData
     @State private var isShowingExportDialog = false
+    @State private var isShowingImportDialog = false
 
     var body: some Commands {
         CommandGroup(replacing: .importExport) {
             Section {
-                Button("Load…") { }
-                //                .fileImporter
+                Button("Load…") {
+                    isShowingImportDialog = true
+                }
+                    .fileImporter( isPresented: $isShowingImportDialog, allowedContentTypes: SceneData.readableContentTypes) { result in
+                    do {
+//                    }
+                    let url = try result.get()
+//                    store.loadedFile = url
+                        print(url)
+                    let scene = try SCNScene(url: url)
+                        let nd = scene.rootNode.clone()
+                        let name = url.lastPathComponent
+                        nd.name = name
+//                        let xb = SCNBox(width: 4, height: 4, length: 4, chamferRadius: 0.1)
+//                        let nd = SCNNode(geometry: xb)
+                        
+                        store.sceneObject.rootNode.addChildNode(nd)
+                    }
+                        catch {
+                            print("Ups")
+                        }
+                }
                 Button("Export…") {
                     isShowingExportDialog = true
                 }

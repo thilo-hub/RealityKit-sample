@@ -81,6 +81,10 @@
 		B6A735E32736BDD9003A0239 /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = B6A735E22736BDD9003A0239 /* Experience.rcproject */; };
 		B6A735E52736BDDB003A0239 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6A735E42736BDDB003A0239 /* Assets.xcassets */; };
 		B6A735E82736BDDB003A0239 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6A735E72736BDDB003A0239 /* Preview Assets.xcassets */; };
+		B6CA24A1275C1636006693E7 /* SideNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CA24A0275C1636006693E7 /* SideNav.swift */; };
+		B6CA24A2275C1636006693E7 /* SideNav.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CA24A0275C1636006693E7 /* SideNav.swift */; };
+		B6CA24A4275C1C67006693E7 /* HierarchieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CA24A3275C1C67006693E7 /* HierarchieView.swift */; };
+		B6CA24A5275C1C67006693E7 /* HierarchieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CA24A3275C1C67006693E7 /* HierarchieView.swift */; };
 		B6CC98FE2746409200AD03F0 /* hittestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CC98FD2746409200AD03F0 /* hittestApp.swift */; };
 		B6CC99022746409400AD03F0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6CC99012746409400AD03F0 /* Assets.xcassets */; };
 		B6CC99052746409400AD03F0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6CC99042746409400AD03F0 /* Preview Assets.xcassets */; };
@@ -214,6 +218,9 @@
 		B6A735E22736BDD9003A0239 /* Experience.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; path = Experience.rcproject; sourceTree = "<group>"; };
 		B6A735E42736BDDB003A0239 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B6A735E72736BDDB003A0239 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B6CA24A0275C1636006693E7 /* SideNav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideNav.swift; sourceTree = "<group>"; };
+		B6CA24A3275C1C67006693E7 /* HierarchieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HierarchieView.swift; sourceTree = "<group>"; };
+		B6CA24CA275CCDF9006693E7 /* BoxEditor--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "BoxEditor--macOS--Info.plist"; sourceTree = "<group>"; };
 		B6CC98FB2746409200AD03F0 /* hittest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hittest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6CC98FD2746409200AD03F0 /* hittestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hittestApp.swift; sourceTree = "<group>"; };
 		B6CC98FF2746409200AD03F0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -397,13 +404,15 @@
 			children = (
 				B62A2C6F274ACE8D0023D84E /* BoxEditorApp.swift */,
 				B688D3702757514E00F57156 /* BoxEditorIos.swift */,
+				B6CA24A0275C1636006693E7 /* SideNav.swift */,
 				B6290CFB274D79A60010DF8F /* TabSelector.swift */,
+				B6D1D20A274F80D40057DF3D /* VectorView.swift */,
+				B6551BD5274D7C4D0061F64A /* GestureAnalyze.swift */,
 				B62A2C70274ACE8D0023D84E /* BoxEditorContent.swift */,
 				B6059CEA274C6A2B00084D61 /* BoxEditorContent2.swift */,
 				B6E5BF80274D054800CCAAF3 /* BoxEditorContent3.swift */,
 				B6551BD8274DAB210061F64A /* BoxEditorContent4.swift */,
-				B6D1D20A274F80D40057DF3D /* VectorView.swift */,
-				B6551BD5274D7C4D0061F64A /* GestureAnalyze.swift */,
+				B6CA24A3275C1C67006693E7 /* HierarchieView.swift */,
 				B6D1D207274ECDC70057DF3D /* NodeStack.swift */,
 				B6059CE4274C5AF600084D61 /* FileMenue.swift */,
 				B6059CE7274C5C0600084D61 /* SceneClass.swift */,
@@ -626,6 +635,7 @@
 		B6F9C835273080D0000008F2 = {
 			isa = PBXGroup;
 			children = (
+				B6CA24CA275CCDF9006693E7 /* BoxEditor--macOS--Info.plist */,
 				B6594F8A273B20F50006B976 /* Tests */,
 				B6833F5C2734942D000ACCA8 /* RealityGenerator */,
 				B6F9C83A273080D0000008F2 /* Shared */,
@@ -1257,12 +1267,14 @@
 				B62A2C8C274AD29A0023D84E /* SceneViewXios.swift in Sources */,
 				B6D1D20B274F80D40057DF3D /* VectorView.swift in Sources */,
 				B688D3712757514E00F57156 /* BoxEditorIos.swift in Sources */,
+				B6CA24A4275C1C67006693E7 /* HierarchieView.swift in Sources */,
 				B6551BD6274D7C4D0061F64A /* GestureAnalyze.swift in Sources */,
 				B6059CE8274C5C0600084D61 /* SceneClass.swift in Sources */,
 				B60C9146274AFBFB007EA5EC /* Tools.swift in Sources */,
 				B6E5BF81274D054900CCAAF3 /* BoxEditorContent3.swift in Sources */,
 				B6059CE5274C5AF600084D61 /* FileMenue.swift in Sources */,
 				B6551BD9274DAB210061F64A /* BoxEditorContent4.swift in Sources */,
+				B6CA24A1275C1636006693E7 /* SideNav.swift in Sources */,
 				B6E5BF83274D058500CCAAF3 /* BoxEditorContent2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1277,12 +1289,14 @@
 				B62A2C8A274AD23D0023D84E /* SceneviewX.swift in Sources */,
 				B6D1D20C274F80D40057DF3D /* VectorView.swift in Sources */,
 				B62A2C7F274ACE900023D84E /* BoxEditorApp.swift in Sources */,
+				B6CA24A5275C1C67006693E7 /* HierarchieView.swift in Sources */,
 				B6551BD7274D7C4D0061F64A /* GestureAnalyze.swift in Sources */,
 				B6059CE9274C5C0600084D61 /* SceneClass.swift in Sources */,
 				B60C9147274AFBFB007EA5EC /* Tools.swift in Sources */,
 				B6E5BF82274D054900CCAAF3 /* BoxEditorContent3.swift in Sources */,
 				B6059CE6274C5AF600084D61 /* FileMenue.swift in Sources */,
 				B6551BDA274DAB210061F64A /* BoxEditorContent4.swift in Sources */,
+				B6CA24A2275C1636006693E7 /* SideNav.swift in Sources */,
 				B6E5BF84274D058600CCAAF3 /* BoxEditorContent2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1610,6 +1624,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "BoxEditor--macOS--Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1639,6 +1654,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "BoxEditor--macOS--Info.plist";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

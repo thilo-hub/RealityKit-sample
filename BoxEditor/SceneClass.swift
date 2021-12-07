@@ -10,35 +10,36 @@ import SwiftUI
 import SceneKit
 
 final class SceneData: ObservableObject {
-    @Published public var sceneObject:SCNScene
-    @Published public var view: SCNView
+    @Published public var sceneObject:SCNScene = SCNScene()
 
     init(){
-        let scene = initScene1()
-        let view  = SCNView()
-        
-        view.scene = scene
-        self.view = view
-        self.sceneObject = scene
+        sceneObject = initScene3()
+        addCamera(sceneObject)
     }
 
 }
 
 
+fileprivate func addCamera(_ scene: SCNScene) {
+    // Create Camera holder
+    let cameraNode = SCNNode()
+    cameraNode.camera = SCNCamera()
+    cameraNode.position = SCNVector3(0,0,20)
+    
+    let cameraHolder = SCNNode()
+    cameraHolder.addChildNode(cameraNode)
+    
+    let cameraBox = SCNNode()
+    cameraBox.addChildNode(cameraHolder)
+    cameraBox.name = "camera"
+    scene.rootNode.addChildNode(cameraBox)
+}
+
 func initScene1() -> SCNScene {
     print("init")
     let scene = SCNScene(named: "SceneAssets.scnassets/Arrows.dae")!
 
-    // Create Camera holder
-    let cams = SCNNode()
-    let cmh = SCNNode()
-    cmh.addChildNode(cams)
-    let cam = SCNNode()
-    cam.addChildNode(cmh)
-    cams.camera = SCNCamera()
-    cams.position = SCNVector3(0,0,20)
-    cam.name = "camera"
-    scene.rootNode.addChildNode(cam)
+//    addCamera(scene)
 
     let pne = SCNPlane(width: 10, height: 10)
     let pnn = SCNNode(geometry: pne)
@@ -101,3 +102,31 @@ func initScene2() -> SCNScene {
     return scene
 }
 
+fileprivate func addFancyCam(_ scene: SCNScene) {
+    //    let scene = SCNScene(named: "MyScene.scnassets/ship.scn")!
+    let camn = SCNNode()
+    let cam = SCNCamera()
+    camn.position = SCNVector3(0,1,30)
+    camn.camera = cam
+    
+    let cbox = SCNBox(width: 2.5,height: 2.5,length: 2.5,chamferRadius: 0)
+    let camh = SCNNode(geometry: cbox)
+    camh.addChildNode(camn)
+    cbox.removeMaterial(at: 0)
+    let skyBlue = Color(red: 0.4627, green: 0.8392, blue: 1.0)
+    //    let lemonYellow = Color(hue: 0.1639, saturation: 1, brightness: 1)
+    let steelGray = Color(white: 0.4745)
+    for color in [ Color.red, Color.green, Color.blue, Color.yellow, skyBlue, steelGray] {
+        let mat = SCNMaterial()
+        //        mat.diffuse.contents = UIColor(color).cgColor
+        mat.diffuse.contents = NSColor(color).cgColor
+        cbox.materials.append(mat)
+    }
+    scene.rootNode.addChildNode(camh)
+}
+
+func initScene3()  -> SCNScene {
+    let scene = initScene1()
+//    addFancyCam(scene)
+    return scene
+}

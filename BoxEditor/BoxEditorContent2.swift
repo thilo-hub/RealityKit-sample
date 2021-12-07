@@ -22,7 +22,7 @@ struct BoxEditorView2: View {
         otherMaterial.diffuse.contents = CGColor(red: 1, green: 0, blue: 0, alpha: 0.8)
         otherMaterial.isDoubleSided = true
     }
-    
+    @State var view:SCNView = SCNView()
     let mindist = 0.0
     var dragGesture: some Gesture {
         SimultaneousGesture( DragGesture( minimumDistance: mindist), MagnificationGesture())
@@ -31,7 +31,7 @@ struct BoxEditorView2: View {
                 switch state.state {
                     case .idle:
                         if let value = values.first {
-                            let hit = sceneViewStore.view.XhitTest(value.startLocation, options: [:])
+                            let hit = view.XhitTest(value.startLocation, options: [:])
                             if let nd = hit.first {
                                 state.state = .objectRotate
                                 state.rotatorNode = nd.node
@@ -62,8 +62,8 @@ struct BoxEditorView2: View {
                             if values.second != nil {
                                 state.state = state.state == .cameraMove ? .cameraZoom : .objectZoom
                             } else if let value = values.first {
-                                let w = 2 * .pi  * value.translation.height/self.sceneViewStore.view.frame.height
-                                let h = 2 * .pi  * value.translation.width/self.sceneViewStore.view.frame.width
+                                let w = 2 * .pi  * value.translation.height/view.frame.height
+                                let h = 2 * .pi  * value.translation.width/view.frame.width
                                 node.simdEulerAngles = simd_float3(x:Float(w),y:Float(h),z:0)
 
                             }
@@ -135,7 +135,7 @@ struct BoxEditorView2: View {
         TimelineView(.animation) { timeline in
             let now = timeline.date.formatted(date: .omitted, time: .standard)
             ZStack {
-                SceneViewX(sview: $sceneViewStore.view,
+                SceneViewX(sview: $view,
                        //    pointOfView: scene.rootNode.childNodes(passingTest: {node,p in node.camera != nil}).first,
     
                     options: [
@@ -144,6 +144,7 @@ struct BoxEditorView2: View {
                         .temporalAntialiasingEnabled
                         ]
                       )
+                .onAppear(perform: {view.scene = sceneViewStore.sceneObject})
                 VStack() {
                     Spacer()
                     HStack() {

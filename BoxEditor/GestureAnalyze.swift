@@ -48,11 +48,24 @@ struct GestureAnalyze: View {
                 }
             }
     }
-
+    let agesture = DragGesture( minimumDistance: 1)
+        .modifiers(.shift)
+        .onChanged(){ value in
+            print (value)
+        }
+        .onEnded(){ value in
+            print(value,"ENDED")
+        }
+    let bgesture = DragGesture( minimumDistance: 1)
+        .modifiers(.command)
+        .onEnded(){ value in
+            print("Ended: ",value)
+        }
     var threeGestures: some Gesture {
         SimultaneousGesture( DragGesture( minimumDistance: 0),
                              SimultaneousGesture(RotationGesture(minimumAngleDelta: Angle.degrees(0)),
                              MagnificationGesture(minimumScaleDelta: 0)) )
+//            .modifiers(.shift)
             .updating($dragState) { values, state, transaction in
                 if let m = values.second?.first?.degrees {
                     state.rotation = m
@@ -69,6 +82,7 @@ struct GestureAnalyze: View {
     
     @State var scale:CGFloat?
     @State var angle:Double?
+    @State var view:SCNView = SCNView()
     var body: some View {
         let magnificationGesture = MagnificationGesture().onChanged { (value) in
              scale = value.magnitude
@@ -84,7 +98,8 @@ struct GestureAnalyze: View {
 
 
         ZStack {
-            SceneViewX(sview: $sceneViewStore.view,
+//            SceneViewX(sview: $sceneViewStore.view,
+            SceneViewX(sview: $view,
 
                 options: [
 //                    .allowsCameraControl,
@@ -92,6 +107,7 @@ struct GestureAnalyze: View {
                     .temporalAntialiasingEnabled
                     ]
                   )
+                .onAppear(perform: {view.scene = sceneViewStore.sceneObject})
             VStack() {
                 HStack() {
                     VStack(alignment: .leading, spacing: 6) {
@@ -113,6 +129,8 @@ struct GestureAnalyze: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .gesture(agesture)
+        .gesture(bgesture)
 //        .gesture(dragGesturemag)
 //        .gesture(dragGesturerot)
 //        .gesture(dragGesturedrag)

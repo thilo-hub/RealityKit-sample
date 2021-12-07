@@ -45,13 +45,13 @@ fileprivate func addEditorTools(s: SCNScene)  {
           }
     }
 }
-private func updateOrientation(of node: SCNNode) {
-    let currentPivot = node.pivot
-    let changePivot = SCNMatrix4Invert(node.transform)
-//    totalChangePivot = SCNMatrix4Mult(changePivot, currentPivot)
-    node.pivot = SCNMatrix4Mult(changePivot, currentPivot)
-    node.transform = SCNMatrix4Identity
-}
+//private func updateOrientation(of node: SCNNode) {
+//    let currentPivot = node.pivot
+//    let changePivot = SCNMatrix4Invert(node.transform)
+////    totalChangePivot = SCNMatrix4Mult(changePivot, currentPivot)
+//    node.pivot = SCNMatrix4Mult(changePivot, currentPivot)
+//    node.transform = SCNMatrix4Identity
+//}
 
 private func changeOrientation(of node: SCNNode, with translation: CGSize) {
     let x = Float(translation.width)
@@ -107,6 +107,7 @@ struct viewScene: View {
         }
         
         self.scene = scene
+        self.scnview.scene = scene
         
     }
     
@@ -231,7 +232,7 @@ struct viewScene: View {
             ForEach( scene.rootNode.childNodes(passingTest: {node,p in node.camera != nil}), id:\.self)  { n in
             SceneViewX (
                 sview: $scnview,
-                scene: scene,
+//                scene: scene,
                 pointOfView: n,
                 options: [
 

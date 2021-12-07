@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct TabSelector: View {
+    //    @SceneStorage("URL") var url: URL = URL(string: "file:///")!
+    //    @SceneStorage("URL") var url: URL?
+//        @SceneStorage("URL") var text: URL?
+     
+
     var body: some View {
         TabView {
             VectorView()

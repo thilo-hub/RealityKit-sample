@@ -11,6 +11,7 @@ import SceneKit
 @main
 struct BoxEditorApp: App {
     @StateObject private var scene = SceneData()
+
     var body: some Scene {
         WindowGroup {
 //            BoxEditorView()
@@ -18,9 +19,9 @@ struct BoxEditorApp: App {
 //            BoxEditorView2()
 //                .environmentObject(scene)
 //            BoxEditorView3()
-            TabSelector()
+            SideNav()
                 .environmentObject(scene)
-        }
+         }
         .commands {
             SidebarCommands()
 //            PlantCommands()
@@ -31,6 +32,6 @@ struct BoxEditorApp: App {
 //            SettingsView()
 //                .environmentObject(store)
 //        }
-}
+    }
 }
 

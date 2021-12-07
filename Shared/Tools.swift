@@ -38,4 +38,9 @@ func normalizeNode(_ node: SCNNode) {
     let invpiv = SCNMatrix4Invert(node.pivot)
     node.transform = SCNMatrix4Mult(invpiv, node.transform)
     node.pivot = SCNMatrix4Identity
+    // D = P^-1 * T
+    //   P' = P * P^-1 = 1
+    //   T' = P * T
+    //   P' = 1
+    //   D' = 1 * P * T
 }
