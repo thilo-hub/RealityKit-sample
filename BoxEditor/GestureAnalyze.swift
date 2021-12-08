@@ -139,9 +139,9 @@ struct GestureAnalyze: View {
 //        .gesture(magnificationAndRotateGesture)
     }
 }
-
-struct GestureAnalyze_Previews: PreviewProvider {
-    static var previews: some View {
-        GestureAnalyze()
-    }
-}
+//
+//struct GestureAnalyze_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GestureAnalyze()
+//    }
+//}

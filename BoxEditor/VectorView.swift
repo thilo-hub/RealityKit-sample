@@ -62,10 +62,12 @@ struct VectorView: View {
         var locationOffset = SIMD3<Float>(0,0,0)
         var zoomOffset = simd_float3(0,0,0)
         var quatf = simd_quatf()
+        var rotmat = simd_float3x3()
     }
     @State var origNode: SCNNode?
     @State var origMaterial: SCNMaterial?
     @State var origMaterialIndex: Int = 9
+    @State var origWorldNormal = simd_float3(1,1,1)
     @State var origNormal = simd_float3(1,1,1)
 
     // manipulating objects:
@@ -85,11 +87,13 @@ struct VectorView: View {
                          MagnificationGesture(minimumScaleDelta:
                                                 0)))
         .onEnded(){ value in
-             if let old = origNode {
+             if let p = origNode {
                  if origMaterial != nil {
-                    normalizeNode(old) // reset translation
-                    old.geometry?.replaceMaterial(at: origMaterialIndex, with: origMaterial!)
-//                                      updateOrientation(of: old)
+//                    normalizeNode(old) // reset translation
+                     p.geometry?.replaceMaterial(at: origMaterialIndex, with: origMaterial!)
+                     print("   Normal: ",origWorldNormal)
+                     print("End Trans: ",p.simdTransform)
+                     print("End Pivot: ",p.simdPivot)
                  }
                 origNode = nil
                 print("restore")
@@ -104,60 +108,10 @@ struct VectorView: View {
                         let p = nd.node
                         self.undoStack.push(node: p)
                         origNode = p
-                        print(p.simdPivot)
-                        print(p.simdTransform)
-                        // Get bounding box and find oposite face
-                        let b1 = p.boundingBox.min
-                        let b2 = p.boundingBox.max
-                        let n  = nd.localNormal
                         origNormal = nd.simdLocalNormal
-                        print("Normal: ",origNormal)
-                        let x  = n.x > 0.5 ? b2.x : n.x < -0.5 ? b1.x : 0
-                        let y  = n.y > 0.5 ? b2.y : n.y < -0.5 ? b1.y : 0
-                        let z  = n.z > 0.5 ? b2.z : n.z < -0.5 ? b1.z : 0
-//                        p.pivot = SCNMatrix4MakeTranslation(x, y, z) //(0, x, y, z)
-//                        SCNMatrix4MakeRotation(<#T##angle: Float##Float#>, <#T##x: Float##Float#>, <#T##y: Float##Float#>, <#T##z: Float##Float#>) nd.worldNormal
-//                        p.lo
-                        
-                        if true {
-//                            let x = x + p.position.x
-//                            let y = y + p.position.y
-//                            let z = z + p.position.z
-                            normalizeNode(p)  // reset pivot point
-                            p.pivot = SCNMatrix4MakeTranslation(-x,-y,-z)
-                            p.localTranslate(by:SCNVector3(-x,-y,-z))
-//                            updateOrientation(of: p) // reset translation
-                            normalizeNode(p)  // reset pivot point
-                        } else {
-                            //  O = P * T
-//                            let invpiv = simd_inverse(p.simdPivot)
-//                            p.simdTransform = simd_mul(invpiv,p.simdTransform)
-//                            let point = SIMD3<Float>(Float(x),Float(y),Float(z))
-//                            let trans = SCNMatrix4MakeTranslation(x,y,z)
-//                            p.simdLocalTranslate(by:point)
-//                            let invTran = simd_inverse(p.simdTransform)
-//                            p.simdPivot = simd_mul(invTran,trans)
-//                            let x = x + p.position.x
-//                            let y = y + p.position.y
-//                            let z = z + p.position.z
-                            let point = SCNVector3(Float(x),Float(y),Float(z))
-                            let trans = SCNMatrix4MakeTranslation(x,y,z)
-                            
-                            p.localTranslate(by:point)
-                            let invpiv = SCNMatrix4Invert(p.pivot)
-                           p.transform = SCNMatrix4Mult(invpiv, p.transform)
-                                // moved pivot into transform
-                            let invTran = SCNMatrix4Invert(p.transform)
-                            p.pivot = SCNMatrix4Mult(invTran, trans)
-                            p.transform = SCNMatrix4Identity
-                        }
-                        print("Trans: ",p.simdTransform)
-                        print("Pivot: ",p.simdPivot)
-                        
-                        
-                        
-                        
-                        
+                        origWorldNormal = nd.simdWorldNormal
+
+
                         if let geo = p.geometry {
                             origMaterialIndex = nd.geometryIndex
                             origMaterial = geo.materials[nd.geometryIndex]
@@ -167,7 +121,7 @@ struct VectorView: View {
                         // Chenge camera
                             origNode = p
                             origMaterial = nil
-                            origNormal = simd_float3(1,1,1)
+                            origWorldNormal = simd_float3(1,1,1)
                     }
                 }
             }
@@ -176,8 +130,8 @@ struct VectorView: View {
             if let c = state.cameraHolder {
                 if let value = values.first {
 
-                    let hy1 = 2 * Float(value.translation.height/self.nview.frame.height)
-                    let wx1 = 2 * Float(value.translation.width/self.nview.frame.width)
+                    let hy1 = 1 * Float(value.translation.height/self.nview.frame.height)
+                    let wx1 = 1 * Float(value.translation.width/self.nview.frame.width)
                     let hy = sin(hy1)
                     let wx = sin(wx1)
 
@@ -195,34 +149,63 @@ struct VectorView: View {
                 }
                 if let value = values.second?.first {
                     // rotation
-                    let angle = Float(-value.radians)
-                    c.simdRotation = simd_float4(origNormal,angle)
-//                    c.simdRotation.w = angle;
-//                    let myqf= state.quatf.angle + angle
-//                    c.simdRotation = state.quatf.act(SIMD3<Float>(1,0,0))
+                    let angle = Float(value.radians)
+//                    c.simdRotation = simd_float4(origNormal,angle)
+                    c.pivot = SCNMatrix4MakeRotation(CGFloat(angle), CGFloat(origNormal.x), CGFloat(origNormal.y), CGFloat(origNormal.z))
                 }
                 if let value = values.second?.second {
-                    // Magnification
-                    let value = Float(value)
-                    let vec = simd_cross(SIMD3<Float>(value,value,value), origNormal)
-                    let mag = state.zoomOffset * (vec + origNormal)
-                    c.simdScale = mag
+                    // Magnification/Wor
+                    let value = 1/Float(value)
+//                    print (value)
+                    if value > 0.1 && value < 10 {
+//                        let scaleVector = state.quatf.act(SIMD3<Float>(value,value,1))
+                        if origMaterial == nil {
+                            let scaleVector = SIMD3<Float>(value,value,value)
+    //                        print(scaleVector.debugDescription)
+                            c.simdPivot[0,0] = scaleVector[0]
+                            c.simdPivot[1,1] = scaleVector[1]
+                            c.simdPivot[2,2] = scaleVector[2]
+                        } else {
+
+                            let scaleVector = state.rotmat * SIMD3<Float>(value,value,1)
+    //                        print(scaleVector.debugDescription)
+                            c.simdPivot[0,0] = scaleVector[0]
+                            c.simdPivot[1,1] = scaleVector[1]
+                            c.simdPivot[2,2] = scaleVector[2]
+                        }
+                    }
+
+                    
+//                    c.simdPivot = simd_float4x4(diagonal: SIMD4<Float>(value,value,value,1))
+//                    c.simdScale = SIMD3<Float>( mag) * state.zoomOffset
+//                                               origNormal.y != 0 ? value : 1,
+//                                               origNormal.z != 0 ? value : 1)
                 }
             } else if let p = origNode {
                 // Initialize state
+//                    updateOrientation(of: p)
+                normalizeNode(p) // reset pivot
+                 print("Fix Pivot: ",p.simdPivot)
                     state.cameraHolder      = p
                     state.rotationOffset    = p.simdEulerAngles
                     state.locationOffset    = p.simdPosition
                     state.zoomOffset        = p.simdScale
-                    let cp = simd_cross(SIMD3<Float>(0,0,1),origNormal)
-                    let an = acos(simd_dot( SIMD3<Float>(0,0,1) , origNormal))
-                    state.quatf  = simd_quatf(angle: an, axis: cp)
-                if cp == SIMD3<Float>(0,0,0) {
-                    print("NULL")
-                    state.quatf  = simd_quatf(angle: an, axis: SIMD3<Float>(0,1,0))
-                }
-                print("Drag: ",cp.debugDescription,an.debugDescription)
-                print("Tr: ",p.simdTransform.debugDescription)
+                
+                    // Calculate translation plane
+                    let cp = simd_cross(SIMD3<Float>(0,0,1),origWorldNormal)
+                    let an = acos(simd_dot( SIMD3<Float>(0,0,1) , origWorldNormal))
+                    state.quatf  = simd_quatf(angle: an, axis: cp).normalized
+                
+                    let cp1 = simd_cross(SIMD3<Float>(0,0,1),origNormal)
+                    let an1 = acos(simd_dot( SIMD3<Float>(0,0,1) , origNormal))
+                    state.rotmat = matrix_float3x3(simd_quatf(angle: an1, axis: cp1).normalized)
+                
+                
+                    print("Quatf: ",state.quatf.debugDescription)
+//                    print("Drag: ",cp.debugDescription,an.debugDescription)
+//                    print("Tr: ",p.simdTransform.debugDescription)
+                    print("Beg Pivot: ",p.simdPivot.debugDescription)
+                    print("Beg Trans: ",p.simdTransform.debugDescription)
             }
         }
     }
