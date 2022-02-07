@@ -7,23 +7,6 @@
 import SwiftUI
 import SceneKit
 import RealityKit
-
-struct SaveModelView: View {
-    var fromURL: URL
-    var body: some View {
-        Button("Save model") {
-            let panel = NSSavePanel()
-            panel.allowedContentTypes = [.usdz]
-            if panel.runModal() == .OK {
-                if let url = panel.url {
-                    try? FileManager.default.moveItem(at: fromURL, to: url)
-                }
-            }
-
-        }
-
-    }
-}
 struct LoadFileView: View {
     @StateObject var converter: Converter
     

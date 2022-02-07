@@ -1,96 +1,25 @@
-import SceneKit
-import SwiftUI
-import RealityKit
-struct ConverterModelView: View {
-//    @ObservedObject var converter: Converter
-//    @ObservedObject var boundingBox: Request
-    @State var model: SCNNode
-    @State var scene: SCNScene
+//
+//  VectorView2.swift
+//  RealityKit-Sample
+//
+//  Created by Thilo Jeremias on 08.12.21.
+//
 
+import SwiftUI
+import SceneKit
+
+struct VectorView2: View {
+    @EnvironmentObject var sceneViewStore: SceneData
     @State var camera: SCNNode
-    @State var world: SCNNode
-    @State var nview: SCNView
+    @State var world: SCNNode = SCNNode()
+    @State var nview: SCNView = SCNView()
     
-    init(converter: ConverterNew){
-        if let scene = try? SCNScene(url: converter.model!, options: nil) {
-            self.scene = scene
-            let model = scene.rootNode
-            self.model = model
-            if model.childNode(withName: "BBox", recursively: true) == nil {
-                let bb:BoundingBox
-                if let cbn = converter.boundingBox?.bounds {
-                    bb = cbn
-                }else{
-                    let bo = model.boundingBox
-                    
-                    bb = BoundingBox(min: SIMD3(bo.min), max: SIMD3(bo.max))
-                }
-                let bbx = SCNBox(width: CGFloat(bb.max.x-bb.min.x), height: CGFloat(bb.max.y-bb.min.y), length: CGFloat(bb.max.z-bb.min.z), chamferRadius: 0.01)
-                let bbn = SCNNode(geometry: bbx)
-                if let transform = converter.boundingBox?.transform.matrix {
-                    bbn.simdTransform = transform
-                }
-                model.addChildNode(bbn)
-                bbx.firstMaterial?.diffuse.contents = CGColor(red: 0, green: 0, blue: 1, alpha: 0.5)
-                bbn.name = "BBox"
-                model.addChildNode(bbn)
-            }
-        } else {
-            self.scene = SCNScene()
-            self.model = SCNNode()
-        }
+    init() {
         let cam = SCNNode()
         cam.camera = SCNCamera()
-        cam.position = SCNVector3(0,1,10)
+        cam.position = SCNVector3(0,1,20)
         self.camera = cam
-//        self.converter = converter
-        let world = SCNNode()
-        let nview = SCNView()
-//        self.gestures = Manipulator(nview:nview,world: world)
-        self.nview = nview
-        self.world = world
     }
-    
-////    @State var gestures:Manipulator
-//    init(converter: Converter) {
-//        if let scene = try? SCNScene(url: converter.model!, options: nil) {
-//            self.scene = scene
-//            let model = scene.rootNode
-//            self.model = model
-//            if model.childNode(withName: "BBox", recursively: true) == nil {
-//                let bb:BoundingBox
-//                if let cbn = converter.boundingBox?.bounds {
-//                    bb = cbn
-//                }else{
-//                    let bo = model.boundingBox
-//                    
-//                    bb = BoundingBox(min: SIMD3(bo.min), max: SIMD3(bo.max))
-//                }
-//                let bbx = SCNBox(width: CGFloat(bb.max.x-bb.min.x), height: CGFloat(bb.max.y-bb.min.y), length: CGFloat(bb.max.z-bb.min.z), chamferRadius: 0.01)
-//                let bbn = SCNNode(geometry: bbx)
-//                if let transform = converter.boundingBox?.transform.matrix {
-//                    bbn.simdTransform = transform
-//                }
-//                model.addChildNode(bbn)
-//                bbx.firstMaterial?.diffuse.contents = CGColor(red: 0, green: 0, blue: 1, alpha: 0.5)
-//                bbn.name = "BBox"
-//                model.addChildNode(bbn)
-//            }
-//        } else {
-//            self.scene = SCNScene()
-//            self.model = SCNNode()
-//        }
-//        let cam = SCNNode()
-//        cam.camera = SCNCamera()
-//        cam.position = SCNVector3(0,1,10)
-//        self.camera = cam
-////        self.converter = converter
-//        let world = SCNNode()
-//        let nview = SCNView()
-////        self.gestures = Manipulator(nview:nview,world: world)
-//        self.nview = nview
-//        self.world = world
-//    }
     struct GState {
         var initialized = false
         var object: SCNNode?
@@ -100,7 +29,28 @@ struct ConverterModelView: View {
         var rotmat = simd_float3x3()
     }
 
-     @GestureState var gstate = GState()
+    func addArrow(scene: SCNScene,location:SCNVector3){
+        let xG = SCNCylinder(radius: 0.1, height: 4)
+        let yG = SCNCylinder(radius: 0.1, height: 4)
+        let x = SCNNode(geometry: xG)
+        x.position.y = 2
+        let y = SCNNode(geometry: yG)
+        y.pivot = SCNMatrix4MakeRotation(.pi/2, 0, 0, 1)
+        y.position.x = 2
+        let rN = SCNNode()
+        rN.name = "Marker"
+        rN.addChildNode(x)
+        rN.addChildNode(y)
+        x.geometry?.firstMaterial?.diffuse.contents = CGColor(red: 1, green: 0, blue: 0, alpha: 1)
+        y.geometry?.firstMaterial?.diffuse.contents = CGColor(red: 0, green: 1, blue: 0, alpha: 1)
+        world.addChildNode(rN)
+//        rN.simdPosition = world.simdConvertPosition(  simd_float3(location),from: world)
+        rN.simdWorldPosition = simd_float3(location)
+        print(rN.simdWorldPosition)
+        
+        
+    }
+    @GestureState var gstate = GState()
     func cameraManipulator(camera: SCNNode,loc: SIMD2<Float>?,mag: CGFloat?,angle: Angle?) {
         if let loc = loc {
 
@@ -128,14 +78,6 @@ struct ConverterModelView: View {
                          MagnificationGesture(minimumScaleDelta:
                                                 0)))
         .onEnded(){ value in
-            if let bbx = world.childNode(withName: "BBox", recursively: true) {
-                let bb = bbx.boundingBox
-                let tx = bbx.simdTransform
-//                converter.boundingBox?.transform.matrix = tx
-//                converter.boundingBox?.bounds.min = SIMD3(bb.min)
-//                converter.boundingBox?.bounds.max = SIMD3(bb.max)
-                
-            }
         }
         .onChanged(){ values in
         }
@@ -147,7 +89,6 @@ struct ConverterModelView: View {
                 let hit = nview.XhitTest(value.startLocation, options: [:])
                 let object: SCNNode
                 if let nd = hit.first {
-                    if nd.node.name == "BBox" {
                     // Chenge object
                     object = nd.node
                     normalizeNode(object)  // set pivot to identity
@@ -162,11 +103,7 @@ struct ConverterModelView: View {
                     let an1 = acos(simd_dot( SIMD3<Float>(0,0,1) , origNormal))
                     state.rotmat = matrix_float3x3(simd_quatf(angle: an1, axis: cp1).normalized)
                     state.locationOffset = object.simdPosition
-//                    world.addChildNode( addArrow(scene: nview.scene!, location: nd.worldCoordinates))
-                    } else {
-                        object = world
-                        updateOrientation(of: object)
-                    }
+                    addArrow(scene: nview.scene!, location: nd.worldCoordinates)
                 } else {
                     // Chenge camera
                     object = world
@@ -246,10 +183,9 @@ struct ConverterModelView: View {
                     .temporalAntialiasingEnabled
                     ]
                   )
-//                .gesture(gestures.dragGesture)
                  .gesture(dragGesture)
                  .onAppear(perform: {
-                     nview.scene = scene
+                     nview.scene = sceneViewStore.sceneObject
                          // make hook in new rootnode and hook all elements onto it
 
                          if let root = nview.scene?.rootNode {
@@ -265,9 +201,6 @@ struct ConverterModelView: View {
                                  root.addChildNode(newRoot)
                                  world = root
                              }
-                             if let w = root.childNode(withName: "BBox", recursively: true) {
-//                                 w.isHidden = converter.boundingBoxEnabled
-                             }
                          }
                          self.camera.camera = SCNCamera()
                          self.camera.position = SCNVector3(0,0,20)
@@ -276,3 +209,9 @@ struct ConverterModelView: View {
         }
         }
     }
+
+    //struct VectorView2_Previews: PreviewProvider {
+    //    static var previews: some View {
+    //        VectorView2()
+    //    }
+    //}

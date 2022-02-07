@@ -10,6 +10,36 @@ import RealityKit
 import SwiftUI
 
 
+typealias MyDetail = ViewDetails?
+
+enum ViewDetails: String, CaseIterable {
+    case preview
+    case reduced
+    case medium
+    case full
+    var det: Request.Detail {
+        switch self {
+        case .preview: return PhotogrammetrySession.Request.Detail.preview
+        case .reduced: return PhotogrammetrySession.Request.Detail.reduced
+        case .medium: return PhotogrammetrySession.Request.Detail.medium
+        case .full: return PhotogrammetrySession.Request.Detail.full
+        }
+    }
+        
+}
+
+typealias Request = PhotogrammetrySession.Request
+typealias Element = PhotogrammetrySample
+
+
+enum ConverterState {
+    case empty   // Nothing loaded
+    case ready   // Session running, file loaded
+    case digesting  // Request running
+//    case loaded   // Request finished model available
+}
+
+
 class ConverterNew: ObservableObject {
     @Published var state: ConverterState = .empty
     @Published var progressValue : Double?

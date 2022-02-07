@@ -14,6 +14,8 @@ class rObject: ObservableObject {
     @Published var converter: ConverterNew?
     
 }
+typealias FeatureSensitivity = PhotogrammetrySession.Configuration.FeatureSensitivity
+typealias Ordering = PhotogrammetrySession.Configuration.SampleOrdering
 
 struct XContentView: View {
     @StateObject private var robj = rObject()
@@ -25,7 +27,7 @@ struct XContentView: View {
         VStack {
             HStack {
                 LoadMediaMenu(robj: robj)
-                Text( robj.mediaProvider == nil  ? "Off" : "Active")
+                Text( robj.mediaProvider == nil  ? "Please load file or folder to start conversion" : "")
                 if robj.mediaProvider != nil {
                 HStack{
     //                Toggle(isOn: $converter.)
@@ -100,7 +102,7 @@ struct ConverterRequestMenueView2: View {
     var body: some View {
         HStack {
             Button("Cancel Request"){ converter.cancelRequest() }
-//            .disabled(converter.active == false )
+            .disabled(converter.state  != .digesting )
             
             Picker(selection: $converter.detail, label: Text("Request:")) {
                 Text("Select quality").tag(nil as ViewDetails?)

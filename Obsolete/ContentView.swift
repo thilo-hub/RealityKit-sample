@@ -10,24 +10,6 @@ import AppKit
 import os
 import RealityKit
 
-typealias MyDetail = ViewDetails?
-
-enum ViewDetails: String, CaseIterable {
-    case preview
-    case reduced
-    case medium
-    case full
-    var det: Request.Detail {
-        switch self {
-        case .preview: return PhotogrammetrySession.Request.Detail.preview
-        case .reduced: return PhotogrammetrySession.Request.Detail.reduced
-        case .medium: return PhotogrammetrySession.Request.Detail.medium
-        case .full: return PhotogrammetrySession.Request.Detail.full
-        }
-    }
-        
-}
-
 struct ContentView__: View {
     @State var filename: URL? // = "Filename"
     @State var input: URL?
