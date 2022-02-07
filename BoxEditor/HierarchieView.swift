@@ -29,10 +29,8 @@ extension SCNNode: Identifiable {
         return descr
     }
 }
-
 struct HierarchieView: View {
     @EnvironmentObject var sceneViewStore: SceneData
-
     var body: some View {
         List(sceneViewStore.sceneObject.rootNode.childNodes, children: \.children) { item in
             HStack{

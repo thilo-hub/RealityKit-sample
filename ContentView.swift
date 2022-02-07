@@ -55,6 +55,7 @@ struct ContentView__: View {
                 }
                 .disabled(converter.state == ConverterState.empty )
                 
+                
                 HStack{
                     Toggle(isOn:  $converter.sessionConfig.isObjectMaskingEnabled) {
                         Text("Masking")
@@ -68,7 +69,7 @@ struct ContentView__: View {
                         Text("Unordered").tag(Ordering.unordered)
                     }
                 }
-                .disabled(converter.state != ConverterState.empty )
+                .disabled(converter.state != ConverterState.ready )
 
                 if self.filename != nil {
                     Text(input?.lastPathComponent ?? "--")
@@ -117,6 +118,9 @@ struct ContentView__: View {
 
                     }
               }
+                Toggle(isOn: $converter.disableFolders ) {
+                    Text("Dirs")
+                }
             }
 //            ConverterView(converter: converter)
 
@@ -130,9 +134,9 @@ struct ContentView__: View {
     
 }
 
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}

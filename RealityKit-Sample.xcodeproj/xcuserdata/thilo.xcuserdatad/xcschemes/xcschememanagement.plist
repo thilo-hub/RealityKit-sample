@@ -108,7 +108,7 @@
 		<key>testAssetView.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>15</integer>
+			<integer>14</integer>
 		</dict>
 		<key>testMovie copy.xcscheme_^#shared#^_</key>
 		<dict>
@@ -128,7 +128,7 @@
 		<key>testmovies (macOS).xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>14</integer>
+			<integer>15</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>

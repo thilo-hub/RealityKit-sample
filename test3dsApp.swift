@@ -11,8 +11,7 @@ import SwiftUI
 struct test3dsApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
-               
+            XContentView()
         }
     }
 }

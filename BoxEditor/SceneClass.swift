@@ -11,16 +11,19 @@ import SceneKit
 
 final class SceneData: ObservableObject {
     @Published public var sceneObject:SCNScene = SCNScene()
+    @Published public var camera: SCNNode = SCNNode()
 
     init(){
         sceneObject = initScene3()
-        addCamera(sceneObject)
+        let cam = addCamera()
+        self.camera = cam
+        sceneObject.rootNode.addChildNode(cam)
     }
 
 }
 
 
-fileprivate func addCamera(_ scene: SCNScene) {
+fileprivate func addCamera() -> SCNNode {
     // Create Camera holder
     let cameraNode = SCNNode()
     cameraNode.camera = SCNCamera()
@@ -32,7 +35,7 @@ fileprivate func addCamera(_ scene: SCNScene) {
     let cameraBox = SCNNode()
     cameraBox.addChildNode(cameraHolder)
     cameraBox.name = "camera"
-    scene.rootNode.addChildNode(cameraBox)
+    return cameraBox
 }
 
 func initScene1() -> SCNScene {
@@ -129,4 +132,25 @@ func initScene3()  -> SCNScene {
     let scene = initScene1()
 //    addFancyCam(scene)
     return scene
+}
+func addArrow(scene: SCNScene,location:SCNVector3)->SCNNode{
+    let xG = SCNCylinder(radius: 0.1, height: 4)
+    let yG = SCNCylinder(radius: 0.1, height: 4)
+    let x = SCNNode(geometry: xG)
+    x.position.y = 2
+    let y = SCNNode(geometry: yG)
+    y.pivot = SCNMatrix4MakeRotation(.pi/2, 0, 0, 1)
+    y.position.x = 2
+    let rN = SCNNode()
+    rN.name = "Marker"
+    rN.addChildNode(x)
+    rN.addChildNode(y)
+    x.geometry?.firstMaterial?.diffuse.contents = CGColor(red: 1, green: 0, blue: 0, alpha: 1)
+    y.geometry?.firstMaterial?.diffuse.contents = CGColor(red: 0, green: 1, blue: 0, alpha: 1)
+//    world.addChildNode(rN)
+//        rN.simdPosition = world.simdConvertPosition(  simd_float3(location),from: world)
+    rN.simdWorldPosition = simd_float3(location)
+    print(rN.simdWorldPosition)
+    return rN
+    
 }

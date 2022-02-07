@@ -15,6 +15,7 @@
 import SwiftUI
 
 struct NavItems {
+    var vectors2:Bool = false
     var vectors:Bool = false
     var faces:Bool = false
     var gestures:Bool = false
@@ -24,12 +25,13 @@ struct NavItems {
     var hierarchie:Bool = false
 }
 struct SideNav: View {
-    @State var select:NavItems = NavItems(vectors: true)
+    @State var select:NavItems = NavItems(vectors2: true)
 
     var body: some View {
 
         NavigationView {
             List {
+            NavigationLink("Vectors2",  destination: VectorView2(), isActive: $select.vectors2 )
             NavigationLink("Vectors",  destination: VectorView(), isActive: $select.vectors )
             NavigationLink("Select Faces",destination: BoxEditorContent4(), isActive: $select.faces )
             NavigationLink("Gestures",destination: GestureAnalyze(), isActive: $select.gestures )
