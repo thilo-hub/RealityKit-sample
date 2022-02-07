@@ -43,7 +43,7 @@ enum ConverterState {
 class ConverterNew: ObservableObject {
     @Published var state: ConverterState = .empty
     @Published var progressValue : Double?
-    @Published var model: URL?
+    @Published var model: Binding<URL?>
     @Published var results: [ViewDetails:URL] = [:]
     @Published var boundingBoxEnabled: Bool = false
     @Published var messages:Binding<String>
@@ -58,8 +58,9 @@ class ConverterNew: ObservableObject {
 
     var boundingBox: Request.Geometry?
 
-    init(input provider: Binding<PhotogrammetryFrames?> ,sessionConfig: PhotogrammetrySession.Configuration, messages:Binding<String>) {
+    init(input provider: Binding<PhotogrammetryFrames?> ,sessionConfig: PhotogrammetrySession.Configuration, messages:Binding<String>,model: Binding<URL?>) {
         self.sessionConfig = sessionConfig
+        self.model = model
         inputProvider = provider
         self.messages = messages
         if state == .empty && provider.wrappedValue != nil {
@@ -76,6 +77,7 @@ class ConverterNew: ObservableObject {
     }
     
     func cancelRequest() {
+        state = .ready
     }
     var outURL: URL {
         let file: String
@@ -94,13 +96,13 @@ class ConverterNew: ObservableObject {
        willSet(newvalue) {
            if newvalue != nil && newvalue != detail {
                results[newvalue!] = nil
-               model = nil
+               model.wrappedValue = nil
            }
            if let dtl = newvalue {
                if let res = results[dtl]  {
-                   model = res
+                   model.wrappedValue = res
                } else {
-                   model = nil
+                   model.wrappedValue = nil
                    if session != nil {
                        
                        let det = dtl.det
@@ -126,25 +128,27 @@ class ConverterNew: ObservableObject {
     
     private func createSession(input: PhotogrammetryFrames){
         // Grab enabled frames and use as input
-        let selectionList = input.samples()
-//        input.thumbnails.filter({$0.isenabled}).map({$0.image})
+        
         do {
-            if !selectionList.isEmpty && input.state != .filling {
-                session = try PhotogrammetrySession(input: selectionList,configuration: sessionConfig!)
-                state = .ready
+            if input.state == .folder {
+                session = try PhotogrammetrySession(input: input.url!, configuration: sessionConfig!)
+            } else if input.state == .filling {
+                // We  have a movie which is not yet fully
+                session = try PhotogrammetrySession(input: input, configuration:  sessionConfig!)
             } else {
-                if !selectionList.isEmpty && input.state == .filling {//} let u = input.url {
-                    session = try PhotogrammetrySession(input: input.url!, configuration: sessionConfig!)
-                } else {
-                    session = try PhotogrammetrySession(input: input, configuration:  sessionConfig!)
-                }
-                state = .ready
+                    // process cached frame list
+                let selectionList = input.samples()
+                    session = try PhotogrammetrySession(input: selectionList,configuration: sessionConfig!)
+                
             }
+            state = .ready
             SessionHandler = sessionHandler()
         } catch {
                 print("Error")
         }
     }
+    
+    
     @MainActor private func addMessage(message: String){
         self.messages.wrappedValue += message + "\n"
     }
@@ -157,7 +161,7 @@ class ConverterNew: ObservableObject {
                 case .modelFile(let url):
                       print("Model done \(url)")
                     results[detail!] = url
-                    model = url
+                    model.wrappedValue = url
                     
                 case .bounds(let box):
                     print("Got a box: \(box)")

@@ -11,8 +11,9 @@ struct ConverterModelView: View {
     @State var world: SCNNode
     @State var nview: SCNView
     
-    init(converter: ConverterNew){
-        if let scene = try? SCNScene(url: converter.model!, options: nil) {
+    init(converter: ConverterNew, model: URL){
+        let md = model
+        if let scene = try? SCNScene(url: md, options: nil) {
             self.scene = scene
             let model = scene.rootNode
             self.model = model

@@ -20,6 +20,7 @@ enum frameBufferState {
     case empty
     case filling
     case loaded
+    case folder
 }
 //func convertCIImageToCVPixelBuffer(from image: CIImage) -> CVPixelBuffer? {
 //    let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
@@ -82,11 +83,11 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
            
             self.maxFrames = imid
             self.count = 0
-            state = .filling
-            if !disableFolders {
-                self.state = .loaded
-//                throw PhotogrammetryFramesErrors.isADirectory
-            }
+            state = .folder
+//            if !disableFolders {
+//                self.state = .loaded
+////                throw PhotogrammetryFramesErrors.isADirectory
+//            }
  
             
         } else {
@@ -110,6 +111,10 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
     func next() -> PhotogrammetrySample? {
         
         var getCountFrames = skip
+        if state == .folder {
+//            throw PhotogrammetryFramesErrors.isADirectory
+            return nil
+        }
         if state == .filling && thumbnails.isEmpty{
             let asset = AVURLAsset(url: url!)
             let reader = try? AVAssetReader(asset: asset)

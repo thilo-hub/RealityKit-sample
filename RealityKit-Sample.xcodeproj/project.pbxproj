@@ -16,8 +16,8 @@
 		B6059CE9274C5C0600084D61 /* SceneClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6059CE7274C5C0600084D61 /* SceneClass.swift */; };
 		B60C9146274AFBFB007EA5EC /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A166B12736D35200A84F0E /* Tools.swift */; };
 		B60C9147274AFBFB007EA5EC /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A166B12736D35200A84F0E /* Tools.swift */; };
-		B60CA5F527B1C6C100E74D6C /* ContentView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60CA5ED27B0551A00E74D6C /* ContentView2.swift */; };
-		B60CA5F627B1C6DC00E74D6C /* Converter_new.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60CA5E527AFDFD700E74D6C /* Converter_new.swift */; };
+		B60CA5F527B1C6C100E74D6C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60CA5ED27B0551A00E74D6C /* ContentView.swift */; };
+		B60CA5F627B1C6DC00E74D6C /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60CA5E527AFDFD700E74D6C /* Converter.swift */; };
 		B60CA5F727B1C74400E74D6C /* ModelFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60CA5F327B1C5B600E74D6C /* ModelFiles.swift */; };
 		B60CA5F827B1C76A00E74D6C /* AVHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6FEFB98273C579200C6F27F /* AVHandler.swift */; };
 		B60CA5F927B1C7AB00E74D6C /* ConvExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60CA5E727B01F2200E74D6C /* ConvExt.swift */; };
@@ -162,11 +162,11 @@
 		B6059CE4274C5AF600084D61 /* FileMenue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileMenue.swift; sourceTree = "<group>"; };
 		B6059CE7274C5C0600084D61 /* SceneClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneClass.swift; sourceTree = "<group>"; };
 		B6059CEA274C6A2B00084D61 /* BoxEditorContent2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxEditorContent2.swift; sourceTree = "<group>"; };
-		B60CA5E527AFDFD700E74D6C /* Converter_new.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converter_new.swift; sourceTree = "<group>"; };
+		B60CA5E527AFDFD700E74D6C /* Converter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
 		B60CA5E727B01F2200E74D6C /* ConvExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvExt.swift; sourceTree = "<group>"; };
 		B60CA5E927B0419A00E74D6C /* exifData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = exifData.swift; sourceTree = "<group>"; };
 		B60CA5EB27B0547700E74D6C /* loadMedia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loadMedia.swift; sourceTree = "<group>"; };
-		B60CA5ED27B0551A00E74D6C /* ContentView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView2.swift; sourceTree = "<group>"; };
+		B60CA5ED27B0551A00E74D6C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B60CA5EF27B0588A00E74D6C /* RequestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestView.swift; sourceTree = "<group>"; };
 		B60CA5F327B1C5B600E74D6C /* ModelFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFiles.swift; sourceTree = "<group>"; };
 		B60CA5FE27B1C8B500E74D6C /* AMThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMThumbView.swift; sourceTree = "<group>"; };
@@ -549,8 +549,8 @@
 				B6833F732734942D000ACCA8 /* README.md */,
 				B6F9C83B273080D0000008F2 /* test3dsApp.swift */,
 				B60CA5EB27B0547700E74D6C /* loadMedia.swift */,
-				B60CA5ED27B0551A00E74D6C /* ContentView2.swift */,
-				B60CA5E527AFDFD700E74D6C /* Converter_new.swift */,
+				B60CA5ED27B0551A00E74D6C /* ContentView.swift */,
+				B60CA5E527AFDFD700E74D6C /* Converter.swift */,
 				B67C415C276FFA7000809312 /* ConverterModelView.swift */,
 			);
 			name = RealityGenerator;
@@ -1445,12 +1445,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B60CA5F627B1C6DC00E74D6C /* Converter_new.swift in Sources */,
+				B60CA5F627B1C6DC00E74D6C /* Converter.swift in Sources */,
 				B60CA5F927B1C7AB00E74D6C /* ConvExt.swift in Sources */,
 				B60CA60027B1C91C00E74D6C /* loadMedia.swift in Sources */,
 				B60CA5FF27B1C8B500E74D6C /* AMThumbView.swift in Sources */,
 				B60EA74627350D4B000D1526 /* test3dsApp.swift in Sources */,
-				B60CA5F527B1C6C100E74D6C /* ContentView2.swift in Sources */,
+				B60CA5F527B1C6C100E74D6C /* ContentView.swift in Sources */,
 				B60CA5FC27B1C83A00E74D6C /* SceneviewX.swift in Sources */,
 				B60CA5F727B1C74400E74D6C /* ModelFiles.swift in Sources */,
 				B60CA5F827B1C76A00E74D6C /* AVHandler.swift in Sources */,

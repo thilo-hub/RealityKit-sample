@@ -12,6 +12,7 @@ class rObject: ObservableObject {
     @Published var messages: String = "-"
     @Published var mediaProvider: PhotogrammetryFrames?
     @Published var converter: ConverterNew?
+    @Published var model: URL?
     
 }
 typealias FeatureSensitivity = PhotogrammetrySession.Configuration.FeatureSensitivity
@@ -29,27 +30,31 @@ struct XContentView: View {
                 LoadMediaMenu(robj: robj)
                 Text( robj.mediaProvider == nil  ? "Please load file or folder to start conversion" : "")
                 if robj.mediaProvider != nil {
-                HStack{
-    //                Toggle(isOn: $converter.)
-                    Toggle(isOn:  $converterSessionConfig.isObjectMaskingEnabled) {
-                        Text("Masking")
-                    }
-                    Picker("", selection: $converterSessionConfig.featureSensitivity){
-                        Text("Normal").tag(FeatureSensitivity.normal)
-                        Text("High").tag(FeatureSensitivity.high)
-                    }
-                    Picker("", selection:  $converterSessionConfig.sampleOrdering){
-                        Text("Sequential").tag(Ordering.sequential)
-                        Text("Unordered").tag(Ordering.unordered)
-                    }
-                }.onAppear(perform: {
-                    robj.converter = ConverterNew(input: $robj.mediaProvider, sessionConfig: converterSessionConfig,messages: $robj.messages)})
+                    HStack{
+        //                Toggle(isOn: $converter.)
+                        Toggle(isOn:  $converterSessionConfig.isObjectMaskingEnabled) {
+                            Text("Masking")
+                        }
+                        Picker("", selection: $converterSessionConfig.featureSensitivity){
+                            Text("Normal").tag(FeatureSensitivity.normal)
+                            Text("High").tag(FeatureSensitivity.high)
+                        }
+                        Picker("", selection:  $converterSessionConfig.sampleOrdering){
+                            Text("Sequential").tag(Ordering.sequential)
+                            Text("Unordered").tag(Ordering.unordered)
+                        }
+                    }.onAppear(perform: {
+                        robj.converter = ConverterNew(input: $robj.mediaProvider, sessionConfig: converterSessionConfig,messages: $robj.messages,model: $robj.model)})
 //                    robj.converter?.messages = $robj.messages
                 }
 //                .disabled(cmediaProvider != nil)
                 HStack{
                     if let cov = robj.converter  {
                         ConverterRequestMenueView2(converter: cov)
+                    }
+                    if let fl = robj.model   {
+                        Button("Hide Model"){ robj.model = nil}
+                        SaveModelView(fromURL: fl)
                     }
                 }
 
@@ -60,9 +65,8 @@ struct XContentView: View {
             if let cp = robj.converter {
                 ConverterRequestContentView2(converter: cp)
             }
-            if robj.converter?.model != nil {
-                
-                ConverterModelView(converter: robj.converter!)
+            if robj.model != nil {
+                ConverterModelView(converter: robj.converter!,model: robj.model!)
                 
             } else
             if let mp = robj.mediaProvider {
@@ -113,16 +117,16 @@ struct ConverterRequestMenueView2: View {
             }
         }
         .disabled(converter.state == .digesting)
-        if let fl = converter.model {
-            Button("Hide Model"){ converter.model = nil}
-            SaveModelView(fromURL: fl)
-            Toggle(isOn: $converter.boundingBoxEnabled) {
-                Text("Bbox")
-            }
+//        if let fl = converter.model {
+            
+            
+//            Toggle(isOn: $converter.boundingBoxEnabled) {
+//                Text("Bbox")
+//            }
 //            Button("Hide BBox"){
 //                converter.
 //            }
-        }
+//        }
 
     
     }
