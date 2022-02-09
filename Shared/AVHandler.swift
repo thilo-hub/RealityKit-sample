@@ -39,7 +39,7 @@ enum PhotogrammetryFramesErrors: Error {
 // Itterator for movie files
 class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equatable  {
     static func == (lhs: PhotogrammetryFrames, rhs: PhotogrammetryFrames) -> Bool {
-        return false
+        return lhs.url == rhs.url
 //        return lhs.trackReaderOutput == rhs.trackReaderOutput // fixme
     }
     var url: URL?

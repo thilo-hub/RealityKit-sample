@@ -40,7 +40,8 @@ enum ConverterState {
 }
 
 
-class ConverterNew: ObservableObject {
+class Converter: ObservableObject {
+//    @EnvironmentObject var robj: rObject
     @Published var state: ConverterState = .empty
     @Published var progressValue : Double?
     @Published var model: Binding<URL?>

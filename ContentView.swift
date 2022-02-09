@@ -11,23 +11,23 @@ import RealityKit
 class rObject: ObservableObject {
     @Published var messages: String = "-"
     @Published var mediaProvider: PhotogrammetryFrames?
-    @Published var converter: ConverterNew?
+    @Published var converter: Converter?
     @Published var model: URL?
+    @Published var boundingBox: Request.Geometry?
     
 }
 typealias FeatureSensitivity = PhotogrammetrySession.Configuration.FeatureSensitivity
 typealias Ordering = PhotogrammetrySession.Configuration.SampleOrdering
 
-struct XContentView: View {
-    @StateObject private var robj = rObject()
+struct ContentView: View {
+//    @StateObject private var robj = rObject()
+    @EnvironmentObject var robj: rObject
     
-//    var mediaProvider = PhotogrammetryFrames()
-//    @StateObject private var converter = ConverterNew()
     @State private var converterSessionConfig = PhotogrammetrySession.Configuration()
     var body: some View {
         VStack {
             HStack {
-                LoadMediaMenu(robj: robj)
+                LoadMediaMenu()
                 Text( robj.mediaProvider == nil  ? "Please load file or folder to start conversion" : "")
                 if robj.mediaProvider != nil {
                     HStack{
@@ -44,13 +44,14 @@ struct XContentView: View {
                             Text("Unordered").tag(Ordering.unordered)
                         }
                     }.onAppear(perform: {
-                        robj.converter = ConverterNew(input: $robj.mediaProvider, sessionConfig: converterSessionConfig,messages: $robj.messages,model: $robj.model)})
+                        robj.converter = nil
+                        robj.converter = Converter(input: $robj.mediaProvider, sessionConfig: converterSessionConfig,messages: $robj.messages,model: $robj.model)})
 //                    robj.converter?.messages = $robj.messages
                 }
 //                .disabled(cmediaProvider != nil)
                 HStack{
                     if let cov = robj.converter  {
-                        ConverterRequestMenueView2(converter: cov)
+                        ConverterRequestMenueView(converter: cov)
                     }
                     if let fl = robj.model   {
                         Button("Hide Model"){ robj.model = nil}
@@ -63,10 +64,10 @@ struct XContentView: View {
                     .frame(width: 100)
             }
             if let cp = robj.converter {
-                ConverterRequestContentView2(converter: cp)
+                ConverterRequestContentView(converter: cp)
             }
-            if robj.model != nil {
-                ConverterModelView(converter: robj.converter!,model: robj.model!)
+            if let md = robj.model  {
+                ConverterModelView(bbox: $robj.boundingBox,modelurl: md)
                 
             } else
             if let mp = robj.mediaProvider {
@@ -81,26 +82,22 @@ struct XContentView: View {
     }
 }
 
-struct ConverterRequestContentView2: View {
-    @ObservedObject var converter: ConverterNew
+struct ConverterRequestContentView: View {
+    @ObservedObject var converter: Converter
 
     // A ready request, shall show the model
     // and Bounding box editor
         var body: some View {
             if let f = converter.progressValue {
                     ProgressView(value: f)
-//            } else if let fl = converter.model {
-//                if let s = try? SCNScene(url: fl) {
-//                    BoundBoxEditorView(myscene: s,boundingBox: $converter.bBox)
-//                }
             }
           
     }
 }
 
 
-struct ConverterRequestMenueView2: View {
-    @ObservedObject var converter: ConverterNew
+struct ConverterRequestMenueView: View {
+    @ObservedObject var converter: Converter
             // A ready request, shall show the model
     // and Bounding box editor
     var body: some View {

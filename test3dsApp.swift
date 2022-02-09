@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct test3dsApp: App {
+    @StateObject private var robj = rObject()
+
     var body: some Scene {
         WindowGroup {
-            XContentView()
+            ContentView()
+                .environmentObject(robj)
         }
     }
 }

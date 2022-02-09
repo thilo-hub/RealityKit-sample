@@ -10,7 +10,8 @@ import SwiftUI
 
 
 struct LoadMediaMenu: View {
-    @ObservedObject var robj: rObject
+//    @ObservedObject var robj: rObject
+    @EnvironmentObject var robj: rObject
 //    @Binding var robj: rObject
     
     var body: some View {
@@ -28,6 +29,7 @@ struct LoadMediaMenu: View {
                         robj.mediaProvider = try? PhotogrammetryFrames(fileURL: dir, disableFolders: true)
                     case let(model) where url.pathExtension == "usdz":
 //                        converter.model = model
+                        robj.model = model
                         print("Lost 3d viewer \(model)")
                     default:
                         print("Other")
