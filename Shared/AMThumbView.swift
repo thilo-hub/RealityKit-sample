@@ -15,12 +15,21 @@ extension  PhotogrammetryFrames {
             thumbnails[i].isenabled = flag
         }
     }
+    func disable(_ id: Int){
+        for i in thumbnails.indices {
+            if thumbnails[i].id == id {
+            thumbnails[i].isenabled = false
+        }
+        }
+
+        
+    }
 }
 
 
 
 struct AMThumbNailView: View {
-    
+//    @EnvironmentObject var robj: rObject
     @ObservedObject var provider:  PhotogrammetryFrames
     @State var toggle: Bool = true
 
@@ -51,8 +60,14 @@ struct AMThumbNailView: View {
                 
                 ForEach($provider.thumbnails){ $im  in
                 VStack {
-                    Image(nsImage: im.thumbnail )
+                    ZStack{
+                     Image(nsImage: im.thumbnail )
                         .onTapGesture { im.isenabled = !im.isenabled}
+                    if let ms = im.mask {
+                        Rectangle().offset(ms.origin).size(ms.size).stroke(Color.red)
+                    }
+
+                    }
                     HStack{
                         Text("\(im.id)")
                         Spacer()

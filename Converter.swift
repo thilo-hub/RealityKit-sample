@@ -46,7 +46,7 @@ class Converter: ObservableObject {
     @Published var progressValue : Double?
     @Published var model: Binding<URL?>
     @Published var results: [ViewDetails:URL] = [:]
-    @Published var boundingBoxEnabled: Bool = false
+    @Published var useBoundaryBox: Bool = false
     @Published var messages:Binding<String>
     
     private  var SessionHandler :  Task<(), Never>?
@@ -57,8 +57,8 @@ class Converter: ObservableObject {
     private var inputProvider: Binding<PhotogrammetryFrames?>?
     
 
-    var boundingBox: Request.Geometry?
-
+    @Published var boundingBox: Binding<Request.Geometry?>?
+    var xbx: Request.Geometry?
     init(input provider: Binding<PhotogrammetryFrames?> ,sessionConfig: PhotogrammetrySession.Configuration, messages:Binding<String>,model: Binding<URL?>) {
         self.sessionConfig = sessionConfig
         self.model = model
@@ -68,7 +68,7 @@ class Converter: ObservableObject {
                 createSession(input: provider.wrappedValue!)
         }
     }
-    private func killSession() {
+    func killSession() {
         if let s = session {
             s.cancel()
         }
@@ -89,7 +89,18 @@ class Converter: ObservableObject {
         }
         return URL(fileURLWithPath: file)
     }
-
+    func calculateBbox(_ bbox: Binding<Request.Geometry?>?) {
+        if self.boundingBox == nil {
+            self.boundingBox = bbox
+            let oreq = PhotogrammetrySession.Request.bounds
+            do {
+                try session!.process(requests: [oreq])
+                self.state = .digesting
+            } catch {
+                print ("Error")
+            }
+        }
+    }
     // Changing the view details relies on an existing session
     // if the view is available and the bounding box did not change
        
@@ -98,6 +109,8 @@ class Converter: ObservableObject {
            if newvalue != nil && newvalue != detail {
                results[newvalue!] = nil
                model.wrappedValue = nil
+               killSession()
+               createSession(input: inputProvider!.wrappedValue!)
            }
            if let dtl = newvalue {
                if let res = results[dtl]  {
@@ -113,7 +126,13 @@ class Converter: ObservableObject {
 //                           boundingBox?.bounds.max = bBox.max
 //                           print(det,outURL)
 //                       }
-                       let req = PhotogrammetrySession.Request.modelFile(url: outURL, detail: det,geometry: boundingBox)
+//                       let bx = BoundingBox(min: SIMD3<Float>(-0.5131897, -0.36881575, -0.35893312), max: SIMD3<Float>(0.5131897, 0.36881575, 0.35893312))
+//                        let geom:  PhotogrammetrySession.Request.Geometry? = Request.Geometry(bounds: bx, transform: Transform.identity)
+//
+                    
+                       
+//                       let bbx: Request.Geometry? = geom // nil // = boundingBox?.wrappedValue
+                       let req = PhotogrammetrySession.Request.modelFile(url: outURL, detail: det,geometry: xbx)
                        
                        try! session?.process(requests: [req])
                        self.state = .digesting
@@ -148,7 +167,13 @@ class Converter: ObservableObject {
                 print("Error")
         }
     }
-    
+    @MainActor private func skippedSample(_ id: Int){
+//        self.messages.wrappedValue += message + "\n"
+        
+        self.inputProvider?.wrappedValue?.disable(id)
+        
+    }
+
     
     @MainActor private func addMessage(message: String){
         self.messages.wrappedValue += message + "\n"
@@ -166,7 +191,9 @@ class Converter: ObservableObject {
                     
                 case .bounds(let box):
                     print("Got a box: \(box)")
-                    self.boundingBox = Request.Geometry(bounds:box)
+              
+                    xbx = Request.Geometry(bounds:box)
+                    self.boundingBox?.wrappedValue = xbx
                 default:
                     logger.warning("\tUnexpected result: \(String(describing: result))")
             }
@@ -210,7 +237,7 @@ class Converter: ObservableObject {
                         logger.warning("Invalid Sample! id=\(id)  reason=\"\(reason)\"")
                     case .skippedSample(let id):
                         await self.addMessage(message: "Sample id=\(id) was skipped by processing.")
-
+                        await self.skippedSample(id)
                         logger.warning("Sample id=\(id) was skipped by processing.")
                     case .automaticDownsampling:
                         await self.addMessage(message: "Downsampling")

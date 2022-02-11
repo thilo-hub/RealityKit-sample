@@ -63,7 +63,7 @@ struct ConverterModelView: View {
      init( bbox: Binding<Request.Geometry?>,modelurl: URL) {
         if let scene = try? SCNScene(url: modelurl, options: nil) {
             let model = scene.rootNode
-            if model.childNode(withName: "BBox", recursively: true) == nil {
+            if bbox.wrappedValue != nil &&  model.childNode(withName: "BBox", recursively: true) == nil {
                 makeBBox(bbox, model)
             }
             self.model = model
@@ -246,8 +246,12 @@ struct ConverterModelView: View {
                 camz *= -1
             }
         }
-        self.camera.camera?.focalLength = 80
-        self.camera.position = SCNVector3(0,0,4*camz)
+        
+        let cam = camera.camera!
+        cam.focalLength = 80
+        camz = (root.boundingBox.max.y-root.boundingBox.min.y) * cam.focalLength / cam.sensorHeight
+        
+        self.camera.position = SCNVector3(0,0,2*camz + root.boundingBox.max.z)
     }
     
     var body: some View {

@@ -22,19 +22,34 @@ typealias Ordering = PhotogrammetrySession.Configuration.SampleOrdering
 struct ContentView: View {
 //    @StateObject private var robj = rObject()
     @EnvironmentObject var robj: rObject
+    @State var useBoundaryBox: Bool = false
     
     @State private var converterSessionConfig = PhotogrammetrySession.Configuration()
     var body: some View {
         VStack {
             HStack {
                 LoadMediaMenu()
+                if robj.converter != nil && robj.converter?.state != .empty {
+                Button("Kill Session"){
+                    robj.converter?.killSession()
+                }
+                }
                 Text( robj.mediaProvider == nil  ? "Please load file or folder to start conversion" : "")
                 if robj.mediaProvider != nil {
                     HStack{
         //                Toggle(isOn: $converter.)
-                        Toggle(isOn:  $converterSessionConfig.isObjectMaskingEnabled) {
-                            Text("Masking")
+                        if robj.converter != nil {
+                            Toggle("Bbox",isOn: $useBoundaryBox)
+                                .onChange(of: useBoundaryBox, perform:  { _ in
+                                    print("Toggle \(useBoundaryBox)")
+                                    robj.converter?.useBoundaryBox = useBoundaryBox
+                                    if robj.converter?.boundingBox == nil && useBoundaryBox == true {
+                                        robj.converter?.calculateBbox($robj.boundingBox)
+                                    }
+                                })
+//                            .onChange({print("Toggle \(useBoundaryBox)")})
                         }
+                        Toggle("Masking", isOn:  $converterSessionConfig.isObjectMaskingEnabled)
                         Picker("", selection: $converterSessionConfig.featureSensitivity){
                             Text("Normal").tag(FeatureSensitivity.normal)
                             Text("High").tag(FeatureSensitivity.high)
@@ -49,6 +64,7 @@ struct ContentView: View {
 //                    robj.converter?.messages = $robj.messages
                 }
 //                .disabled(cmediaProvider != nil)
+               
                 HStack{
                     if let cov = robj.converter  {
                         ConverterRequestMenueView(converter: cov)
@@ -57,17 +73,25 @@ struct ContentView: View {
                         Button("Hide Model"){ robj.model = nil}
                         SaveModelView(fromURL: fl)
                     }
+                    Spacer()
                 }
 
-                Spacer()
-                Text(robj.messages)
-                    .frame(width: 100)
             }
+           
             if let cp = robj.converter {
                 ConverterRequestContentView(converter: cp)
             }
+            ZStack{
             if let md = robj.model  {
+                
                 ConverterModelView(bbox: $robj.boundingBox,modelurl: md)
+                    HStack{
+                        Spacer()
+                        Text(robj.messages)
+                        .frame(width: 300)
+                    }
+                
+
                 
             } else
             if let mp = robj.mediaProvider {
@@ -75,7 +99,7 @@ struct ContentView: View {
                 
             } //.disabled(mediaProvider == nil)
             
-
+            }
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

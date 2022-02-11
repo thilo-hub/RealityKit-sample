@@ -14,6 +14,7 @@ struct ImageFrame: Identifiable {
     var thumbnail: NSImage
     var image: PhotogrammetrySample
     var isenabled: Bool = true
+    var mask: CGRect? = nil
 }
 
 enum frameBufferState {
@@ -72,9 +73,10 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
                     let size: CGSize = CGSize(width: 120, height: 100)
                     let thumbnail =  ciimage.asNSImage(pixelsSize: size, repSize: size)!
                     
-                    
+                    let frame = ImageFrame(id: imid, thumbnail: thumbnail, image: sample, isenabled: true,
+                                           mask: CGRect(x: 10,y: 10,width: 50,height: 50) )
 
-                    thumbnails.append(ImageFrame(id: imid, thumbnail: thumbnail, image: sample, isenabled: true))
+                    thumbnails.append(frame)
 
                     print("Found \(item)")
                     imid += 1
@@ -106,6 +108,7 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
 //    }
     func samples() -> [PhotogrammetrySample] {
         let rv = self.thumbnails.filter({$0.isenabled}).map({$0.image})
+        print("Return filtered \(rv.count) images")
             return rv
     }
     func next() -> PhotogrammetrySample? {
@@ -138,6 +141,9 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
             if self.count < thumbnails.count {
                 let ri = thumbnails[self.count]
                 self.count += 1
+                
+                print("Return one image")
+                
                 return ri.image
             }
             self.count = 0
@@ -160,7 +166,7 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
                     let thumbnail = NSImage(cgImage: cgim, size: size)
                     thumbnails.append(ImageFrame(id: imid, thumbnail: thumbnail, image: sample, isenabled: true))
                 }
-                
+                print("Return sample")
                 return sample
             }
             
