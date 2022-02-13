@@ -47,18 +47,14 @@
 		B60CA5FE27B1C8B500E74D6C /* AMThumbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMThumbView.swift; sourceTree = "<group>"; };
 		B60CA60427B25EC000E74D6C /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugView.swift; sourceTree = "<group>"; };
 		B60CA60627B339C800E74D6C /* Arrows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Arrows.swift; sourceTree = "<group>"; };
-		B62A2C7D274ACE900023D84E /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		B671141027426FA100B2E2BC /* SceneviewX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneviewX.swift; sourceTree = "<group>"; };
 		B67C415C276FFA7000809312 /* ConverterModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConverterModelView.swift; sourceTree = "<group>"; };
 		B6833F5E2734942D000ACCA8 /* macOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		B6833F732734942D000ACCA8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B6A166B12736D35200A84F0E /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		B6CA24CA275CCDF9006693E7 /* BoxEditor--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "BoxEditor--macOS--Info.plist"; sourceTree = "<group>"; };
-		B6CC991A2746D7E000AD03F0 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
-		B6DB3169273D8950002DE19F /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		B6F9C83B273080D0000008F2 /* test3dsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test3dsApp.swift; sourceTree = "<group>"; };
 		B6F9C848273080D1000008F2 /* RealityKit-Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RealityKit-Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B6F9C84A273080D1000008F2 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		B6F9C85927308A7B000008F2 /* MyScene.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = MyScene.scnassets; sourceTree = "<group>"; };
 		B6FEFB98273C579200C6F27F /* AVHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,14 +76,6 @@
 				B6F9C85927308A7B000008F2 /* MyScene.scnassets */,
 			);
 			path = Obsolete;
-			sourceTree = "<group>";
-		};
-		B62A2C7C274ACE900023D84E /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				B62A2C7D274ACE900023D84E /* macOS.entitlements */,
-			);
-			path = macOS;
 			sourceTree = "<group>";
 		};
 		B6833F5C2734942D000ACCA8 /* RealityGenerator */ = {
@@ -112,22 +100,6 @@
 			path = macOS;
 			sourceTree = "<group>";
 		};
-		B6CC99192746D7E000AD03F0 /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				B6CC991A2746D7E000AD03F0 /* macOS.entitlements */,
-			);
-			path = macOS;
-			sourceTree = "<group>";
-		};
-		B6DB3168273D8950002DE19F /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				B6DB3169273D8950002DE19F /* macOS.entitlements */,
-			);
-			path = macOS;
-			sourceTree = "<group>";
-		};
 		B6F9C835273080D0000008F2 = {
 			isa = PBXGroup;
 			children = (
@@ -135,10 +107,6 @@
 				B6833F5C2734942D000ACCA8 /* RealityGenerator */,
 				B6F9C83A273080D0000008F2 /* Shared */,
 				B60CA60127B1CA3100E74D6C /* Obsolete */,
-				B6F9C849273080D1000008F2 /* macOS */,
-				B6DB3168273D8950002DE19F /* macOS */,
-				B6CC99192746D7E000AD03F0 /* macOS */,
-				B62A2C7C274ACE900023D84E /* macOS */,
 				B6F9C843273080D1000008F2 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -166,14 +134,6 @@
 				B6F9C848273080D1000008F2 /* RealityKit-Sample.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		B6F9C849273080D1000008F2 /* macOS */ = {
-			isa = PBXGroup;
-			children = (
-				B6F9C84A273080D1000008F2 /* macOS.entitlements */,
-			);
-			path = macOS;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
