@@ -21,6 +21,11 @@ The tool currently limits movies to 100 frames (if needed spread over the entire
 
 
 ### TODO
- 
+ postprocess (drag/resize/rotate model before saving it)
+ Add mask manipulator for images
+ fix why images loaded using a folder work differently than if I use my media-provider
+   - gravity not yet loaded, but that cannot really be it
+   - heic depth not yet laoded, but that also cannot be it
+   
 
 
