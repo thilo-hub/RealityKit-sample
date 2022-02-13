@@ -14,10 +14,10 @@
 ### Good sample image is kermit 
   https://github.com/snavely/bundler_sfm/tree/master/examples/kermit
 
-Artistic stuff can be very easily made using a timelapse movie (see example-bone)
-The tool currently limits movies to 100 frames (if needed spread over the entire movie by skipping some frames)
+Artistic stuff can be very easily made using a timelapse movie (see ![example-bone](/assets/appView-2.png))
+The tool currently limits movies to 100 frames (if needed spread over the entire movie by skipping some frames) ![example-bone](/assets/appView.png)
 
-![App](/assets/appView.png)
+
 
 
 ### TODO
