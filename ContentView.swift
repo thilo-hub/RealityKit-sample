@@ -29,20 +29,19 @@ struct ContentView: View {
         VStack {
             HStack {
                 LoadMediaMenu()
-                if robj.converter != nil && robj.converter?.state != .empty {
-                Button("Kill Session"){
-                    robj.converter?.killSession()
-                }
-                }
                 Text( robj.mediaProvider == nil  ? "Please load file or folder to start conversion" : "")
-                if robj.converter != nil {
-                    Button("Request Model Conversion"){
-                        robj.converter?.runrequest()
+                if robj.converter != nil  {
+                    Button("Kill Session"){
+                        robj.converter?.killSession()
+                        robj.messages = " - "
+                    }
+                    .disabled(robj.converter?.state == .empty )
+                    Button("Convert"){
+                            robj.converter?.runrequest()
                     }
                 }
                 if robj.mediaProvider != nil {
                     HStack{
-        //                Toggle(isOn: $converter.)
                         if robj.converter != nil {
                             Toggle("Bbox",isOn: $useBoundaryBox)
                                 .onChange(of: useBoundaryBox, perform:  { _ in
@@ -52,7 +51,6 @@ struct ContentView: View {
                                         robj.converter?.calculateBbox($robj.boundingBox)
                                     }
                                 })
-//                            .onChange({print("Toggle \(useBoundaryBox)")})
                         }
                         Toggle("Masking", isOn:  $converterSessionConfig.isObjectMaskingEnabled)
                         Picker("", selection: $converterSessionConfig.featureSensitivity){
@@ -66,9 +64,7 @@ struct ContentView: View {
                     }.onAppear(perform: {
                         robj.converter = nil
                         robj.converter = Converter(input: $robj.mediaProvider, sessionConfig: converterSessionConfig,messages: $robj.messages,model: $robj.model)})
-//                    robj.converter?.messages = $robj.messages
                 }
-//                .disabled(cmediaProvider != nil)
                
                 HStack{
                     if let cov = robj.converter  {
@@ -87,20 +83,17 @@ struct ContentView: View {
                 ConverterRequestContentView(converter: cp)
             }
             ZStack{
-            if let md = robj.model  {
-                
-                ConverterModelView(bbox: $robj.boundingBox,modelurl: md)
-                
-            } else
-            if let mp = robj.mediaProvider {
-                AMThumbNailView(provider: mp)
- 
-            } //.disabled(mediaProvider == nil)
+                if let md = robj.model  {
+                    ConverterModelView(bbox: $robj.boundingBox,modelurl: md)
+                } else if let mp = robj.mediaProvider {
+                    AMThumbNailView(provider: mp)
+     
+                }
                 HStack{
                     Spacer()
                     VStack{
                         Spacer()
-                    Text(robj.messages)
+                        Text(robj.messages)
                     }
                     .frame(width: 300)
                 }

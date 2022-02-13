@@ -85,6 +85,9 @@ class Converter: ObservableObject {
         return URL(fileURLWithPath: file)
     }
     func runrequest() {
+        if session == nil {
+            createSession(input: inputProvider!.wrappedValue!)
+        }
         self.messages.wrappedValue +=  "Request start\n"
         let dtl = detail
         let det = dtl.det
