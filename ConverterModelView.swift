@@ -99,14 +99,15 @@ struct ConverterModelView: View {
                                 )
                             )
         .onEnded(){ value in
-            if let bbx = world.childNode(withName: "BBox", recursively: true) {
-                let bb = bbx.boundingBox
-                let tx = bbx.simdTransform
-//                converter.boundingBox?.transform.matrix = tx
-//                converter.boundingBox?.bounds.min = SIMD3(bb.min)
-//                converter.boundingBox?.bounds.max = SIMD3(bb.max)
-                
-            }
+            // TODO: Bounding box seems to not work anymore.
+//            if let bbx = world.childNode(withName: "BBox", recursively: true) {
+//                let bb = bbx.boundingBox
+//                let tx = bbx.simdTransform
+////                converter.boundingBox?.transform.matrix = tx
+////                converter.boundingBox?.bounds.min = SIMD3(bb.min)
+////                converter.boundingBox?.bounds.max = SIMD3(bb.max)
+//
+//            }
             if let mrk = world.childNode(withName: "Marker", recursively: true) {
                 mrk.removeFromParentNode()
             }

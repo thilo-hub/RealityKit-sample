@@ -31,14 +31,25 @@ struct ContentView: View {
                 LoadMediaMenu()
                 Text( robj.mediaProvider == nil  ? "Please load file or folder to start conversion" : "")
                 if robj.converter != nil  {
-                    Button("Kill Session"){
+                    
+                    
+                    Button(action:{
                         robj.converter?.killSession()
                         robj.messages = " - "
-                    }
+                    },
+                        label: {
+                        Image(systemName:"xmark.bin.circle.fill")
+                        Text("Kill Session")
+                    })
                     .disabled(robj.converter?.state == .empty )
-                    Button("Convert"){
-                            robj.converter?.runrequest()
-                    }
+                        
+                    Button(action:{
+                        robj.converter?.runrequest()
+                            },
+                        label: {
+                        Image(systemName:"tray.and.arrow.up.fill")
+                        Text("Convert")
+                    }).disabled(robj.converter?.state == .digesting )
                 }
                 if robj.mediaProvider != nil {
                     HStack{

@@ -10,40 +10,40 @@ import SwiftUI
 
 
 struct LoadMediaMenu: View {
-//    @ObservedObject var robj: rObject
     @EnvironmentObject var robj: rObject
-//    @Binding var robj: rObject
+    
+    fileprivate func loadFile() {
+        let panel = NSOpenPanel()
+        panel.allowsMultipleSelection = false
+        // panel.canChooseFiles = false
+        panel.canChooseDirectories = true
+        if panel.runModal() == .OK {
+            if let url = panel.url {
+                if url != robj.mediaProvider?.url {
+                    // URL changed, invalidate session
+                    robj.converter?.killSession()
+                }
+                switch url {
+                case let(dir) where panel.directoryURL == url:
+                    robj.mediaProvider = try? PhotogrammetryFrames(fileURL: dir)
+                case let(model) where url.pathExtension == "usdz":
+                    robj.model = model
+                default:
+                    robj.mediaProvider = try? PhotogrammetryFrames(fileURL: url)
+                }
+                
+            }
+            
+        }
+    }
     
     var body: some View {
-        Button("Load File"){
-            let panel = NSOpenPanel()
-            panel.allowsMultipleSelection = false
-             // panel.canChooseFiles = false
-            panel.canChooseDirectories = true
-            if panel.runModal() == .OK {
-                if let url = panel.url {
-                    if url != robj.mediaProvider?.url {
-                        robj.converter?.killSession()
-                    }
-                    switch url {
-                    case let(dir) where panel.directoryURL == url:
-                        print("Dir")
-//                        converter.input = dir
-                        robj.mediaProvider = try? PhotogrammetryFrames(fileURL: dir, disableFolders: true)
-                    case let(model) where url.pathExtension == "usdz":
-//                        converter.model = model
-                        robj.model = model
-                        print("Lost 3d viewer \(model)")
-                    default:
-                        print("Other")
-//                        converter.input = url
-                        robj.mediaProvider = try? PhotogrammetryFrames(fileURL: url, disableFolders: false)
-                        
-                    }
-
-                }
-
-            }
-        }
+        Button(action:{
+            loadFile()
+        },
+            label: {
+            Image(systemName:"tray.and.arrow.down.fill")
+            Text("Load File")
+        })
     }
 }

@@ -200,7 +200,7 @@ class Converter: ObservableObject {
 //                        logger.log("Processing is complete!")
                         await self.addMessage(message: "Complete")
                         await self.progress(state: .ready)
-                    case .requestError(let request, let error):
+                    case .requestError(_, let error):
                         await self.addMessage(message: String(describing: error))
 
 //                        logger.error("Request \(String(describing: request)) had an error: \(String(describing: error))")

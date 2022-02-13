@@ -55,7 +55,6 @@
 		B6CA24CA275CCDF9006693E7 /* BoxEditor--macOS--Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "BoxEditor--macOS--Info.plist"; sourceTree = "<group>"; };
 		B6F9C83B273080D0000008F2 /* test3dsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test3dsApp.swift; sourceTree = "<group>"; };
 		B6F9C848273080D1000008F2 /* RealityKit-Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RealityKit-Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B6F9C85927308A7B000008F2 /* MyScene.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = MyScene.scnassets; sourceTree = "<group>"; };
 		B6FEFB98273C579200C6F27F /* AVHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,14 +69,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B60CA60127B1CA3100E74D6C /* Obsolete */ = {
-			isa = PBXGroup;
-			children = (
-				B6F9C85927308A7B000008F2 /* MyScene.scnassets */,
-			);
-			path = Obsolete;
-			sourceTree = "<group>";
-		};
 		B6833F5C2734942D000ACCA8 /* RealityGenerator */ = {
 			isa = PBXGroup;
 			children = (
@@ -106,7 +97,6 @@
 				B6CA24CA275CCDF9006693E7 /* BoxEditor--macOS--Info.plist */,
 				B6833F5C2734942D000ACCA8 /* RealityGenerator */,
 				B6F9C83A273080D0000008F2 /* Shared */,
-				B60CA60127B1CA3100E74D6C /* Obsolete */,
 				B6F9C843273080D1000008F2 /* Products */,
 			);
 			sourceTree = "<group>";

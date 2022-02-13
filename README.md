@@ -9,8 +9,18 @@
 - either shows the usdz file or
 - converts a image folder  (if folder is selected) or
 - converts a movie into separate images, if a movie file is selected
+- opens model files directly
+
+### Good sample image is kermit 
+  https://github.com/snavely/bundler_sfm/tree/master/examples/kermit
+
+Artistic stuff can be very easily made using a timelapse movie (see example-bone)
+The tool currently limits movies to 100 frames (if needed spread over the entire movie by skipping some frames)
+
+![App](/assets/appView.png)
+
 
 ### TODO
- BOundbox editor needs...
+ 
 
 

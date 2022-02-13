@@ -42,11 +42,9 @@ enum PhotogrammetryFramesErrors: Error {
 class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equatable  {
     static func == (lhs: PhotogrammetryFrames, rhs: PhotogrammetryFrames) -> Bool {
         return lhs.url == rhs.url
-//        return lhs.trackReaderOutput == rhs.trackReaderOutput // fixme
     }
     var url: URL?
     @Published var state: frameBufferState = .empty
-//    @Published
     var exifinfo: [ String: Any]?
     private var count: Int = 0
     var imageId: Int = 0
@@ -54,11 +52,9 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
     var skip: Int = 0
     private var skipStart: Int = 0
     private var maxFrames: Int = 1000
-//    private var thumbidx: Int = 0
-//    var wanted: [Bool]?
     @Published var thumbnails: [ImageFrame]=[]
     
-    init(fileURL:URL, skip: Int = 0,start: Int = 0,maxFrames: Int = 1000, disableFolders: Bool) throws {
+    init(fileURL:URL, skip: Int = 0,start: Int = 0,maxFrames: Int = 1000) throws {
         url = fileURL
         if CFURLHasDirectoryPath(fileURL as CFURL) {
             let fm = FileManager.default
@@ -77,8 +73,9 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
                     let size: CGSize = CGSize(width: 120, height: 100)
                     let thumbnail =  ciimage.asNSImage(pixelsSize: size, repSize: size)!
                     
-                    let frame = ImageFrame(id: imid, thumbnail: thumbnail, image: sample, isenabled: true,
-                                           mask: CGRect(x: 10,y: 10,width: 50,height: 50) )
+                    let frame = ImageFrame(id: imid, thumbnail: thumbnail, image: sample, isenabled: true
+//                                           , mask: CGRect(x: 10,y: 10,width: 50,height: 50)
+                    )
 
                     DispatchQueue.main.async {
                         self.thumbnails.append(frame)
@@ -194,7 +191,7 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
             let imid = imageId
             if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
                 var sample = PhotogrammetrySample(id:imid, image: imageBuffer )
-                if var ex = exifinfo {
+                if let ex = exifinfo {
                     sample.metadata = ex
                 }
                 let cii = CIImage(cvImageBuffer: imageBuffer)
