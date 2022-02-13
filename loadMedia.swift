@@ -22,6 +22,9 @@ struct LoadMediaMenu: View {
             panel.canChooseDirectories = true
             if panel.runModal() == .OK {
                 if let url = panel.url {
+                    if url != robj.mediaProvider?.url {
+                        robj.converter?.killSession()
+                    }
                     switch url {
                     case let(dir) where panel.directoryURL == url:
                         print("Dir")

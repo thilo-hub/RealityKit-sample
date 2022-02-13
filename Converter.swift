@@ -60,6 +60,13 @@ class Converter: ObservableObject {
     @Published var boundingBox: Binding<Request.Geometry?>?
     var xbx: Request.Geometry?
     init(input provider: Binding<PhotogrammetryFrames?> ,sessionConfig: PhotogrammetrySession.Configuration, messages:Binding<String>,model: Binding<URL?>) {
+        
+        for device in MTLCopyAllDevices() {
+            print(device)
+        }
+        
+        
+        
         self.sessionConfig = sessionConfig
         self.model = model
         inputProvider = provider
@@ -74,6 +81,7 @@ class Converter: ObservableObject {
         }
         session = nil
         state = .empty
+        results = [:] 
         progressValue = nil
     }
     
@@ -82,12 +90,25 @@ class Converter: ObservableObject {
     }
     var outURL: URL {
         let file: String
-        if let dname = detail?.rawValue.capitalized {
-            file = "outputModel-" + dname + ".usdz"
-        } else {
-            file = "Session.not.Initialized.usdz"
-        }
+        let dname = detail.rawValue.capitalized
+        file = "outputModel-" + dname + ".usdz"
+//        if let dname = detail?.rawValue.capitalized {
+//            file = "outputModel-" + dname + ".usdz"
+//        } else {
+//            file = "Session.not.Initialized.usdz"
+//        }
         return URL(fileURLWithPath: file)
+    }
+    func runrequest() {
+        self.messages.wrappedValue +=  "Request start\n"
+        let dtl = detail
+        let det = dtl.det
+        let req = PhotogrammetrySession.Request.modelFile(url: outURL, detail: det,geometry: xbx)
+        try! session?.process(requests: [req])
+        self.state = .digesting
+        print("Request started")
+    
+
     }
     func calculateBbox(_ bbox: Binding<Request.Geometry?>?) {
         if self.boundingBox == nil {
@@ -104,20 +125,24 @@ class Converter: ObservableObject {
     // Changing the view details relies on an existing session
     // if the view is available and the bounding box did not change
        
-    @Published  var detail: ViewDetails? {
+    @Published  var detail: ViewDetails = .preview {
        willSet(newvalue) {
-           if newvalue != nil && newvalue != detail {
-               results[newvalue!] = nil
-               model.wrappedValue = nil
-               killSession()
+           // We need a new session if inputURL changed ®
+//           if newvalue != nil && detail != nil  && newvalue != detail {
+//               results[newvalue!] = nil
+//               model.wrappedValue = nil
+//               killSession()
+//               createSession(input: inputProvider!.wrappedValue!)
+//           }
+           if session == nil {
                createSession(input: inputProvider!.wrappedValue!)
            }
-           if let dtl = newvalue {
+           let dtl = newvalue
                if let res = results[dtl]  {
                    model.wrappedValue = res
                } else {
                    model.wrappedValue = nil
-                   if session != nil {
+                   if false && session != nil {
                        
                        let det = dtl.det
 //                       if let bBox = bBox {
@@ -132,6 +157,8 @@ class Converter: ObservableObject {
                     
                        
 //                       let bbx: Request.Geometry? = geom // nil // = boundingBox?.wrappedValue
+                       self.messages.wrappedValue +=  "Request start\n"
+
                        let req = PhotogrammetrySession.Request.modelFile(url: outURL, detail: det,geometry: xbx)
                        
                        try! session?.process(requests: [req])
@@ -139,7 +166,7 @@ class Converter: ObservableObject {
                        print("Request started")
                    }
                }
-           }
+//           }
          }
    }
      
@@ -148,7 +175,10 @@ class Converter: ObservableObject {
     
     private func createSession(input: PhotogrammetryFrames){
         // Grab enabled frames and use as input
-        
+        guard self.session == nil else {
+            return
+        }
+        self.messages.wrappedValue +=  "Session start\n"
         do {
             if input.state == .folder {
                 session = try PhotogrammetrySession(input: input.url!, configuration: sessionConfig!)
@@ -186,7 +216,7 @@ class Converter: ObservableObject {
             switch result {
                 case .modelFile(let url):
                       print("Model done \(url)")
-                    results[detail!] = url
+                    results[detail] = url
                     model.wrappedValue = url
                     
                 case .bounds(let box):

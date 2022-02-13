@@ -38,6 +38,7 @@ enum PhotogrammetryFramesErrors: Error {
     case isADirectory
 }
 // Itterator for movie files
+
 class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equatable  {
     static func == (lhs: PhotogrammetryFrames, rhs: PhotogrammetryFrames) -> Bool {
         return lhs.url == rhs.url
@@ -45,7 +46,10 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
     }
     var url: URL?
     @Published var state: frameBufferState = .empty
-    @Published var count: Int = 0
+//    @Published
+    var exifinfo: [ String: Any]?
+    private var count: Int = 0
+    var imageId: Int = 0
     private var trackReaderOutput: AVAssetReaderTrackOutput?
     var skip: Int = 0
     private var skipStart: Int = 0
@@ -76,7 +80,9 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
                     let frame = ImageFrame(id: imid, thumbnail: thumbnail, image: sample, isenabled: true,
                                            mask: CGRect(x: 10,y: 10,width: 50,height: 50) )
 
-                    thumbnails.append(frame)
+                    DispatchQueue.main.async {
+                        self.thumbnails.append(frame)
+                    }
 
                     print("Found \(item)")
                     imid += 1
@@ -84,7 +90,7 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
                 }
            
             self.maxFrames = imid
-            self.count = 0
+//            self.count = 0
             state = .folder
 //            if !disableFolders {
 //                self.state = .loaded
@@ -93,9 +99,9 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
  
             
         } else {
-            count = 0
+//            count = 0
             state = .filling
-            thumbnails = []
+//            thumbnails = []
 //            }
         }
         
@@ -111,6 +117,7 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
         print("Return filtered \(rv.count) images")
             return rv
     }
+    
     func next() -> PhotogrammetrySample? {
         
         var getCountFrames = skip
@@ -119,7 +126,32 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
             return nil
         }
         if state == .filling && thumbnails.isEmpty{
+//            let metadata = readEXIF(file: url!)
+//            exifinfo = metadata
             let asset = AVURLAsset(url: url!)
+            let formatsKey = "availableMetadataFormats"
+            asset.loadValuesAsynchronously(forKeys: [formatsKey]) {
+                var error: NSError? = nil
+                let status = asset.statusOfValue(forKey: formatsKey, error: &error)
+                if status == .loaded {
+                    for format in asset.availableMetadataFormats {
+                        let metadata = asset.metadata(forFormat: format)
+                        // process format-specific metadata collection
+                        print(metadata)
+                        self.exifinfo = [:]
+                        metadata.forEach( { m in
+                            print (m.key!)
+                            print(m.value as Any)
+//                            let v:[String:Any] =
+                            self.exifinfo![m.key as! String]=m.value
+                        })
+//                        self.exifinfo = metadata
+                    }
+                }
+            }
+
+            
+            
             let reader = try? AVAssetReader(asset: asset)
             let videoTrack = asset.tracks(withMediaType: AVMediaType.video)[0]
             let frames = Int(asset.duration.seconds * Double(videoTrack.nominalFrameRate));
@@ -134,7 +166,7 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
                 reader!.startReading()
 
             
-            
+            self.imageId = skipStart
             getCountFrames = skipStart
 //            state = .filling
         } else if state == .loaded {
@@ -154,24 +186,33 @@ class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equat
         while getCountFrames > 0 {
              getCountFrames -= 1
              trackReaderOutput?.copyNextSampleBuffer()
+            self.imageId += 1
         }
         if let sampleBuffer = trackReaderOutput?.copyNextSampleBuffer() {
-            count += 1
-            let imid = count
+//            count += 1
+            self.imageId += 1
+            let imid = imageId
             if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
-                let sample = PhotogrammetrySample(id:imid, image: imageBuffer )
+                var sample = PhotogrammetrySample(id:imid, image: imageBuffer )
+                if var ex = exifinfo {
+                    sample.metadata = ex
+                }
                 let cii = CIImage(cvImageBuffer: imageBuffer)
                 if let cgim = cii.asCGImage() {// convertCIImageToCGImage(cii) {
                     let size: CGSize = CGSize(width: 120, height: 100)
                     let thumbnail = NSImage(cgImage: cgim, size: size)
-                    thumbnails.append(ImageFrame(id: imid, thumbnail: thumbnail, image: sample, isenabled: true))
+                    DispatchQueue.main.async {
+                        self.thumbnails.append(ImageFrame(id: imid, thumbnail: thumbnail, image: sample, isenabled: true))
+                    }
                 }
-                print("Return sample")
+//                print("Return sample")
                 return sample
             }
             
         }
-       state = .loaded
+        DispatchQueue.main.async {
+            self.state = .loaded
+        }
        return nil
     }
 //    func getImage() -> ImageFrame? {

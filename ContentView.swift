@@ -35,6 +35,11 @@ struct ContentView: View {
                 }
                 }
                 Text( robj.mediaProvider == nil  ? "Please load file or folder to start conversion" : "")
+                if robj.converter != nil {
+                    Button("Request Model Conversion"){
+                        robj.converter?.runrequest()
+                    }
+                }
                 if robj.mediaProvider != nil {
                     HStack{
         //                Toggle(isOn: $converter.)
@@ -85,20 +90,20 @@ struct ContentView: View {
             if let md = robj.model  {
                 
                 ConverterModelView(bbox: $robj.boundingBox,modelurl: md)
-                    HStack{
-                        Spacer()
-                        Text(robj.messages)
-                        .frame(width: 300)
-                    }
-                
-
                 
             } else
             if let mp = robj.mediaProvider {
                 AMThumbNailView(provider: mp)
-                
+ 
             } //.disabled(mediaProvider == nil)
-            
+                HStack{
+                    Spacer()
+                    VStack{
+                        Spacer()
+                    Text(robj.messages)
+                    }
+                    .frame(width: 300)
+                }
             }
             Spacer()
         }
@@ -129,8 +134,8 @@ struct ConverterRequestMenueView: View {
             Button("Cancel Request"){ converter.cancelRequest() }
             .disabled(converter.state  != .digesting )
             
-            Picker(selection: $converter.detail, label: Text("Request:")) {
-                Text("Select quality").tag(nil as ViewDetails?)
+            Picker(selection: $converter.detail, label: Text("Quality:")) {
+//                Text("Select quality").tag(nil as ViewDetails?)
                 ForEach(ViewDetails.allCases, id: \.self) { element in
                     Text(element.rawValue.capitalized).tag(element as ViewDetails?)
                     

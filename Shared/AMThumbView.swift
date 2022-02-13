@@ -38,6 +38,7 @@ struct AMThumbNailView: View {
                  Array(repeating: .init(.adaptive(minimum: 120)), count: 8)
         VStack{
             HStack{
+                Text(provider.url?.lastPathComponent ?? "File: ?")
                 Stepper(value: $provider.skip,
                         in: 0...10,
                         step: 1) {
