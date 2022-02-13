@@ -10,7 +10,7 @@ import RealityKit
 import SwiftUI
 
 
-typealias MyDetail = ViewDetails?
+//typealias MyDetail = ViewDetails?
 
 enum ViewDetails: String, CaseIterable {
     case preview
@@ -36,12 +36,10 @@ enum ConverterState {
     case empty   // Nothing loaded
     case ready   // Session running, file loaded
     case digesting  // Request running
-//    case loaded   // Request finished model available
 }
 
 
 class Converter: ObservableObject {
-//    @EnvironmentObject var robj: rObject
     @Published var state: ConverterState = .empty
     @Published var progressValue : Double?
     @Published var model: Binding<URL?>
@@ -52,7 +50,6 @@ class Converter: ObservableObject {
     private  var SessionHandler :  Task<(), Never>?
     
     private var session : PhotogrammetrySession?
-//    @Published var sessionConfig = PhotogrammetrySession.Configuration()
     var sessionConfig: PhotogrammetrySession.Configuration?
     private var inputProvider: Binding<PhotogrammetryFrames?>?
     
@@ -60,13 +57,6 @@ class Converter: ObservableObject {
     @Published var boundingBox: Binding<Request.Geometry?>?
     var xbx: Request.Geometry?
     init(input provider: Binding<PhotogrammetryFrames?> ,sessionConfig: PhotogrammetrySession.Configuration, messages:Binding<String>,model: Binding<URL?>) {
-        
-        for device in MTLCopyAllDevices() {
-            print(device)
-        }
-        
-        
-        
         self.sessionConfig = sessionConfig
         self.model = model
         inputProvider = provider
@@ -92,11 +82,6 @@ class Converter: ObservableObject {
         let file: String
         let dname = detail.rawValue.capitalized
         file = "outputModel-" + dname + ".usdz"
-//        if let dname = detail?.rawValue.capitalized {
-//            file = "outputModel-" + dname + ".usdz"
-//        } else {
-//            file = "Session.not.Initialized.usdz"
-//        }
         return URL(fileURLWithPath: file)
     }
     func runrequest() {
@@ -122,52 +107,18 @@ class Converter: ObservableObject {
             }
         }
     }
-    // Changing the view details relies on an existing session
-    // if the view is available and the bounding box did not change
        
     @Published  var detail: ViewDetails = .preview {
        willSet(newvalue) {
-           // We need a new session if inputURL changed ®
-//           if newvalue != nil && detail != nil  && newvalue != detail {
-//               results[newvalue!] = nil
-//               model.wrappedValue = nil
-//               killSession()
-//               createSession(input: inputProvider!.wrappedValue!)
-//           }
            if session == nil {
                createSession(input: inputProvider!.wrappedValue!)
            }
-           let dtl = newvalue
-               if let res = results[dtl]  {
-                   model.wrappedValue = res
-               } else {
-                   model.wrappedValue = nil
-                   if false && session != nil {
-                       
-                       let det = dtl.det
-//                       if let bBox = bBox {
-//                           // TODO: Add rotation / translation to boundingbox
-//                           boundingBox?.bounds.min = bBox.min
-//                           boundingBox?.bounds.max = bBox.max
-//                           print(det,outURL)
-//                       }
-//                       let bx = BoundingBox(min: SIMD3<Float>(-0.5131897, -0.36881575, -0.35893312), max: SIMD3<Float>(0.5131897, 0.36881575, 0.35893312))
-//                        let geom:  PhotogrammetrySession.Request.Geometry? = Request.Geometry(bounds: bx, transform: Transform.identity)
-//
-                    
-                       
-//                       let bbx: Request.Geometry? = geom // nil // = boundingBox?.wrappedValue
-                       self.messages.wrappedValue +=  "Request start\n"
-
-                       let req = PhotogrammetrySession.Request.modelFile(url: outURL, detail: det,geometry: xbx)
-                       
-                       try! session?.process(requests: [req])
-                       self.state = .digesting
-                       print("Request started")
-                   }
-               }
-//           }
-         }
+           if let res = results[newvalue]  {
+               model.wrappedValue = res
+           } else {
+               model.wrappedValue = nil
+           }
+     }
    }
      
     
@@ -225,7 +176,7 @@ class Converter: ObservableObject {
                     xbx = Request.Geometry(bounds:box)
                     self.boundingBox?.wrappedValue = xbx
                 default:
-                    logger.warning("\tUnexpected result: \(String(describing: result))")
+                messages.wrappedValue += "Unexpected result: \(String(describing: result))\n"
             }
     }
 
@@ -243,13 +194,13 @@ class Converter: ObservableObject {
                 for try await output in self.session!.outputs {
                     switch output {
                     case .processingComplete:
-                        logger.log("Processing is complete!")
+//                        logger.log("Processing is complete!")
                         await self.addMessage(message: "Complete")
                         await self.progress(state: .ready)
                     case .requestError(let request, let error):
                         await self.addMessage(message: String(describing: error))
 
-                        logger.error("Request \(String(describing: request)) had an error: \(String(describing: error))")
+//                        logger.error("Request \(String(describing: request)) had an error: \(String(describing: error))")
                     case .requestComplete(let request, let result):
                         await self.addMessage(message: "Request End")
 
@@ -260,24 +211,25 @@ class Converter: ObservableObject {
 //                        await self.inputDone()
                         await self.addMessage(message: "Input done")
 
-                        logger.log("Data ingestion is complete.  Beginning processing...")
+//                        logger.log("Data ingestion is complete.  Beginning processing...")
                     case .invalidSample(let id, let reason):
                         await self.addMessage(message: "Invalid Sample! id=\(id)  reason=\"\(reason)\"")
+                        await self.skippedSample(id)
 
-                        logger.warning("Invalid Sample! id=\(id)  reason=\"\(reason)\"")
+//                        logger.warning("Invalid Sample! id=\(id)  reason=\"\(reason)\"")
                     case .skippedSample(let id):
                         await self.addMessage(message: "Sample id=\(id) was skipped by processing.")
                         await self.skippedSample(id)
-                        logger.warning("Sample id=\(id) was skipped by processing.")
+//                        logger.warning("Sample id=\(id) was skipped by processing.")
                     case .automaticDownsampling:
                         await self.addMessage(message: "Downsampling")
-                        logger.warning("Automatic downsampling was applied!")
+//                        logger.warning("Automatic downsampling was applied!")
                     case .processingCancelled:
                         await self.progress(state: .ready)
                       await self.addMessage(message: "Cancel")
-                        logger.warning("Processing was cancelled.")
+//                        logger.warning("Processing was cancelled.")
                     @unknown default:
-                        logger.error("Output: unhandled message: \(output.localizedDescription)")
+                        await self.addMessage(message:"Output: unhandled message: \(output.localizedDescription)")
                         
                     }
                     
