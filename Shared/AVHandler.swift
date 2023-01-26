@@ -5,6 +5,8 @@
 //  Created by Thilo Jeremias on 10.11.21.
 //
 
+//TODO:  Create new window for model view and keep file view window
+
 import SwiftUI
 import AVKit
 import RealityKit
