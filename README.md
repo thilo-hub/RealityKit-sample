@@ -2,7 +2,15 @@
 
 ## Small repository for test of the macos realitykit
 
+
+
+
 ### App:
+
+Load a "movie" and convert it into an "AR Model" (usdz) file.
+-- See documentation folder for a demonstration
+
+### Some details - but outdated maybe
 
 - current  code creates a uiview,
 - allows to select a file / folder and
