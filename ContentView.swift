@@ -29,10 +29,10 @@ struct ContentView: View {
             guard let typeID = try? url.resourceValues(forKeys: [.typeIdentifierKey]).typeIdentifier else { return }
             guard let supertypes = UTTypeReference(typeID)?.supertypes else { return }
             print("Proccess \(url) --> \(typeID) --> \(supertypes)")
-            if supertypes.contains(.movie) {
+            if supertypes.contains(.movie) || supertypes.contains(.directory) {
                 robj.mediaProvider = try? PhotogrammetryFrames(fileURL: url)
                 }
-            else if supertypes.contains(UTType("public.3d-content")!) {
+            else if supertypes.contains(UTType("public.3d-content")!)  {
                 robj.model = url
             }
         }
