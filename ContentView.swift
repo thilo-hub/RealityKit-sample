@@ -7,6 +7,7 @@
 
 import SwiftUI
 import RealityKit
+import UniformTypeIdentifiers
 
 class rObject: ObservableObject {
     @Published var messages: String = "-"
@@ -23,7 +24,21 @@ struct ContentView: View {
 //    @StateObject private var robj = rObject()
     @EnvironmentObject var robj: rObject
     @State var useBoundaryBox: Bool = false
-    
+    func process(titles: [URL]) {
+        for url in titles {
+            guard let typeID = try? url.resourceValues(forKeys: [.typeIdentifierKey]).typeIdentifier else { return }
+            guard let supertypes = UTTypeReference(typeID)?.supertypes else { return }
+            print("Proccess \(url) --> \(typeID) --> \(supertypes)")
+            if supertypes.contains(.movie) {
+                robj.mediaProvider = try? PhotogrammetryFrames(fileURL: url)
+                }
+            else if supertypes.contains(UTType("public.3d-content")!) {
+                robj.model = url
+            }
+        }
+        
+    }
+
     @State private var converterSessionConfig = PhotogrammetrySession.Configuration()
     var body: some View {
         VStack {
@@ -89,7 +104,7 @@ struct ContentView: View {
                 }
 
             }
-           
+            
             if let cp = robj.converter {
                 ConverterRequestContentView(converter: cp)
             }
@@ -98,7 +113,6 @@ struct ContentView: View {
                     ConverterModelView(bbox: $robj.boundingBox,modelurl: md)
                 } else if let mp = robj.mediaProvider {
                     AMThumbNailView(provider: mp)
-     
                 }
                 HStack{
                     Spacer()
@@ -112,6 +126,11 @@ struct ContentView: View {
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .dropDestination(for: URL.self) { receivedTitles, location in
+                process(titles: receivedTitles)
+                return true
+
+            } 
     }
 }
 
@@ -162,3 +181,6 @@ struct ConverterRequestMenueView: View {
     }
     
 }
+
+
+
