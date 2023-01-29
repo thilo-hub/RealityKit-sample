@@ -7,7 +7,6 @@
 
 import Foundation
 import AVKit
-import RealityKit
 
 extension NSImage {
 
@@ -142,4 +141,24 @@ extension CGImage {
    func asNSImage() -> NSImage? {
       return NSImage(cgImage: self, size: .zero)
    }
+    
+    /// Create an CVPixelBuffer version of this image
+    ///
+    /// - Returns: Converted image, or nil
+    func asCVPixelBuffer() -> CVPixelBuffer? {
+        let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
+        var pixelBuffer : CVPixelBuffer?
+        let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(self.width), Int(self.height), kCVPixelFormatType_32ARGB, attrs, &pixelBuffer)
+        guard (status == kCVReturnSuccess) else {
+            return nil
+        }
+        if let pixelBuffer {
+            let ci=CIImage(cgImage: self)
+            let ig = CIContext()
+            ig.render(ci, to: pixelBuffer)
+        }
+        
+        return pixelBuffer
+    }
+
 }

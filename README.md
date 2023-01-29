@@ -1,4 +1,4 @@
-# RealityKit-sample
+# RealityKit-Maker
 
 ## Small repository for test of the macos realitykit
 

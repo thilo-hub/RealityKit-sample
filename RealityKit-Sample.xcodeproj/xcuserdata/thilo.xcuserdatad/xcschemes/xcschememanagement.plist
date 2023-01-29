@@ -67,6 +67,16 @@
 			<key>orderHint</key>
 			<integer>14</integer>
 		</dict>
+		<key>RealityConverterTests.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>15</integer>
+		</dict>
+		<key>RealityConverterUITests.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>14</integer>
+		</dict>
 		<key>RealityKit-Sample (iOS).xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>

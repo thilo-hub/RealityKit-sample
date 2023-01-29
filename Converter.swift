@@ -9,9 +9,6 @@ import Foundation
 import RealityKit
 import SwiftUI
 
-
-//typealias MyDetail = ViewDetails?
-
 enum ViewDetails: String, CaseIterable {
     case preview
     case reduced
@@ -30,7 +27,6 @@ enum ViewDetails: String, CaseIterable {
 
 typealias Request = PhotogrammetrySession.Request
 typealias Element = PhotogrammetrySample
-
 
 enum ConverterState {
     case empty   // Nothing loaded
@@ -76,15 +72,20 @@ class Converter: ObservableObject {
     }
     
     func cancelRequest() {
-        state = .ready
+        if let s = session {
+            s.cancel()
+        }
     }
     var outURL: URL {
         let file: String
         let dname = detail.rawValue.capitalized
-        file = "outputModel-" + dname + ".usdz"
+        file = "outputModel-" + dname + UUID().uuidString + ".usdz"
         return URL(fileURLWithPath: file)
     }
     func runrequest() {
+        if  inputProvider!.wrappedValue!.frameListChanged && session != nil {
+            self.killSession()
+        }
         if session == nil {
             createSession(input: inputProvider!.wrappedValue!)
         }
@@ -123,10 +124,7 @@ class Converter: ObservableObject {
            }
      }
    }
-     
-    
-    
-    
+       
     private func createSession(input: PhotogrammetryFrames){
         // Grab enabled frames and use as input
         guard self.session == nil else {
@@ -135,27 +133,27 @@ class Converter: ObservableObject {
         self.messages.wrappedValue +=  "Session start\n"
         do {
             if input.state == .folder {
+                // Hack: if we have a folder, we do not preprocess but pass the folder location only
+                // not sure, but it seems there is more info extracted if the API gets the folder
                 session = try PhotogrammetrySession(input: input.url!, configuration: sessionConfig!)
             } else if input.state == .filling {
-                // We  have a movie which is not yet fully
+                // We  have a movie which is not yet fully loaded
                 session = try PhotogrammetrySession(input: input, configuration:  sessionConfig!)
             } else {
-                    // process cached frame list
+                // process cached frame list
                 let selectionList = input.samples()
                     session = try PhotogrammetrySession(input: selectionList,configuration: sessionConfig!)
                 
             }
             state = .ready
+            input.frameListChanged = false
             SessionHandler = sessionHandler()
         } catch {
                 print("Error")
         }
     }
     @MainActor private func skippedSample(_ id: Int){
-//        self.messages.wrappedValue += message + "\n"
-        
         self.inputProvider?.wrappedValue?.disable(id)
-        
     }
 
     

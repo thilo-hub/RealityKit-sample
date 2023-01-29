@@ -11,215 +11,165 @@ import SwiftUI
 import AVKit
 import RealityKit
 
+
+// individual frame
 struct ImageFrame: Identifiable {
     var id:Int
     var thumbnail: NSImage
     var image: PhotogrammetrySample
-    var isenabled: Bool = true
+    var isEnabled: Bool = true
+    var isHidden: Bool = false
     var mask: CGRect? = nil
 }
 
-enum frameBufferState {
-    case empty
-    case filling
-    case loaded
-    case folder
-}
-//func convertCIImageToCVPixelBuffer(from image: CIImage) -> CVPixelBuffer? {
-//    let attrs = [kCVPixelBufferCGImageCompatibilityKey: kCFBooleanTrue, kCVPixelBufferCGBitmapContextCompatibilityKey: kCFBooleanTrue] as CFDictionary
-//    var pixelBuffer : CVPixelBuffer?
-//    let status = CVPixelBufferCreate(kCFAllocatorDefault, Int(image.extent.width), Int(image.extent.height), kCVPixelFormatType_32ARGB, attrs, &pixelBuffer)
-//
-//    guard (status == kCVReturnSuccess) else {
-//        return nil
-//    }
-//
-//    return pixelBuffer
-//}
 enum PhotogrammetryFramesErrors: Error {
     case isADirectory
 }
-// Itterator for movie files
 
-class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence, Equatable  {
-    static func == (lhs: PhotogrammetryFrames, rhs: PhotogrammetryFrames) -> Bool {
-        return lhs.url == rhs.url
-    }
+class PhotogrammetryFrames : ObservableObject, IteratorProtocol, Sequence  {
     var url: URL?
-    @Published var state: frameBufferState = .empty
-    var exifinfo: [ String: Any]?
-    private var count: Int = 0
-    var imageId: Int = 0
-    private var trackReaderOutput: AVAssetReaderTrackOutput?
-    var skip: Int = 0
-    private var skipStart: Int = 0
-    private var maxFrames: Int = 1000
-    @Published var thumbnails: [ImageFrame]=[]
-    
-    init(fileURL:URL, skip: Int = 0,start: Int = 0,maxFrames: Int = 1000) throws {
-        url = fileURL
-        if CFURLHasDirectoryPath(fileURL as CFURL) {
-            let fm = FileManager.default
-            let items = try fm.contentsOfDirectory(at: fileURL, includingPropertiesForKeys: [])
-            var imid:Int = 1
-            trackReaderOutput = nil
-            
-            for item in items.sorted(by: {$0.absoluteString < $1.absoluteString}){
-                
-                if let ciimage = CIImage(contentsOf: item) {
-                    let nimage = ciimage.asNSImage(pixelsSize: nil, repSize: nil)!
-                    let pb = nimage.pixelBuffer()!
-                    var sample = PhotogrammetrySample(id:imid, image: pb )
-                    sample.metadata = readEXIF(file: item)!
-                    
-                    let size: CGSize = CGSize(width: 120, height: 100)
-                    let thumbnail =  ciimage.asNSImage(pixelsSize: size, repSize: size)!
-                    
-                    let frame = ImageFrame(id: imid, thumbnail: thumbnail, image: sample, isenabled: true
-//                                           , mask: CGRect(x: 10,y: 10,width: 50,height: 50)
-                    )
-
-                    DispatchQueue.main.async {
-                        self.thumbnails.append(frame)
-                    }
-
-                    print("Found \(item)")
-                    imid += 1
-                }
-                }
-           
-            self.maxFrames = imid
-//            self.count = 0
-            state = .folder
-//            if !disableFolders {
-//                self.state = .loaded
-////                throw PhotogrammetryFramesErrors.isADirectory
-//            }
- 
-            
-        } else {
-//            count = 0
-            state = .filling
-//            thumbnails = []
-//            }
-        }
-        
+    @Published var thumbnails: [ImageFrame] = []
+    var maxFrames: Int
+    // State of the frambuffer cache
+    enum frameBufferState {
+        case empty       // fresh
+        case filling     // Movie assigned but not processed
+        case loaded      // Movie loaded and individual frames available
+        case folder      // Skip internal processing and let the API handle the folder
     }
-//    func reset() {
-//        let tr: CMTimeRange = .zero
-//        let start: [NSValue] = [tr as NSValue]
-//
-//        trackReaderOutput.reset(forReadingTimeRanges: start)
-//    }
+    @Published var state: frameBufferState = .empty
+    var frameListChanged = true
+    @Published var first: Int = 0 {
+        didSet { setSkipped() }
+    }
+    @Published var last: Int = 0 {
+        didSet { setSkipped() }
+    }
+    
+    func setSkipped() {
+        for i in 0..<thumbnails.count {
+            let fi = i // thumbnails[i].id
+            thumbnails[i].isEnabled =
+                fi >= first && fi <= last && fi % (skip+1) == 0
+        }
+        frameListChanged = true
+    }
+    
+    @Published var skip: Int {
+        didSet { setSkipped() }
+    }
+    
+    
+    fileprivate func loadDirectory(_ fileURL: URL) throws -> Int  {
+        let fm = FileManager.default
+        let items = try fm.contentsOfDirectory(at: fileURL, includingPropertiesForKeys: [])
+        var imid:Int = 1
+        // making photogrametry samples from an image is not yet done
+        // just use the folder as an input and capture thumbnails
+        // filter...  to be done later...
+        for item in items.sorted(by: {$0.absoluteString < $1.absoluteString}){
+            
+            if let ciimage = CIImage(contentsOf: item) {
+                let nimage = ciimage.asNSImage(pixelsSize: nil, repSize: nil)!
+                let pb = nimage.pixelBuffer()!
+                var sample = PhotogrammetrySample(id:imid, image: pb )
+                sample.metadata = readEXIF(file: item)!
+                
+                let size: CGSize = CGSize(width: 120, height: 100)
+                let thumbnail = ciimage.asNSImage(pixelsSize: size, repSize: size)!
+                
+                let frame = ImageFrame(id: imid, thumbnail: thumbnail, image: sample, isEnabled: true )
+                
+                DispatchQueue.main.async {
+                    self.thumbnails.append(frame)
+                }
+                
+                print("Found \(item)")
+                imid += 1
+            }
+        }
+        return imid
+    }
+    
+    fileprivate func loadMovie(_ fileURL: URL, _ maxFrames: Int) async -> Int {
+        // Movie
+        
+        let asset = AVAsset(url: fileURL)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.requestedTimeToleranceAfter = CMTime.zero
+        imageGenerator.requestedTimeToleranceBefore = CMTime.zero
+        
+        let last: Int
+        if let tracks = try? await asset.load(.tracks),
+           let frameRate = try? await tracks[0].load(.minFrameDuration),
+           let duration = try? await asset.load(.duration)
+        {
+            let countFrames = duration.value / frameRate.value
+            last = Int(countFrames)
+            let loadFrames = Swift.min( Int64(maxFrames) , countFrames )
+            let increment =  duration.value / loadFrames
+            
+            let rn:[CMTime] = Array(0...countFrames).map({t in CMTime(value: t*increment, timescale: duration.timescale)})
+            
+            
+            let imageGeneratorImages = imageGenerator.images(for: rn)
+            for await img in imageGeneratorImages {
+                switch img {
+                case .success(_,let img,let tm):
+                    let imid:Int = Int(tm.value/20)
+                    let size: CGSize = CGSize(width: 120, height: 100)
+                    let thumbnail = NSImage(cgImage: img, size: size)
+//                    let sample = PhotogrammetrySample(id:imid, image: self.getCVPixb(from: img)! )
+                    let sample = PhotogrammetrySample(id:imid, image: img.asCVPixelBuffer()!)
+                    
+                    
+                    DispatchQueue.main.async {
+                        self.thumbnails.append(ImageFrame(id: imid, thumbnail: thumbnail, image: sample, isEnabled: true))
+                    }
+                    break
+                case .failure(let tm, let err):
+                    print("Bad \(tm) \(err)")
+                    break
+                }
+            }
+        } else {
+            last = 0
+        }
+        return last
+    }
+    
+    init(fileURL:URL, skip: Int = 0,start: Int = 0,maxFrames: Int = 100) async throws {
+        self.skip = skip
+        url = fileURL
+        self.maxFrames = maxFrames
+        let items: Int
+        if CFURLHasDirectoryPath(fileURL as CFURL) {
+            items = try loadDirectory(fileURL)  // I guess maxFrames is ignored ....
+            self.state = .folder
+        } else {
+            items = await loadMovie(fileURL, maxFrames)
+            self.state = .filling
+        }
+        self.last = items
+        self.maxFrames = Swift.min(items,maxFrames)
+    }
+    
+    private var idx:Int = 0
+    func next() -> PhotogrammetrySample? {
+        while (idx < thumbnails.count) {
+            let th = thumbnails[idx]
+            idx += 1
+            if th.isEnabled {
+                return th.image
+            }
+        }
+        idx = 0;
+        return nil
+    }
+  
     func samples() -> [PhotogrammetrySample] {
-        let rv = self.thumbnails.filter({$0.isenabled}).map({$0.image})
+        let rv = self.thumbnails.filter({$0.isEnabled}).map({$0.image})
         print("Return filtered \(rv.count) images")
             return rv
     }
-    
-    func next() -> PhotogrammetrySample? {
-        
-        var getCountFrames = skip
-        if state == .folder {
-//            throw PhotogrammetryFramesErrors.isADirectory
-            return nil
-        }
-        if state == .filling && thumbnails.isEmpty{
-//            let metadata = readEXIF(file: url!)
-//            exifinfo = metadata
-            let asset = AVURLAsset(url: url!)
-            let formatsKey = "availableMetadataFormats"
-            asset.loadValuesAsynchronously(forKeys: [formatsKey]) {
-                var error: NSError? = nil
-                let status = asset.statusOfValue(forKey: formatsKey, error: &error)
-                if status == .loaded {
-                    for format in asset.availableMetadataFormats {
-                        let metadata = asset.metadata(forFormat: format)
-                        // process format-specific metadata collection
-                        print(metadata)
-                        self.exifinfo = [:]
-                        metadata.forEach( { m in
-                            print (m.key!)
-                            print(m.value as Any)
-//                            let v:[String:Any] =
-                            self.exifinfo![m.key as! String]=m.value
-                        })
-//                        self.exifinfo = metadata
-                    }
-                }
-            }
-
-            
-            
-            let reader = try? AVAssetReader(asset: asset)
-            let videoTrack = asset.tracks(withMediaType: AVMediaType.video)[0]
-            let frames = Int(asset.duration.seconds * Double(videoTrack.nominalFrameRate));
-            self.skip = frames < 100 ? 0 : frames / 100 ;
-            self.maxFrames = frames
-            
-            // read video frames as BGRA
-            trackReaderOutput = AVAssetReaderTrackOutput(track: videoTrack, outputSettings:[String(kCVPixelBufferPixelFormatTypeKey): NSNumber(value: kCVPixelFormatType_32BGRA)])
-//            if let tro = trackReaderOutput {
-                
-                reader!.add(trackReaderOutput!)
-                reader!.startReading()
-
-            
-            self.imageId = skipStart
-            getCountFrames = skipStart
-//            state = .filling
-        } else if state == .loaded {
-            if self.count < thumbnails.count {
-                let ri = thumbnails[self.count]
-                self.count += 1
-                
-                print("Return one image")
-                
-                return ri.image
-            }
-            self.count = 0
-            return nil
-            
-        }
-        // Skip as needed
-        while getCountFrames > 0 {
-             getCountFrames -= 1
-             trackReaderOutput?.copyNextSampleBuffer()
-            self.imageId += 1
-        }
-        if let sampleBuffer = trackReaderOutput?.copyNextSampleBuffer() {
-//            count += 1
-            self.imageId += 1
-            let imid = imageId
-            if let imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) {
-                var sample = PhotogrammetrySample(id:imid, image: imageBuffer )
-                if let ex = exifinfo {
-                    sample.metadata = ex
-                }
-                let cii = CIImage(cvImageBuffer: imageBuffer)
-                if let cgim = cii.asCGImage() {// convertCIImageToCGImage(cii) {
-                    let size: CGSize = CGSize(width: 120, height: 100)
-                    let thumbnail = NSImage(cgImage: cgim, size: size)
-                    DispatchQueue.main.async {
-                        self.thumbnails.append(ImageFrame(id: imid, thumbnail: thumbnail, image: sample, isenabled: true))
-                    }
-                }
-//                print("Return sample")
-                return sample
-            }
-            
-        }
-        DispatchQueue.main.async {
-            self.state = .loaded
-        }
-       return nil
-    }
-//    func getImage() -> ImageFrame? {
-//            if thumbidx < count {
-//                thumbidx += 1
-//                return thumbnails[thumbidx]
-//            }
-//            return nil;
-//    }
-
 }
